@@ -3,9 +3,7 @@ import { ThemeProvider, StylesProvider } from '@material-ui/core/styles';
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
-
 import theme from '../style/muiTheme';
-
 import '../style/index.css';
 
 function App({ Component, pageProps }: AppProps) {

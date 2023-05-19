@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { useTranslation } from 'next-i18next';
+import { Router, useRouter } from 'next/router';
 
 import Section from 'components/UI/Section';
 import Typography from 'components/UI/Typography';
@@ -15,7 +16,7 @@ const GradientText = ({ children }: { children: ReactNode }) => {
 const Introduction = () => {
   const { t } = useTranslation('home');
   const { t: tc } = useTranslation('common');
-
+  const router = useRouter()
   return (
     <Section className="mt-32 mb-20 md:mb-0 pt-3 sm:pt-3 md:pt-3 lg:pt-3 xl:pt-3">
       <Box className="flex flex-col items-center pt-5 px-5 md:items-center">
@@ -31,7 +32,7 @@ const Introduction = () => {
             variant="contained"
             color="primary"
             classes={{ label: 'text-lg md:text-sm' }}
-            href="/login"
+            href={router?.locale + "/login"}
           >
             {tc('useDopex')}
           </Button>

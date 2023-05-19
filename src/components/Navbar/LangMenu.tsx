@@ -4,19 +4,16 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import LanguageIcon from '@material-ui/icons/Language';
-
 import Typography from 'components/UI/Typography';
 
 const LANGUAGE_CODES = {
   en: 'EN',
   tr: 'TR',
 };
-
 const LangMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const router = useRouter();
-
+  
   const handleClick = useCallback(
     (event) => setAnchorEl(event.currentTarget),
     []
@@ -45,10 +42,9 @@ const LangMenu = () => {
         classes={{ paper: 'dark:bg-cod-gray' }}
       >
         {Object.keys(LANGUAGE_CODES).map((lang) => {
-          const handleClick = () =>
-            router.push(router.pathname, router.pathname, {
-              locale: lang,
-            });
+          const handleClick = () =>{
+            router.push(router.pathname, router.pathname, {locale: lang,});
+          }  
           return (
             <MenuItem onClick={handleClick} key={lang}>
               <Typography variant="p" component="span">
