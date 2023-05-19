@@ -1,0 +1,45 @@
+{
+  "siteDescription": "",
+  "siteTitle": "",
+  "products": {
+    "0": {
+      "name": " Op",
+      "subHeader": "V",
+      "paragraph": "P."
+    },
+    "1": {
+      "name": "Li",
+      "subHeader": "Op",
+      "paragraph": "A p."
+    },
+    "2": {
+      "name": "s",
+      "subHeader": "Str",
+      "paragraph": "."
+    }
+  },
+  "body": {
+    "subHeader": "Bt",
+    "header": "Dons",
+    "paragraph": "We bs market.",
+    "grid": {
+      "0": {
+        "heading": "Stald",
+        "paragraph": "Your collatelds."
+      },
+      "1": {
+        "heading": "Collg",
+        "paragraph": "Aeraged longs."
+      },
+      "2": {
+        "heading": "MRisk",
+        "paragraph": "Offes."
+      },
+      "3": {
+        "heading": "Pr",
+        "paragraph": "Our  opportunities."
+      }
+    }
+  },
+  "investorsAndPartners": "Investors & Partners"
+}

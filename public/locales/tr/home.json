@@ -1,0 +1,54 @@
+{
+  "siteDescription": "Geleneksel bankacılığa yeni bir paradigma",
+  "siteTitle": "BANK OF PEOPLE | BANK",
+  "products": {
+    "0": {
+      "name": "Varlıklarınızı değerlendirin",
+      "subHeader": "Yeni Paradigma",
+      "paragraph": "Varlıklarınızı ne olursa olsun güvende tutuyoruz onları değerlendirmek için en iyi adres burası."
+    },
+    "1": {
+      "name": "Yeni nesil bakış açıcısı",
+      "subHeader": "Seçenek",
+      "paragraph": "Yeni nesil bankacılık ürünlerinin uygulanmaı."
+    },
+    "2": {
+      "name": "Atlantik Seçenekleri",
+      "subHeader": "yapılandırılmış",
+      "paragraph": "ürün 3 paragraf"
+    }
+  },
+  "body": {
+    "subHeader": "Farklı İnşa Edildi",
+    "header": "ve Güçlü Seçenekleri",
+    "paragraph": "Mebir protokol oluşturduk.",
+    "grid": {
+      "0": {
+        "heading": "Fiyaiği",
+        "paragraph": "Anırıyla indirimli seçenekler."
+      },
+      "1": {
+        "heading": "DahLikidite",
+        "paragraph": "Herhangi ri."
+      },
+      "2": {
+        "heading": " İndir",
+        "paragraph": "re kayıpları en aza indirin."
+      },
+      "3": {
+        "heading": "Sabit Verim",
+        "paragraph": "zanın."
+      },
+      "4": {
+        "heading": "Taeminatlı",
+        "paragraph": "Tüadan kaldırır."
+      },
+      "5": {
+        "heading": "haed 6",
+        "paragraph": " paragraf."
+      }
+    }
+  },
+  "investorsAndPartners": "Yatırımcılar ve Ortaklar"
+  }
+
