@@ -8,7 +8,7 @@ import Head from 'next/head'
 const Home: NextPage = () => {
     const { t } = useTranslation('login');
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2 bg-white-dark dark:bg-black">
+    <div className="flex min-h-screen flex-col items-center justify-center py-2 bg-white-dark dark:bg-slate-900">
 
        <Head>
         <meta name="description" content={t('siteDescription')} />
@@ -18,14 +18,14 @@ const Home: NextPage = () => {
       <Navbar/>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center mt-32 px-20 text-center">
-        <div className='bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl'>
+        <div className='bg-indigo-300  dark:bg-slate-950 rounded-2xl shadow-2xl flex w-2/3 max-w-4xl'>
         <div className='w-3/5 p-5'>
           <div className='text-left font-bold'>
-              <span className='text-primary'>BANK OF PEOPLE</span>
+              <span className='text-white dark:text-white'>BANK OF PEOPLE</span>
              </div>
              <div className='py-10'>
-              <h2 className='text-3xl font-bold text-green-700 mb-2'>{t('signIn')}</h2>
-              <div className='border-2  border-green-700 w-10 inline-block  mb-2'></div>
+              <h2 className='text-3xl font-bold text-black dark:text-white mb-2 text-white'>{t('signIn')}</h2>
+              <div className='border-2  border-white dark:border-white w-10 inline-block  mb-2'></div>
               <div className='flex flex-col items-center'>
                 <div className='bg-gray-100 w-64 p-2 flex items-center mb-3'>
                   <input  type="email" name="email" placeholder={t('email')} className='bg-gray-100 outline-none flex-1'/>
@@ -34,30 +34,27 @@ const Home: NextPage = () => {
                   <input  type="password" name="password" placeholder={t('password')} className='bg-gray-100 outline-none flex-1'/>
                 </div>
                 <div className='flex w-64 mb-5 justify-between'>
-                  <label className='flex items-center text-xs'>
+                  <label className='flex items-center text-xs dark:text-white'>
                     <input type="checkbox" name="Remember" className='mr-1'/>
                     {t('remember')}
                   </label>
-                  <a href='#' className='text-xs'>{t("forgotPassword")}</a>
+                  <a href='#' className='text-xs dark:text-white' >{t("forgotPassword")}</a>
                 </div>
-                <a href='#' className=' border-2 border-green-700 rounded-full px-12 py-2 inline-block font-semibold text-green-700 hover:bg-green-700 hover:text-white'>
+                <a href='#' className=' text-white border-2 border-white  rounded-full px-12 py-2 inline-block font-semibold text-black dark:text-white hover:bg-slate-900 hover:text-white'>
              {t('signInButton')}</a>
               </div>
              </div>
         </div>
-         <div className='w-2/3 bg-green-700  text-white rounded-tr-2xl rounded-br-2xl py-36 px-12'>
-           <h2 className='text-3xl font-bold mb-2'>{t('signUpTitle')}</h2>
+         <div className='w-2/3 bg-indigo-200 dark:bg-slate-800 text-gray-500 rounded-tr-2xl rounded-br-2xl py-36 px-12'>
+           <h2 className='text-3xl font-bold text-white mb-2'>{t('signUpTitle')}</h2>
            <div className='border-2  border-white w-10 inline-block  mb-2'></div>
-           <p className='mb-10'>{t('signUpDesc')}</p>
-           <a href='#' className=' border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-green-700'>
+           <p className='mb-10 text-white '>{t('signUpDesc')}</p>
+           <a href='#' className=' border-2 border-white text-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-indigo-100 dark:hover:bg-slate-700'>
              {t('signUpButton')}</a>
           </div>
        </div> 
-        
-      </main>
-
-    
-      <Footer></Footer>
+      </main>    
+      <Footer/>
     </div>
   )
 }

@@ -14,6 +14,7 @@ module.exports = {
       colors: {
         old1:'#2c0a50',
         old2:'#100b50',
+        secondary:'#050a1f',
         primary: '#002EFF',
         stieglitz: '#6176A1',
         umbra: '#1E1E1E',

@@ -15,7 +15,6 @@ export default function Home() {
   const { t } = useTranslation('home');
   const cardsRef = useRef<HTMLDivElement>(null)
 
-
   return (
     <>
       <Head>
