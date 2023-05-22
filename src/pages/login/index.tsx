@@ -9,7 +9,7 @@ import Toast from 'components/Toast';
 import Spinner from 'components/Spinner';
 import { IUser, IError } from '../../requests';
 import React, { useState } from 'react';
-
+import Cookies from 'universal-cookie';
 
 
 
@@ -26,7 +26,7 @@ const Login: NextPage = () => {
 
     const [user, setUser] = useState<IUser>({
       email: '',
-      HashedPassword: ''
+      password: ''
     });
 
     const hideError = () => {
@@ -35,18 +35,33 @@ const Login: NextPage = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
-
-    const login = async (e: any) => {
+    const Login = async (e: any) => {
       e.preventDefault();
       setLoading(true);
       try {
-
-        setError({ message: "hey yanlış", show: true });
+        //setError({ message: "hey yanlış", show: true });
+        const response = await fetch("/api/auth/logIn", {
+          method: "POST",
+          body: JSON.stringify(user),
+          headers: {
+            "content-type": "application/json",
+          },
+        })
+        const json = await response.json()
+        if(response.status == 200){
+          const cookies = new Cookies()
+          cookies.set('jwt_token', json.token, { path: "/"})
+          setError({message: JSON.stringify(json), show: true})
+        }
+        else{
+          throw new Error(json.error)
+        }
 
         if (searchParams?.has('next')) {
           router.push(searchParams.get('next') || '/dashboard');
           return;
         }
+        router.push("/dashboard")
 
       } catch (error: any) {
         setError({ message: error.message, show: true });
@@ -78,7 +93,7 @@ const Login: NextPage = () => {
           <div className='text-left font-bold'>
               <span className='text-white dark:text-white'>BANK OF PEOPLE</span>
              </div>
-             <form onSubmit={login} className='py-10'>
+             <form onSubmit={Login} className='py-10'>
               <h2 className='text-3xl font-bold text-black dark:text-white mb-2 text-white'>{t('signIn')}</h2>
               <div className='border-2  border-white dark:border-white w-10 inline-block  mb-2'></div>
               <div className='flex flex-col items-center'>

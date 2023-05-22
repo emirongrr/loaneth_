@@ -15,15 +15,10 @@
   }
 
   export interface IUser {
-    id: string;
-    name: string;
-    username: string;
     email: string;
-    emailVerified: Date;
-    hashedPassword: string;
-    createdAt: Date;
-    updatedAt: Date;
-    hasNotification: boolean;
-    account: IBankAccount[];
-    }
+    password: string;
+   }
+  export type BankAccount = {
+    key: string
+  }
   
