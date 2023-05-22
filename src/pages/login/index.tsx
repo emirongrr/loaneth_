@@ -4,13 +4,63 @@ import type { NextPage } from 'next'
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head'
-import { Router, useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Toast from 'components/Toast';
+import Spinner from 'components/Spinner';
+import { IUser, IError } from '../../requests';
+import React, { useState } from 'react';
 
 
-const Home: NextPage = () => {
+
+
+const Login: NextPage = () => {
     const { t } = useTranslation('login');
     const router = useRouter()
+    const searchParams = useSearchParams();
 
+
+    const [error, setError] = useState<IError>({
+      message: '',
+      show: false
+    });
+
+    const [user, setUser] = useState<IUser>({
+      email: '',
+      HashedPassword: ''
+    });
+
+    const hideError = () => {
+      setError({ message: '', show: false });
+    };
+
+    const [loading, setLoading] = useState<boolean>(false);
+
+
+    const login = async (e: any) => {
+      e.preventDefault();
+      setLoading(true);
+      try {
+
+        setError({ message: "hey yanlış", show: true });
+
+        if (searchParams?.has('next')) {
+          router.push(searchParams.get('next') || '/dashboard');
+          return;
+        }
+
+      } catch (error: any) {
+        setError({ message: error.message, show: true });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const onChange = (e: any) => {
+      if (error.show) {
+        hideError();
+      }
+      setUser({ ...user, [e.target.name]: e.target.value });
+    };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2 bg-white-dark dark:bg-slate-900">
@@ -28,15 +78,15 @@ const Home: NextPage = () => {
           <div className='text-left font-bold'>
               <span className='text-white dark:text-white'>BANK OF PEOPLE</span>
              </div>
-             <div className='py-10'>
+             <form onSubmit={login} className='py-10'>
               <h2 className='text-3xl font-bold text-black dark:text-white mb-2 text-white'>{t('signIn')}</h2>
               <div className='border-2  border-white dark:border-white w-10 inline-block  mb-2'></div>
               <div className='flex flex-col items-center'>
                 <div className='bg-gray-100 w-64 p-2 flex items-center mb-3'>
-                  <input  type="email" name="email" placeholder={t('email')} className='bg-gray-100 outline-none flex-1'/>
+                  <input onChange={onChange}  type="email" name="email" placeholder={t('email')} className='bg-gray-100 outline-none flex-1'/>
                 </div>
                 <div className='bg-gray-100 w-64 p-2 flex items-center mb-3'>
-                  <input  type="password" name="password" placeholder={t('password')} className='bg-gray-100 outline-none flex-1'/>
+                  <input onChange={onChange} type="password" name="password" placeholder={t('password')} className='bg-gray-100 outline-none flex-1'/>
                 </div>
                 <div className='flex w-64 mb-5 justify-between'>
                   <label className='flex items-center text-xs dark:text-white'>
@@ -45,10 +95,14 @@ const Home: NextPage = () => {
                   </label>
                   <a href='#' className='text-xs dark:text-white' >{t("forgotPassword")}</a>
                 </div>
-                <a href='' className=' text-white border-2 border-white  rounded-full px-12 py-2 inline-block font-semibold text-black dark:text-white hover:bg-slate-900 hover:text-white'>
-             {t('signInButton')}</a>
+                <button  
+                  type="submit"
+                  disabled={loading}
+                  className=' text-white border-2 border-white  rounded-full px-12 py-2 inline-block font-semibold text-black dark:text-white hover:bg-slate-900 hover:text-white'>
+                      {loading ? <Spinner size="small" /> : t('signInButton')}
+             </button>
               </div>
-             </div>
+             </form>
         </div>
          <div className='w-2/3 bg-indigo-200 dark:bg-slate-800 text-gray-500 rounded-tr-2xl rounded-br-2xl py-36 px-12'>
            <h2 className='text-3xl font-bold text-white mb-2'>{t('signUpTitle')}</h2>
@@ -58,7 +112,15 @@ const Home: NextPage = () => {
              {t('signUpButton')}</a>
           </div>
        </div> 
-      </main>    
+      </main>  
+
+      <Toast
+        title="Login failed!"
+        message={error.message}
+        onClose={hideError}
+        show={error.show}
+        variant="error"
+      />  
       <Footer/>
     </div>
   )
@@ -74,5 +136,5 @@ export async function getStaticProps({ locale }) {
 
 }
 
-export default Home
+export default Login
 
