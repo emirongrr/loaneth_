@@ -5,6 +5,9 @@ import type { AppProps } from 'next/app';
 import Script from 'next/script';
 import theme from '../style/muiTheme';
 import '../style/index.css';
+import {
+  UserContextProvider,
+} from "contexts";
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -48,9 +51,12 @@ function App({ Component, pageProps }: AppProps) {
         `}
       </Script>
       <StylesProvider injectFirst>
+      <UserContextProvider>
         <ThemeProvider theme={theme}>
           <Component {...pageProps} />
         </ThemeProvider>
+        </UserContextProvider>
+
       </StylesProvider>
     </>
   );

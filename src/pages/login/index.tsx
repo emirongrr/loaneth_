@@ -8,74 +8,92 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Toast from 'components/Toast';
 import Spinner from 'components/Spinner';
 import { IUser, IError } from '../../requests';
-import React, { useState } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEventHandler,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Cookies from 'universal-cookie';
+import { ResponseType, UserContextType } from "interfaces";
+import { User } from "libs/types/user";
+import isEmail from "validator/lib/isEmail";
+import { UserContext } from "contexts";
+import { useIdentify } from "utils/identification";
+
 
 
 
 const Login: NextPage = () => {
     const { t } = useTranslation('login');
     const router = useRouter()
-    const searchParams = useSearchParams();
+
+    const {
+      isLoading,
+      setIsLoading,
+      setSessionSet,
+      sessionSet,
+      setCurrentUser,
+    }: any = useContext<{} | UserContextType>(UserContext);
+
+      // input state elements
+  const [email, setEmail] = useState<string>("");
+  const [emaileError, setEmaileError] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>("");
+  const [passwordeError, setPasswordeError] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
 
-    const [error, setError] = useState<IError>({
-      message: '',
-      show: false
-    });
-
-    const [user, setUser] = useState<IUser>({
-      email: '',
-      password: ''
-    });
-
-    const hideError = () => {
-      setError({ message: '', show: false });
+    const handleError = (value: boolean) => {
+      if (value === true) return "border-red-500 border";
     };
+  
+    function handleChange(
+      e: ChangeEvent<any>,
+      setItem: Dispatch<SetStateAction<any>>
+    ): void {
+      setEmaileError(false);
+      setPasswordeError(false);
+      setError(" ");
+      setItem(e?.target?.value);
+    }
 
-    const [loading, setLoading] = useState<boolean>(false);
+  // auth login
+  useEffect(() => {
+    if (sessionSet) router.push("/login");
+  }, [sessionSet]);
 
-    const Login = async (e: any) => {
-      e.preventDefault();
-      setLoading(true);
-      try {
-        //setError({ message: "hey yanlış", show: true });
-        const response = await fetch("/api/auth/logIn", {
-          method: "POST",
-          body: JSON.stringify(user),
-          headers: {
-            "content-type": "application/json",
-          },
-        })
-        const json = await response.json()
-        if(response.status == 200){
-          const cookies = new Cookies()
-          cookies.set('jwt_token', json.token, { path: "/"})
-          setError({message: JSON.stringify(json), show: true})
-        }
-        else{
-          throw new Error(json.error)
-        }
 
-        if (searchParams?.has('next')) {
-          router.push(searchParams.get('next') || '/dashboard');
-          return;
-        }
-        router.push("/dashboard")
+  const sendLogin: FormEventHandler = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
 
-      } catch (error: any) {
-        setError({ message: error.message, show: true });
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Inputs verification
+    if (email === "" || email == null || !isEmail(email))
+      return setEmaileError(true);
+    if (password === "" || password == null) return setPasswordeError(true);
 
-    const onChange = (e: any) => {
-      if (error.show) {
-        hideError();
-      }
-      setUser({ ...user, [e.target.name]: e.target.value });
-    };
+    // *****************************************************************
+    setIsLoading(true);
+    const user: User = { identificationString:null ,firstName:null, lastName:null, email, birthDate:null ,password };
+
+    const res: ResponseType = await useIdentify(user, "login");
+    setIsLoading(false);
+
+    if (res.success === false) {
+      return setError(
+        res.data?.message || "Please try again, or reload the page."
+      );
+    } else {
+      setCurrentUser(res.data?.user);
+      localStorage.setItem("token", res.data?.token);
+      setSessionSet(true);
+      router.push("/dashboard");
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2 bg-white-dark dark:bg-slate-900">
@@ -93,15 +111,20 @@ const Login: NextPage = () => {
           <div className='text-left font-bold'>
               <span className='text-white dark:text-white'>BANK OF PEOPLE</span>
              </div>
-             <form onSubmit={Login} className='py-10'>
+             <form onSubmit={sendLogin} className='py-10'>
               <h2 className='text-3xl font-bold text-black dark:text-white mb-2 text-white'>{t('signIn')}</h2>
               <div className='border-2  border-white dark:border-white w-10 inline-block  mb-2'></div>
               <div className='flex flex-col items-center'>
                 <div className='bg-gray-100 w-64 p-2 flex items-center mb-3'>
-                  <input onChange={onChange}  type="email" name="email" placeholder={t('email')} className='bg-gray-100 outline-none flex-1'/>
+                  <input onChange={(e) => handleChange(e, setEmail)}  value={email} type="email" name="email" placeholder={t('email')} className={`bg-gray-100 outline-none flex-1${handleError(
+                emaileError
+              )}`}
+              />
                 </div>
                 <div className='bg-gray-100 w-64 p-2 flex items-center mb-3'>
-                  <input onChange={onChange} type="password" name="password" placeholder={t('password')} className='bg-gray-100 outline-none flex-1'/>
+                  <input onChange={(e) => handleChange(e, setPassword)}  value={password} type="password" name="password" placeholder={t('password')} className={`bg-gray-100 outline-none flex-1 ${handleError(
+                passwordeError
+              )}`}/>
                 </div>
                 <div className='flex w-64 mb-5 justify-between'>
                   <label className='flex items-center text-xs dark:text-white'>
@@ -112,9 +135,9 @@ const Login: NextPage = () => {
                 </div>
                 <button  
                   type="submit"
-                  disabled={loading}
+                  disabled={isLoading}
                   className=' text-white border-2 border-white  rounded-full px-12 py-2 inline-block font-semibold text-black dark:text-white hover:bg-slate-900 hover:text-white'>
-                      {loading ? <Spinner size="small" /> : t('signInButton')}
+                      {isLoading ? <Spinner size="small" /> : t('signInButton')}
              </button>
               </div>
              </form>
@@ -129,13 +152,7 @@ const Login: NextPage = () => {
        </div> 
       </main>  
 
-      <Toast
-        title="Login failed!"
-        message={error.message}
-        onClose={hideError}
-        show={error.show}
-        variant="error"
-      />  
+   
       <Footer/>
     </div>
   )
