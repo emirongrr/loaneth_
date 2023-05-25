@@ -1,13 +1,13 @@
+'use state'
 import Footer from 'components/Footer';
 import Navbar from 'components/Navbar';
 import type { NextPage } from 'next'
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head'
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Toast from 'components/Toast';
 import Spinner from 'components/Spinner';
-import { IUser, IError } from '../../requests';
 import {
   ChangeEvent,
   Dispatch,
@@ -17,15 +17,16 @@ import {
   useEffect,
   useState,
 } from "react";
-import Cookies from 'universal-cookie';
 import { ResponseType, UserContextType } from "interfaces";
 import { User } from "libs/types/user";
 import isEmail from "validator/lib/isEmail";
 import { UserContext } from "contexts";
 import { useIdentify } from "utils/identification";
 
-
-
+export interface IError {
+  message: string;
+  show: boolean;
+}
 
 const Login: NextPage = () => {
     const { t } = useTranslation('login');
@@ -44,12 +45,15 @@ const Login: NextPage = () => {
   const [emaileError, setEmaileError] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [passwordeError, setPasswordeError] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<IError>({
+    message: '',
+    show: false });
 
+    const hideError = () => {
+    setError({ message: '', show: false });};
 
     const handleError = (value: boolean) => {
-      if (value === true) return "border-red-500 border";
-    };
+      if (value === true) return "border-red-500 border"; };
   
     function handleChange(
       e: ChangeEvent<any>,
@@ -57,7 +61,6 @@ const Login: NextPage = () => {
     ): void {
       setEmaileError(false);
       setPasswordeError(false);
-      setError(" ");
       setItem(e?.target?.value);
     }
 
@@ -65,7 +68,6 @@ const Login: NextPage = () => {
   useEffect(() => {
     if (sessionSet) router.push("/login");
   }, [sessionSet]);
-
 
   const sendLogin: FormEventHandler = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -83,9 +85,7 @@ const Login: NextPage = () => {
     setIsLoading(false);
 
     if (res.success === false) {
-      return setError(
-        res.data?.message || "Please try again, or reload the page."
-      );
+      return setError({ message: res.data?.message, show: true });
     } else {
       setCurrentUser(res.data?.user);
       localStorage.setItem("token", res.data?.token);
@@ -150,11 +150,18 @@ const Login: NextPage = () => {
              {t('signUpButton')}</a>
           </div>
        </div> 
-      </main>  
-
-   
+      </main>
+      
+      <Toast
+        title="Login failed!"
+        message={error.message}
+        onClose={hideError}
+        show={error.show}
+        variant="error"
+      />   
       <Footer/>
     </div>
+
   )
 }
 

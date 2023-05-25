@@ -1,5 +1,5 @@
 import { mongoConnect } from "libs";
-import { UserModel } from "models";
+import UserModel from "models/userModel";
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt, { JwtPayload } from "jsonwebtoken";
 

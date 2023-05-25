@@ -1,3 +1,4 @@
+'use state'
 import { TextField, InputAdornment } from '@mui/material'
 import LeftSide from '../../components/Signup/Leftside'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
@@ -19,8 +20,6 @@ import {
 } from "react";
 import { User } from "libs/types/user";
 import { useIdentify } from "utils/identification";
-
-
 
 function SignUp() {
 

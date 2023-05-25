@@ -1,6 +1,4 @@
 import { models, model, Schema, Types } from 'mongoose';
-import BankAccountModel from './bankAccountModel';
-
 
 export interface IUser {
 
