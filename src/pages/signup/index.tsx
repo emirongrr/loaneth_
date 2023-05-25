@@ -39,7 +39,7 @@ function SignUp() {
   const [email, setEmail] = useState<string>("");
   const [emaileError, setEmaileError] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
-  const [passwordeError, setPasswordeError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
   const [passwordAgain, setPasswordAgain] = useState<string>("");
   const [passwordAgainError, setPasswordAgaineError] =
     useState<boolean>(false);
@@ -63,7 +63,7 @@ function SignUp() {
 
   function handleChange(e: any, setItem: Dispatch<SetStateAction<any>>) {
     setEmaileError(false);
-    setPasswordeError(false);
+    setPasswordError(false);
     setPasswordAgaineError(false);
     setError("");
 
@@ -80,11 +80,11 @@ function SignUp() {
     // Inputs verification
     if (email === "" || email == null || !isEmail(email))
       return setEmaileError(true);
-    if (password === "" || password == null) return setPasswordeError(true);
+    if (password === "" || password == null) return setPasswordError(true);
     if (passwordAgain === "" || passwordAgain == null)
       return setPasswordAgaineError(true);
     if (password !== passwordAgain) {
-      setPasswordeError(true);
+      setPasswordError(true);
       setPasswordAgaineError(true);
       return;
     }
