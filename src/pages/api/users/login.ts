@@ -19,7 +19,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         .status(405)
         .send({ message: `User with ${email} not exists!` });
 
-    console.log(user?.password)
     if ((await pwdCompare(password, user?.password)) === false)
       return res.status(401).send({ message: `Invalid email or password!` });
 

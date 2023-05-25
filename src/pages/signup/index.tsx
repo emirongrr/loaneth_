@@ -42,7 +42,7 @@ function SignUp() {
   const [password, setPassword] = useState<string>("");
   const [passwordeError, setPasswordeError] = useState<boolean>(false);
   const [passwordAgain, setPasswordAgain] = useState<string>("");
-  const [passwordAgaineError, setPasswordAgaineError] =
+  const [passwordAgainError, setPasswordAgaineError] =
     useState<boolean>(false);
   const [agrement, setAgrement] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -58,7 +58,7 @@ function SignUp() {
 
   // auth login
   useEffect(() => {
-    if (sessionSet) router.push("/");
+    if (sessionSet) router.push("/dashboard");
   }, [sessionSet]);
 
 

@@ -13,7 +13,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const token: any = authorization.split(" ")[1];
-    console.log(token);
     if (!token) {
       return res.status(401).json({
         message: "Invalid Token Format",
