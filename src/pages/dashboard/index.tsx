@@ -5,12 +5,27 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head'
 import React, { useContext } from "react";
 import { UserContext } from "contexts";
+import { Loader } from 'components/Loader';
+import Login from 'pages/login';
 
 function Dashboard() {
     const { t } = useTranslation('dashboard');
     const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
 
-  
+    if (isLoading)
+    return (
+      <>
+        <Loader/>
+      </>
+    );
+
+    if (!sessionSet)
+    return (
+      <>
+        <Login />
+      </>
+    );
+
     return (
       <div className='grid grid-cols-2'>
   
