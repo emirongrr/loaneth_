@@ -1,4 +1,4 @@
-'use state'
+'use-state'
 import Footer from 'components/Footer';
 import Navbar from 'components/Navbar';
 import type { NextPage } from 'next'
@@ -21,7 +21,7 @@ import { ResponseType, UserContextType } from "interfaces";
 import { User } from "libs/types/user";
 import isEmail from "validator/lib/isEmail";
 import { UserContext } from "contexts";
-import { useIdentify } from "utils/identification";
+import { UseIdentify } from "utils/identification";
 
 export interface IError {
   message: string;
@@ -81,7 +81,7 @@ const Login: NextPage = () => {
     setIsLoading(true);
     const user: User = { identificationString:null ,firstName:null, lastName:null, email, birthDate:null ,password };
 
-    const res: ResponseType = await useIdentify(user, "login");
+    const res: ResponseType = await UseIdentify(user, "login");
     setIsLoading(false);
 
     if (res.success === false) {
