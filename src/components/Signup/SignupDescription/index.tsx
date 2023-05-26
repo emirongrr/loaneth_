@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-function LeftSide() {
+function SignupDescription() {
     const { t } = useTranslation('signup');
 
     return (
@@ -16,4 +16,4 @@ function LeftSide() {
   }
   
 
-  export default LeftSide
+  export default SignupDescription
