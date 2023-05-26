@@ -20,7 +20,7 @@ export const UserContextProvider = (props: childrenType) => {
 
   // controlling if user allready logged in on first load
   useEffect(() => {
-    // here is the logic for controing the user session
+    // here is the logic for controlling the user session
     async function refreshUser() {
       const token: string | null = localStorage.getItem("token");
       if (!token) {

@@ -66,7 +66,7 @@ const Login: NextPage = () => {
 
   // auth login
   useEffect(() => {
-    if (sessionSet) router.push("/login");
+    if (sessionSet) router.push("/dashboard");
   }, [sessionSet]);
 
   const sendLogin: FormEventHandler = async (e: { preventDefault: () => void; }) => {

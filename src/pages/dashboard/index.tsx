@@ -7,10 +7,13 @@ import React, { useContext } from "react";
 import { UserContext } from "contexts";
 import { Loader } from 'components/Loader';
 import Login from 'pages/login';
+import { useRouter } from 'next/navigation';
 
 function Dashboard() {
     const { t } = useTranslation('dashboard');
     const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
+    const router = useRouter()
+
 
     if (isLoading)
     return (
@@ -20,11 +23,7 @@ function Dashboard() {
     );
 
     if (!sessionSet)
-    return (
-      <>
-        <Login />
-      </>
-    );
+    return ( router.push("/login"));
 
     return (
       <div className='grid grid-cols-2'>
