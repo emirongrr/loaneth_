@@ -1,6 +1,12 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './index.html'],
   darkMode: 'class',
+  content: [
+    // If using the src directory, add:
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}", // Tremor module
+    
+    ],
   theme: {
     fontFamily: {
       sans: ['Ilisarniq'],

@@ -1,5 +1,5 @@
 import { authenticate } from "utils/authenticate";
-import { Dispatch,SetStateAction, createContext, useEffect, useState } from "react";
+import {  createContext, useEffect, useState } from "react";
 import { childrenType,UserContextType,UserType } from "interfaces";
 
 
