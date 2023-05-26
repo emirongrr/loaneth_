@@ -7,7 +7,7 @@
 Please have these installed on your machine:
 
 - [Node.js 18+](https://nodejs.org/)
-- [Yarn v1](https://classic.yarnpkg.com/lang/)
+- [Yarn v1](https://classic.yarnpkg.com/lang/en)
 
 ### Install dependencies:
 

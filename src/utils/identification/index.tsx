@@ -1,6 +1,6 @@
 import { User } from "libs/types/user";
 
-export const useIdentify = async (credentials: User, url: string) => {
+export const UseIdentify = async (credentials: User, url: string) => {
   const headersList = {
     Accept: "*/*",
     "Content-Type": "application/json",
