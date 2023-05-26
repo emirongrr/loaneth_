@@ -1,6 +1,5 @@
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import { TextField, InputAdornment } from '@mui/material'
-import { DatePicker } from '@mui/x-date-pickers';
 import { useTranslation } from 'next-i18next';
 import isEmail from "validator/lib/isEmail";
 import { UserContext } from "contexts";
@@ -15,7 +14,7 @@ import {
   useState,
 } from "react";
 import { User } from "libs/types/user";
-import { useIdentify } from "utils/identification";
+import { UseIdentify } from "utils/identification";
 import UniversalDatePicker from 'components/FormObjects/UniversalDatePicker';
 
 export default function SignupForm(){
@@ -88,7 +87,7 @@ export default function SignupForm(){
          setIsLoading(true);
          const user: User = { identificationString ,firstName,lastName,email,birthDate, password };
      
-         const res: ResponseType = await useIdentify(user, "register");
+         const res: ResponseType = await UseIdentify(user, "register");
          setIsLoading(false);
      
          if (res.success === false || res.success === undefined) {
