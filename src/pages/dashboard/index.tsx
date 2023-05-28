@@ -1,3 +1,5 @@
+import ProfileContainer from "components/Dashboard/ProfileContainer";
+import Head from 'next/head'
 import { Card, Metric, Text, Flex, Grid, Title, BarList } from '@tremor/react';
 import Chart from './chart';
 import { DonutChart } from "@tremor/react";
@@ -91,15 +93,25 @@ const categories: {
 ];
 
 export default function Dashboard() {
-  const users = [
-    {id: 1, name: 'Alice',username:"sa", email: 'Austria'},
-    {id: 2, name: 'Bobby Hadz',username:"da", email: 'Belgium'},
-    {id: 3, name: 'Carl',username:"dadad", email: 'Canada'},
-  ];
-
 
   return (
-    <main className="p-4 md:p-10 mx-auto max-w-7xl">
+    <div className="min-h-screen flex flex-col p-0 m-0 bg-slate-900">
+
+    <Head>
+      <meta name="description" content={('siteDescription')} />
+      <title>{('siteTitle')}</title>
+    </Head>
+      
+      <div className="relative flex flex-1 flex-shrink-0">
+        <div className="pl-20 w-full pb-20 flex flex-col flex-1">
+          <div className="sidebar_component"></div>
+          <div className="grid gap-0 grid-cols-auto p-0 m-0 box-border">
+            <ProfileContainer/>
+          </div>
+        </div>
+        </div>
+
+        <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Grid className="gap-6" numColsSm={2} numColsLg={3}>
         {categories.map((item) => (
           <Card key={item.title}>
@@ -156,5 +168,6 @@ export default function Dashboard() {
       </Grid>
       <Chart />
     </main>
+    </div>
   );
 }

@@ -38,6 +38,14 @@ module.exports = {
       spacing: {
         84: '21rem',
       },
+      gridTemplateColumns: {
+        'new': 'minmax(0px, auto);',
+        '1fr':'auto auto 1fr;'
+        },
+      gridAutoColumns: {
+        "new": ' minmax(min-content, max-content);'
+        
+      },
     },
   },
 
