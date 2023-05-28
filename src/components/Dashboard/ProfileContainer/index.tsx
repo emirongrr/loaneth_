@@ -3,6 +3,7 @@ const ProfileContainer = () =>
 {
     return(
         <div className="w-full max-w-[960px] mx-auto px-3.5 box-border block">
+            <div className="border border-gray-600"></div>
             <div className="h-6 w-auto"></div>
             <div className="grid grid-flow-col grid-cols-new gap-0 items-start flex justify-between box-border">
                 <div className="grid grid-flow-col grid-cols-new gap-5 items-start justify-start">
@@ -32,6 +33,8 @@ const ProfileContainer = () =>
                 </div>
             </div>
             <div className="h-6 w-auto"></div>
+            <div className="border border-gray-600"></div>
+
 
         </div>
     );
