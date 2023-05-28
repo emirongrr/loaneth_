@@ -9,7 +9,6 @@ import Products from 'components/home/Products';
 import Body from 'components/home/Body';
 import Investors from 'components/home/Investors';
 import Footer from 'components/Footer';
-import LearnMoreContainer from 'components/home/LearnMoreContainer';
 
 export default function Home() {
   const { t } = useTranslation('home');

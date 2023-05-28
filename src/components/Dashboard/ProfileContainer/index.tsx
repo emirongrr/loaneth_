@@ -3,7 +3,6 @@ const ProfileContainer = () =>
 {
     return(
         <div className="w-full max-w-[960px] mx-auto px-3.5 box-border block">
-            <div className="border border-gray-600"></div>
             <div className="h-6 w-auto"></div>
             <div className="grid grid-flow-col grid-cols-new gap-0 items-start flex justify-between box-border">
                 <div className="grid grid-flow-col grid-cols-new gap-5 items-start justify-start">
@@ -16,8 +15,8 @@ const ProfileContainer = () =>
                         </div>
                         <span>
                             <div className="grid gap-4 grid-cols-minmax-auto">
-                                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words justify-start">$15,423,233</div>
-                                <div className="block font-graphik text-base leading-5 font-medium tracking-tight text-negative-500" >%24</div>
+                                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words justify-start text-4xl leading-12 ">$15,423,233</div>
+                                <div className="block font-graphik text-base leading-5 font-medium tracking-tight {balances >= 0 ? 'text-green' : 'text-red-500'}" >%24</div>
                             </div>
                         </span>
                     </div>
@@ -33,7 +32,7 @@ const ProfileContainer = () =>
                 </div>
             </div>
             <div className="h-6 w-auto"></div>
-            <div className="border border-gray-600"></div>
+            <div className="border border-neutral-300"></div>
 
 
         </div>

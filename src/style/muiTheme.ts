@@ -7,6 +7,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#008bcc',
+      
     },
   },
   overrides: {
@@ -23,6 +24,7 @@ const theme = createTheme({
         borderRadius: '5px',
         paddingTop: '10px',
         paddingBottom: '13px',
+        boxSizing:'border-box'
       },
       label: {
         fontSize: '14px',

@@ -5,18 +5,15 @@ import { Card, AreaChart, Title, Text } from '@tremor/react';
 const data = [
   {
     Month: 'Jan 21',
-    Sales: 2890,
-    Profit: 2400
+    Balances: 2890,
   },
   {
     Month: 'Feb 21',
-    Sales: 1890,
-    Profit: 1398
+    Balances: 1890,
   },
   {
     Month: 'Jan 22',
-    Sales: 3890,
-    Profit: 2980
+    Balances: 3890,
   }
 ];
 
@@ -25,17 +22,16 @@ const valueFormatter = (number: number) =>
 
 export default function Chart() {
   return (
-    <Card className="mt-8">
-      <Title>Performance</Title>
-      <Text>Comparison between Sales and Profit</Text>
+    <>
       <AreaChart
-        className="mt-4 h-80"
         data={data}
-        categories={['Sales', 'Profit']}
+        categories={['Balances']}
+        showGridLines={false}
+        showXAxis={false}
         index="Month"
-        colors={['indigo', 'fuchsia']}
+        colors={['green']}
         valueFormatter={valueFormatter}
       />
-    </Card>
+      </>
   );
 }

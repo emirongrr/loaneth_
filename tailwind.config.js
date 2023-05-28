@@ -27,6 +27,8 @@ module.exports = {
         'wave-blue': '#8AACF4',
         'white-dark': '#F6F9FF',
         'cod-gray': '#0E1119',
+        'green': '#4fbf67;',
+        'bordercolor': '#2d2d32;'
       },
       minWidth: {
         400: '400px',
@@ -43,9 +45,8 @@ module.exports = {
         '1fr':'auto auto 1fr;'
         },
       gridAutoColumns: {
-        "new": ' minmax(min-content, max-content);'
-        
-      },
+        "new": ' minmax(min-content, max-content);' 
+      },     
     },
   },
 
