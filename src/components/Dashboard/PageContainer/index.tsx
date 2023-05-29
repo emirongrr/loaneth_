@@ -1,4 +1,4 @@
-import AssetsList from "./AssetList";
+import InfoBox from "./Box";
 import ChartSection from "./PerformanceAndAssetChart";
 
 
@@ -9,7 +9,7 @@ const PageBody = () => {
             <div className="h-6 w-auto"></div>
                 <div className="grid gap-30 grid-cols-new">
                 <ChartSection/>
-                <AssetsList/>
+                <InfoBox/>
                 </div>
         </div>
     

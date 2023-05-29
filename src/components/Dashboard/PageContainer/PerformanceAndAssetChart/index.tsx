@@ -31,7 +31,7 @@ const ChartSection = () =>
                     <div className="block font-graphik text-[24px] text-white leading-28 font-medium tracking-normal ">Performance</div>
                 </div>
                 <span >
-                    <div className="flex flex-col h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border  border-neutral-300  ">
+                    <div className="flex shadow-2xl flex-col h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border  border-neutral-300  ">
                         <Chart/>
                     </div>
                 </span>
@@ -42,7 +42,7 @@ const ChartSection = () =>
             <div className="grid gap-[12px] grid-cols-new1">
                 <div className="block font-graphik text-[24px] text-white leading-28 font-medium tracking-normal text-current">Assets</div>
                 <span>
-                    <div className="flex flex-col h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300">
+                    <div className="flex flex-col shadow-2xl h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300">
                     <DonutChart
             className="mt-12"
             data={Assets}
