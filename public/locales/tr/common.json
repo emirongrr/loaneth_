@@ -10,7 +10,10 @@
   "blog": "Blog",
   "developers": "Geliştiriciler",
   "home": "Anasayfa",
-  "learn": "Öğrenmek",
+  "learn": "Öğren",
   "go": "Git",
-  "other": "Diğer"
+  "other": "Diğer",
+  "product":"Ürün",
+  "useDopex":"Uygulamaya Git",
+  "trademark":"Tüm hakları saklıdır."
 }

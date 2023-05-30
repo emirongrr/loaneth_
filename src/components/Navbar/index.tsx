@@ -56,10 +56,7 @@ export default function Navbar() {
   const links = [
     { name: t('home'), to: '/' },
     {
-      name: t('what we build'),
-    },
-    {
-      name: t('devs'),
+      name: t('learn'),
     },
   ];
 
