@@ -11,6 +11,16 @@ function Dashboard() {
   const { t } = useTranslation('dashboard');
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
 
+  if (isLoading)
+    return (
+      <></>
+    );
+
+  if (!sessionSet)
+  return (
+    <></>
+  );
+
   return (    
     <div className="min-h-screen flex flex-col p-0 m-0 mt-32 ">
 
