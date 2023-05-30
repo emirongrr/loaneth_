@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { useTranslation } from 'next-i18next';
 import { Router, useRouter } from 'next/router';
+import ConstructReference from 'libs/refconstructor';
 
 import Section from 'components/UI/Section';
 import Typography from 'components/UI/Typography';
@@ -32,7 +33,7 @@ const Introduction = () => {
             variant="contained"
             color="primary"
             classes={{ label: 'text-lg md:text-sm' }}
-            href={router?.locale + "/login"}
+            href={ConstructReference("/dashboard/")}
           >
             {tc('useDopex')}
           </Button>

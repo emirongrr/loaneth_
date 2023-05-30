@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import LanguageIcon from '@material-ui/icons/Language';
 import Typography from 'components/UI/Typography';
 
-const LANGUAGE_CODES = {
+export const LANGUAGE_CODES = {
   en: 'EN',
   tr: 'TR',
 };

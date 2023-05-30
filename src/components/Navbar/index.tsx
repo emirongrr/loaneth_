@@ -16,6 +16,7 @@ import Moon from 'assets/home/Moon';
 import Sun from 'assets/home/Sun';
 
 import styles from './styles.module.scss';
+import ConstructReference from 'libs/refconstructor';
 
 export default function Navbar() {
   const [theme, setTheme] = useState('dark');
@@ -54,9 +55,9 @@ export default function Navbar() {
   }, [updateTheme]);
 
   const links = [
-    { name: t('home'), to: '/' },
+    { name: t('home'), to: ConstructReference('/') },
     {
-      name: t('learn'),
+      name: t('learn'), to: ConstructReference('/learn')
     },
   ];
 
@@ -69,7 +70,7 @@ export default function Navbar() {
       )}
     >
       <Box className="max-w-md  mx-auto w-full flex flex-row justify-between items-center p-5 relative 2xl:max-w-6xl xl:max-w-6xl lg:max-w-4xl sm:max-w-xl sm:p-6 ">
-        <Link href="/" className="block">
+        <Link href={ConstructReference("/")} className="block">
           <Box className="flex items-center text-white flex-grow cursor-pointer hover:no-underline ">
             <img src="/svg/logo.svg" alt="logo" className="w-9" />
             <span className="ml-5 text-xl font-extrabold text-black dark:text-white font-mono">

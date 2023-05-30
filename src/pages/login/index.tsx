@@ -22,6 +22,7 @@ import { User } from "libs/types/user";
 import isEmail from "validator/lib/isEmail";
 import { UserContext } from "contexts";
 import { UseIdentify } from "utils/identification";
+import ConstructReference from 'libs/refconstructor';
 
 export interface IError {
   message: string;
@@ -146,7 +147,7 @@ const Login: NextPage = () => {
            <h2 className='text-3xl font-bold text-white mb-2'>{t('signUpTitle')}</h2>
            <div className='border-2  border-white w-10 inline-block  mb-2'></div>
            <p className='mb-10 text-white '>{t('signUpDesc')}</p>
-           <a href={'signup'} className=' border-2 border-white text-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-indigo-100 dark:hover:bg-slate-700'>
+           <a href={ConstructReference("/signup/")} className=' border-2 border-white text-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-indigo-100 dark:hover:bg-slate-700'>
              {t('signUpButton')}</a>
           </div>
        </div> 
