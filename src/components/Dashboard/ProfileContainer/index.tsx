@@ -1,5 +1,11 @@
-/*Current user ProfileContainer(user: user) */
-const ProfileContainer = () =>
+import {User} from 'libs/types/user'
+
+type ProfileContainerProps = {
+    currentUser: User;
+  };
+
+  
+const ProfileContainer:React.FC<ProfileContainerProps> = ({currentUser}) =>
 {
     return(
         <div className="w-full max-w-[960px] shadow-2xl rounded-[12px] mx-auto px-3.5 box-border block mt-4">
@@ -11,12 +17,12 @@ const ProfileContainer = () =>
                     </div>
                     <div className="grid gap-2 grid-cols-new p-0 m-0 box-border">
                         <div className="grid grid-flow-col auto-cols-new gap-1 items-center justify-start h-6">
-                            <div className="block font-graphik text-20 leading-6 font-medium tracking-tighter text-current whitespace-nowrap">vitalik.eth</div>
+                            <div className="block font-graphik text-20 leading-6 font-medium tracking-tighter text-current whitespace-nowrap">{currentUser?.firstName + currentUser?.lastName}</div>
                         </div>
                         <span>
                             <div className="grid gap-4 grid-cols-minmax-auto">
-                                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words justify-start text-4xl leading-12 ">$15,423,233</div>
-                                <div className="block font-graphik text-base leading-5 font-medium tracking-tight {balances >= 0 ? 'text-green' : 'text-red-500'}" >%24</div>
+                                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words justify-start text-4xl leading-12 ">{currentUser?.email}</div>
+                                <div className="block font-graphik text-base leading-5 font-medium tracking-tight {balances >= 0 ? 'text-green' : 'text-red-500'}" ></div>
                             </div>
                         </span>
                     </div>

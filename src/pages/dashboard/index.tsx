@@ -1,12 +1,17 @@
 import ProfileContainer from "components/Dashboard/ProfileContainer";
 import Head from 'next/head'
-import { Card, Metric, Text, Flex, Grid, Title, BarList } from '@tremor/react';
 import PageBody from "components/Dashboard/PageContainer";
 import Navbar from 'components/Navbar'
+import { UserContext } from "contexts";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+import React, { useContext } from "react";
 
-export default function Dashboard() {
+function Dashboard() {
+  const { t } = useTranslation('dashboard');
+  const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
 
-  return (
+  return (    
     <div className="min-h-screen flex flex-col p-0 m-0 mt-32 ">
 
     <Head>
@@ -16,10 +21,9 @@ export default function Dashboard() {
       
       <div className="relative flex flex-1 flex-shrink-0 mt-3 ">
       <Navbar/>
-
         <div className="pl-20 pr-20 w-full pb-20 flex flex-col flex-1">
           <div className="grid gap-0 grid-cols-auto p-0 m-0 box-border">
-            <ProfileContainer/>
+            <ProfileContainer currentUser={currentUser}/>
             <PageBody/>
           </div>
         </div>
@@ -30,3 +34,13 @@ export default function Dashboard() {
     </div>
   );
 }
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'dashboard'])),
+    },
+  };
+
+}
+
+export default Dashboard
