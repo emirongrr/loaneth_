@@ -1,5 +1,17 @@
 {
-    "CreateAnAccount":"Create An Account",
+    "Description" : "A new paradigm for banks,",
+    "DescriptionPunchline" : "just for you.",
+    "DescriptionSubText": "Where tradition meets innovation in Banking.",
+    "DescriptionSubTextSecondLine": "Building a bridge to future.",
+    "SignupFormHeader":"Create An Account",
+    "SignupFormHeaderSubtext":"Let's get started!",
     "AlreadyHaveAnAccount":"Already Have An Account?",
-    "deploying":"deploying"
+    "IdentificationString":"Goverment Issued ID",
+    "FirstName":"First Name",
+    "LastName": "Last Name",
+    "Email" : "E-mail",
+    "BirthDate": "Date of Birth",
+    "Password": "Password",
+    "PasswordAgain": "Please re-enter your password",
+    "SignupFormSubmitButton": "Sign Up"
 }

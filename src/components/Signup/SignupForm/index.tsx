@@ -106,12 +106,12 @@ export default function SignupForm(){
         <section className='min-ipad:relative dark:bg-slate-900'>
         <form onSubmit={sendRegistration} className='max-w-md m-auto h-max  mt-32 top-0 bottom-0 left-0 right-0' >
           <header className='px-3'>
-            <h1 className='text-[28px] text-gray-400  font-bold'>{t('CreateAnAccount')}</h1>
-            <p className=' text-gray-400 text-base'>{t('LetsGetStarted')}</p>
+            <h1 className='text-[28px] text-gray-400  font-bold'>{t('SignupFormHeader')}</h1>
+            <p className=' text-gray-400 text-base'>{t('SignupFormHeaderSubtext')}</p>
           </header>
           <section className='mt-4 px-3'> 
             <TextField className='border-white'
-              label={t('identificationString')}
+              label={t('IdentificationString')}
               
               type='text'
               size='small'
@@ -125,7 +125,7 @@ export default function SignupForm(){
              
             />
             <TextField 
-              label={t('firstName')}
+              label={t('FirstName')}
               type='text'
               size='small'
               margin='dense'
@@ -137,7 +137,7 @@ export default function SignupForm(){
               fullWidth
             />
              <TextField 
-              label={t('lastName')}
+              label={t('LastName')}
               type='text'
               size='small'
               margin='dense'
@@ -148,12 +148,14 @@ export default function SignupForm(){
               }}
               fullWidth
             />            
-            <UniversalDatePicker/>
+            <UniversalDatePicker
+            label={t('BirthDate')}
+            />
              <TextField 
               className={`${handleError(
                 emaileError
               )}`}
-              label={t('email')}
+              label={t('Email')}
               type='text'
               size='small'
               margin='dense'
@@ -165,7 +167,7 @@ export default function SignupForm(){
               fullWidth
             />                 
              <TextField 
-              label={t('password')}
+              label={t('Password')}
               type='text'
               size='small'
               margin='dense'
@@ -177,7 +179,7 @@ export default function SignupForm(){
               fullWidth           
             /> 
             <TextField 
-             label={t('passwordAgain')}
+             label={t('PasswordAgain')}
              type='text'
              size='small'
              margin='dense'
@@ -190,9 +192,9 @@ export default function SignupForm(){
            />
           </section>
           <section className='px-3 mt-2'>
-            <button type='submit' className='mt-2 bg-gray-700 w-full py-[6px] text-lg rounded-md text-gray-400 font-medium'>{t('SignUpButton')}</button>
+            <button type='submit' className='mt-2 bg-gray-700 w-full py-[6px] text-lg rounded-md text-gray-400 font-medium'>{t('SignupFormSubmitButton')}</button>
           </section>
-          <div className='mt-5 mb-3 text-center text-sm text-gray-400'>{t('AlreadyHaveAnAccount?')}</div>
+          <div className='mt-5 mb-3 text-center text-sm text-gray-400'>{t('AlreadyHaveAnAccount')}</div>
         </form>
     </section>
        )
