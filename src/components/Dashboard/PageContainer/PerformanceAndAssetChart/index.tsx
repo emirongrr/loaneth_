@@ -28,7 +28,7 @@ const ChartSection = () =>
         <div className="grid grid-flow-col auto-cols-new gap-[30px] grid-cols-[1fr,300px] items-initial justify-initial">
             <div className="grid gap-[12px] grid-cols-new">
                 <div className="grid grid-flow-col auto-cols-new gap-[8px] items-end">
-                    <div className="block font-graphik text-[24px] text-white leading-28 font-medium tracking-normal ">Performance</div>
+                    <div className="block font-graphik text-[24px] text-black dark:text-white leading-28 font-medium tracking-normal ">Performance</div>
                 </div>
                 <span >
                     <div className="flex shadow-2xl flex-col h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border  border-neutral-300  ">
@@ -40,7 +40,7 @@ const ChartSection = () =>
             </div>
 
             <div className="grid gap-[12px] grid-cols-new1">
-                <div className="block font-graphik text-[24px] text-white leading-28 font-medium tracking-normal text-current">Assets</div>
+                <div className="block font-graphik text-[24px] text-black dark:text-white leading-28 font-medium tracking-normal text-current">Assets</div>
                 <span>
                     <div className="flex flex-col shadow-2xl h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300">
                     <DonutChart
@@ -49,7 +49,6 @@ const ChartSection = () =>
             category="sales"
             index="name"
             valueFormatter={valueFormatter}
-            colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
           />
                         
                     </div>

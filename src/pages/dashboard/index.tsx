@@ -22,15 +22,15 @@ function Dashboard() {
   );
 
   return (    
-    <div className="min-h-screen flex flex-col p-0 m-0 mt-32 ">
+    <div className="min-h-screen flex flex-col p-0 m-0  dark:bg-slate-900 ">
 
     <Head>
       <meta name="description" content={('siteDescription')} />
       <title>{('siteTitle')}</title>
     </Head>
-      
-      <div className="relative flex flex-1 flex-shrink-0 mt-3 ">
-      <Navbar/>
+    <Navbar/>
+
+      <div className="relative flex flex-1 flex-shrink-0 mt-24">
         <div className="pl-20 pr-20 w-full pb-20 flex flex-col flex-1">
           <div className="grid gap-0 grid-cols-auto p-0 m-0 box-border">
             <ProfileContainer currentUser={currentUser}/>
