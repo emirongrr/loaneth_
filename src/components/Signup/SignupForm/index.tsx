@@ -1,5 +1,6 @@
+import * as React from 'react'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
-import { TextField, InputAdornment } from '@mui/material'
+import { TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { useTranslation } from 'next-i18next';
 import isEmail from "validator/lib/isEmail";
 import { UserContext } from "contexts";
@@ -149,9 +150,31 @@ export default function SignupForm(){
               fullWidth
             />            
             <UniversalDatePicker
-            className="w-full"
             label={t('BirthDate')}
+            format="DD/MM/YYYY"
+            onChange={(newDate) => {
+              setBirthDate(newDate.$d)
+            }}
             />
+            <div className='border-black'>
+              <FormControl variant='filled' sx={ {minWidth:120}} size='small' margin='dense' className='w-3/12 mr-5'>
+                <InputLabel id="countrylabel">{t('Country')}</InputLabel>
+                <Select 
+                  labelId='countrylabel'
+                >
+                  <MenuItem value="TR">TR</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                
+                className='mt-4 w-8/12'
+                label={t('City')}
+                type='text'
+                size='small'
+                margin='dense'
+              >  
+              </TextField>
+            </div>
              <TextField 
               className={`${handleError(
                 emaileError
@@ -169,7 +192,7 @@ export default function SignupForm(){
             />                 
              <TextField 
               label={t('Password')}
-              type='text'
+              type='password'
               size='small'
               margin='dense'
               value={password}
@@ -181,7 +204,7 @@ export default function SignupForm(){
             /> 
             <TextField 
              label={t('PasswordAgain')}
-             type='text'
+             type='password'
              size='small'
              margin='dense'
              value={passwordAgain}

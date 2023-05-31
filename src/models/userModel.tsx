@@ -1,5 +1,5 @@
-import { models, model, Schema, Types } from 'mongoose';
-
+import { models, model, Schema, Types, SchemaTypes } from 'mongoose';
+import { Adress } from 'libs/types/adress';
 export interface IUser {
 
     identificationString: String
@@ -8,6 +8,7 @@ export interface IUser {
     lastName:String
     birthDate:Date
     password: String
+    adress: Adress
     bankAccounts: Types.ObjectId[];
    }
 
@@ -32,7 +33,6 @@ const userSchema : Schema = new Schema<IUser>(
             type: String,
             required: true,
             unique: true,
-            //match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/]
         },
         birthDate:{
             type: Date,
@@ -42,6 +42,12 @@ const userSchema : Schema = new Schema<IUser>(
             type: String,
             required: true,
             select: false
+        },
+        adress:{
+            type: SchemaTypes.Mixed,
+            required: true,
+            select: true,
+
         },
         bankAccounts:[{
                 type: Schema.Types.ObjectId,

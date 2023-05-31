@@ -13,7 +13,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (method !== "POST")
     return res.status(401).send({ message: `Cannot ${method} at ${req.url}` });
 
-  const { identificationString,firstName,lastName, email, birthDate, password } = req.body;
+  const { identificationString,firstName,lastName, email, password } = req.body;
+  const birthDate = new Date(req.body.birthDate)
   if (!identificationString || !email || !firstName|| !lastName|| !birthDate || !password)
     return res.status(401).send({ message: `All fields are required!` });
 
