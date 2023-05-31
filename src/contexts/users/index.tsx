@@ -1,6 +1,7 @@
 import { authenticate } from "utils/authenticate";
 import {  createContext, useEffect, useState } from "react";
-import { childrenType,UserContextType,UserType } from "interfaces";
+import { childrenType,UserContextType } from "interfaces";
+import {User} from 'libs/types/user'
 
 
 export const UserContext = createContext<UserContextType | {}>({
@@ -13,7 +14,7 @@ export const UserContext = createContext<UserContextType | {}>({
 export const UserContextProvider = (props: childrenType) => {
   // *******************************
   const [sessionSet, setSessionSet] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<UserType | undefined | null>(
+  const [currentUser, setCurrentUser] = useState<User | undefined | null>(
     null
   );
   const [isLoading, setIsLoading] = useState(true);

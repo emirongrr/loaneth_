@@ -6,19 +6,22 @@ import { UserContext } from "contexts";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import React, { useContext } from "react";
+import { useRouter } from "next/router";
+import { Loader } from "components/Loader";
 
 function Dashboard() {
   const { t } = useTranslation('dashboard');
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
+  const router = useRouter();
 
   if (isLoading)
     return (
-      <></>
+      <Loader/>
     );
 
   if (!sessionSet)
   return (
-    <></>
+    router.push("/login").then(router.reload)
   );
 
   return (    

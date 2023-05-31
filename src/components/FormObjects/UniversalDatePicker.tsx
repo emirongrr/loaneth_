@@ -7,6 +7,7 @@ export default function UniversalDatePicker(props){
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker 
                 label={props.label}
+                className='w-full'
                 />
             </LocalizationProvider>
         </div>

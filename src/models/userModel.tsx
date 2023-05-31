@@ -44,7 +44,9 @@ const userSchema : Schema = new Schema<IUser>(
             select: false
         },
         bankAccounts:[{
-                type: Schema.Types.ObjectId
+                type: Schema.Types.ObjectId,
+                required:true,
+                ref:'Account'
             }
         ]
     },

@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
+import {User} from 'libs/types/user'
 
 
 export interface DataType {
     message: string;
-    user: UserType;
+    user: User;
     token: string;
   }
   
@@ -16,21 +17,14 @@ export interface childrenType {
     children: JSX.Element;
   }
 
-export type UserType = {
-    email: string;
-    fullname: string;
-    createdAt: string;
-    updatedAt: string;
-    password: string | null;
-  };
 
 export interface UserContextType {
     isLoading: boolean;
     sessionSet: boolean;
-    currentUser: UserType | undefined | null;
+    currentUser: User | undefined | null;
     setIsLoading: Dispatch<SetStateAction<boolean>>;
     setSessionSet: Dispatch<SetStateAction<boolean>>;
-    setCurrentUser: Dispatch<SetStateAction<UserType | undefined | null>>;
+    setCurrentUser: Dispatch<SetStateAction<User | undefined | null>>;
   }
 
   

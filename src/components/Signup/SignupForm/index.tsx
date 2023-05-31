@@ -149,6 +149,7 @@ export default function SignupForm(){
               fullWidth
             />            
             <UniversalDatePicker
+            className="w-full"
             label={t('BirthDate')}
             />
              <TextField 
