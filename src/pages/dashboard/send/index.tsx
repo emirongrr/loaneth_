@@ -1,12 +1,33 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "contexts";
 
-
 const SendMoneyPage: React.FC = () => {
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
   const [selectedAccount, setSelectedAccount] = useState<string>('');
   const [recipient, setRecipient] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
+
+  const sampleAccounts = [
+    {
+      id: 11,
+      accountNumber: '1234567890',
+      accountType: 'Savings',
+      accountCurrency: 'USD',
+      balance: 5000,
+      loan: 0,
+      iban: 'TR330006100519786457841326',
+    },
+    {
+      id: 12,
+      accountNumber: '0987654321',
+      accountType: 'Checking',
+      accountCurrency: 'TL',
+      balance: 10000,
+      loan: 0,
+      iban: 'TR660006100519786457842135',
+    },
+    // Diğer örnek hesaplar buraya eklenebilir
+  ];
 
   const handleAccountChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedAccount(event.target.value);
@@ -23,17 +44,24 @@ const SendMoneyPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      // Alıcının IBAN'ı alınır
-      
-
-      // MongoDB'ye gönderim işlemi kaydedilir
-    
-
-      console.log('Para gönderme işlemi gerçekleştirildi:', {
-        selectedAccount,
-        recipient: 
-        amount
+      const response = await fetch('/api/transaction/transaction', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          senderAccount: selectedAccount,
+          recipientIban: recipient,
+          amount: amount,
+        }),
       });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Para gönderme işlemi gerçekleştirildi:', data);
+      } else {
+        console.error('Para gönderme işlemi başarısız:', response.status);
+      }
     } catch (error) {
       console.error('Para gönderme işlemi başarısız:', error);
     }
@@ -56,9 +84,9 @@ const SendMoneyPage: React.FC = () => {
             required
           >
             <option value="">Hesap Seçin</option>
-            {currentUser.accounts.map((account) => (
-              <option key={account.id} value={account.id}>
-                {account.accountNumber} ({account.balance} {account.currency})
+            {sampleAccounts.map((account) => (
+              <option key={account.id} value={account.accountNumber}>
+                {account.accountNumber} ({account.balance} {account.accountCurrency})
               </option>
             ))}
           </select>

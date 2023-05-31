@@ -1,3 +1,5 @@
+import { models, model, Schema, Types } from 'mongoose';
+
 const mongoose = require('mongoose');
 
 const accountSchema = new mongoose.Schema({
@@ -24,6 +26,12 @@ const accountSchema = new mongoose.Schema({
     default: 0,
     min: 0
   },
+  loan: {
+    type: Number,
+    required: true,
+    default: 0,
+    min: 0
+  },
   iban: {
     type: String,
     required: true,
@@ -40,6 +48,6 @@ const accountSchema = new mongoose.Schema({
   // Diğer hesap özellikleri buraya eklenebilir
 });
 
-const Account = mongoose.model('Account', accountSchema);
+const Account = models.Account || model('Account', accountSchema,'bankAccounts');
 
-module.exports = Account;
+export default Account

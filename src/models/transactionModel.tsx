@@ -32,6 +32,8 @@ const transactionSchema = new mongoose.Schema({
   // Diğer işlem özellikleri buraya eklenebilir
 });
 
-const Transaction = mongoose.model('Transaction', transactionSchema);
+const Transaction = models.Transactions || model('Transaction', transactionSchema);
 
-module.exports = Transaction;
+
+
+export default Transaction
