@@ -13,7 +13,7 @@ import Footer from 'components/Footer';
 export default function Home() {
   const { t } = useTranslation('home');
   const cardsRef = useRef<HTMLDivElement>(null)
-
+  const test = ['test1', 'test2']
   return (
     <>
       <Head>

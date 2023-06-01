@@ -1,5 +1,6 @@
 import { models, model, Schema, Types, SchemaTypes } from 'mongoose';
 import { Adress } from 'libs/types/adress';
+import moment from 'moment';
 
 export interface IUser {
 
@@ -26,17 +27,25 @@ export interface IUser {
               // Identification string'in 11 karakterden oluştuğunu kontrol et
               return value.length === 11;
             },
-            message: '11 karakterden oluşmalıdır.'
+            message: 'invalidIdentificationString'
           }
 
       },
       firstName:{
           type: String,
           required: true,
-          index: true
+          maxlength:32,
+          index: true,
+          validate:{
+            validator: function (value : String){
+              return !(value === value.replaceAll(' ',''))
+            },
+            message:'firstNameCannotBeEmpty'
+          },
       },
       lastName:{
           type: String,
+          maxlength:32,
           required: true
       },
       email:{
@@ -49,37 +58,41 @@ export interface IUser {
               const emailRegex =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
               return emailRegex.test(value);
             },
-            message: 'Geçerli bir e-posta adresi giriniz.'
+            message: 'invalidEmail'
           }
       },
       birthDate:{
           type: Date,
           required: true,
+          validate:{
+            validator: function(value){
+                return moment().diff(value, 'years') >= 18
+            },
+            message:'mustBeOver18'
+          }
       },
       phoneNumber: {
         type: String,
         required: true,
         validate: {
           validator: function(value) {
-            // Telefon numarası geçerlilik kontrolü
             const phoneRegex = /^\d{12}$/;
             return phoneRegex.test(value);
           },
-          message: 'Geçerli bir telefon numarası giriniz.'
+          message: 'invalidPhoneNumber'
         }
       },
       password:{
           type: String,
           required: true,
           select: false,
-          minlength: 6
-
+          minlength: 6,
+          maxLength: 32
       },
       adress:{
           type: SchemaTypes.Mixed,
           required: true,
           select: true,
-
       },
       bankAccounts:[{
               type: Schema.Types.ObjectId,

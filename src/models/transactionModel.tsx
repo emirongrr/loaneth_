@@ -1,5 +1,11 @@
 import { models, model, Schema, Types } from 'mongoose';
 
+const TRANSACTION_CATEGORIES = [
+  'TRANSFER',
+  'PURCHASE',
+  'GETLOAN',
+  'PAYLOAN'
+]
 export interface Transaction{
   senderAccount: Types.ObjectId
   recipientAccount: Types.ObjectId
@@ -9,7 +15,7 @@ export interface Transaction{
   date: Date
 }
 
-const transactionSchema = new Schema({
+const transactionSchema = new Schema<Transaction>({
   senderAccount: {
     type: Schema.Types.ObjectId,
     ref: 'Account',
@@ -22,7 +28,15 @@ const transactionSchema = new Schema({
   },
   category: {
     type:String,
-    default:'Transfer'
+    default:'Transfer',
+    validate:{
+      validator: function(value){
+        if(TRANSACTION_CATEGORIES.indexOf(value) == -1)
+          return false
+        return true
+      },
+      message:'invalidCategory'
+    },
   },
   description: {
     type:String,
@@ -37,6 +51,11 @@ const transactionSchema = new Schema({
     default: Date.now
   },
   // Diğer işlem özellikleri buraya eklenebilir
+},
+{
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 const Transaction = models.Transactions || model('Transaction', transactionSchema,'transactions');

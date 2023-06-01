@@ -1,8 +1,21 @@
 import { models, model, Schema } from 'mongoose';
+
+const CURRENCIES = [
+  'USD',
+  'EUR',
+  'TL'
+]
+const ACCOUNT_TYPES = [
+  'SAVING',
+  'CHECKING',
+  'MMA',
+  'CD'
+]
 export interface Account{
   accountNumber: String
   accountType: String
   balance: Number
+  currency: String
   loan: Number
   iban: String
 }
@@ -23,13 +36,33 @@ const accountSchema = new Schema<Account>({
   },
   accountType: {
     type: String,
-    required: true
+    required: true,
+    validate:{
+      validator: function(value){
+        if(ACCOUNT_TYPES.indexOf(value) == -1)
+          return false
+        return true
+      },
+      message: 'invalidAccountType'
+    },
   },
   balance: {
     type: Number,
     required: true,
     default: 0,
     min: 0
+  },
+  currency:{
+    type: String,
+    required: true,
+    validate:{
+      validator: function(value){
+        if(CURRENCIES.indexOf(value) == -1)
+          return false
+        return true
+      },
+      message:'invalidCurrency'
+    }
   },
   loan: {
     type: Number,
@@ -51,6 +84,11 @@ const accountSchema = new Schema<Account>({
     }
   },
   // Diğer hesap özellikleri buraya eklenebilir
+},
+{
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 const Account = models.Account || model('Account', accountSchema, 'bankAccounts');

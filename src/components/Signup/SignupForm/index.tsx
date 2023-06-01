@@ -39,7 +39,7 @@ export default function SignupForm({}){
       }: any = useContext(UserContext);
       
       const router = useRouter();
-      const [operatedCountries, setOperatedCountries] = useState()
+      const [operatedCountries, setOperatedCountries] = useState<any[]>([])
       const [identificationString, setIdentificationString] = useState<string>("");
       const [firstName, setFirstName] = useState<string>("");
       const [lastName, setLastName] = useState<string>("");
