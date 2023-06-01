@@ -1,8 +1,13 @@
-import { models, model, Schema, Types } from 'mongoose';
+import { models, model, Schema } from 'mongoose';
+export interface Account{
+  accountNumber: String
+  accountType: String
+  balance: Number
+  loan: Number
+  iban: String
+}
 
-const mongoose = require('mongoose');
-
-const accountSchema = new mongoose.Schema({
+const accountSchema = new Schema<Account>({
   accountNumber: {
     type: String,
     required: true,
@@ -13,7 +18,7 @@ const accountSchema = new mongoose.Schema({
         const accountNumberRegex = /^\d{10}$/;
         return accountNumberRegex.test(value);
       },
-      message: 'Geçerli bir hesap numarası giriniz (10 rakam).'
+      message: 'invalidAccountNumber'
     }
   },
   accountType: {
@@ -42,12 +47,12 @@ const accountSchema = new mongoose.Schema({
         const ibanRegex = /^[A-Z]{2}\d{2}[A-Z\d]{4}\d{7}([A-Z\d]?){0,16}$/;
         return ibanRegex.test(value);
       },
-      message: 'Geçerli bir IBAN giriniz.'
+      message: 'invalidIBAN'
     }
   },
   // Diğer hesap özellikleri buraya eklenebilir
 });
 
-const Account = models.Account || model('Account', accountSchema,'bankAccounts');
+const Account = models.Account || model('Account', accountSchema, 'bankAccounts');
 
 export default Account

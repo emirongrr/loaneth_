@@ -1,15 +1,22 @@
 import { models, model, Schema, Types } from 'mongoose';
 
-const mongoose = require('mongoose');
+export interface Transaction{
+  senderAccount: Types.ObjectId
+  recipientAccount: Types.ObjectId
+  category: String
+  description: String
+  amount: Number
+  date: Date
+}
 
-const transactionSchema = new mongoose.Schema({
+const transactionSchema = new Schema({
   senderAccount: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Account',
     required: true
   },
   recipientAccount: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Account',
     required: true
   },
@@ -17,9 +24,9 @@ const transactionSchema = new mongoose.Schema({
     type:String,
     default:'Transfer'
   },
-  descreption: {
+  description: {
     type:String,
-    default:null
+    default:''
   },
   amount: {
     type: Number,
@@ -32,7 +39,7 @@ const transactionSchema = new mongoose.Schema({
   // Diğer işlem özellikleri buraya eklenebilir
 });
 
-const Transaction = models.Transactions || model('Transaction', transactionSchema);
+const Transaction = models.Transactions || model('Transaction', transactionSchema,'transactions');
 
 
 
