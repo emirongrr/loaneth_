@@ -40,7 +40,7 @@ export default function Spinner({ size = 'big' }: { size?: 'small' | 'big' }) {
             />
           </svg>
         )}
-        <span className="sr-only">Cargando...</span>
+        <span className="sr-only"></span>
       </div>
     </>
   );

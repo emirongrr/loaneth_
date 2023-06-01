@@ -10,9 +10,10 @@
   "blog": "Blog",
   "developers": "Developers",
   "home": "Home",
-  "learn": "Learn",
+  "learn": "Learn More",
   "go": "Go",
   "other": "Other",
   "product": "Product",
-  "useDopex": "Use BANK"
+  "useDopex": "Use BANK",
+  "trademark":"All rights reserved."
 }
