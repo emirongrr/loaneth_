@@ -1,7 +1,7 @@
 export type Adress = {
+    country : String
+    city : String
     street : String
     postalCode : String
-    city : String
-    country : String
     fullAdress : String
 }

@@ -62,7 +62,7 @@ export interface IUser {
         validate: {
           validator: function(value) {
             // Telefon numarası geçerlilik kontrolü
-            const phoneRegex = /^\d{10}$/;
+            const phoneRegex = /^\d{12}$/;
             return phoneRegex.test(value);
           },
           message: 'Geçerli bir telefon numarası giriniz.'
@@ -99,7 +99,7 @@ export interface IUser {
   }
 )
 
-const UserModel = models.User || model('User', userSchema)
+const UserModel = models.User || model('User', userSchema, 'users')
 
 export default UserModel
 

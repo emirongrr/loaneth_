@@ -5,14 +5,14 @@ import { useRouter } from 'next/router';
 export default function UniversalDatePicker(props){
     const router = useRouter()
     return(
-        <div className='w-full'>
+        <div className='w-full mt-4'>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={router?.locale}>
                 <DatePicker 
                 label={props.label}
                 className='w-full'
                 onChange={ props.onChange }
                 format={props.format}
-                />
+            />
             </LocalizationProvider>
         </div>
     )

@@ -11,6 +11,11 @@
     "LastName": "Soyisim",
     "Email" : "E-posta",
     "BirthDate": "Doğum Tarihi",
+    "AdressCountry":"Ülke",
+    "AdressPostalCode":"Posta Kodu",
+    "AdressCity":"Şehir",
+    "AdressStreet":"Sokak",
+    "Phone":"Telefon",
     "Password": "Şifre",
     "PasswordAgain": "Lütfen şifreyi tekrar girin",
     "SignupFormSubmitButton": "Kayıt Ol"

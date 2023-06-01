@@ -11,6 +11,11 @@
     "LastName": "Last Name",
     "Email" : "E-mail",
     "BirthDate": "Date of Birth",
+    "AdressCountry":"Country",
+    "AdressPostalCode":"Postal Code",
+    "AdressCity":"City",
+    "AdressStreet":"Street",
+    "Phone":"Phone",
     "Password": "Password",
     "PasswordAgain": "Please re-enter your password",
     "SignupFormSubmitButton": "Sign Up"

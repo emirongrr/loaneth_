@@ -1,6 +1,7 @@
 import * as React from 'react'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import { TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import ReactPhoneInput from 'react-phone-input-material-ui';
 import { useTranslation } from 'next-i18next';
 import isEmail from "validator/lib/isEmail";
 import { UserContext } from "contexts";
@@ -17,35 +18,59 @@ import {
 import { User } from "libs/types/user";
 import { UseIdentify } from "utils/identification";
 import UniversalDatePicker from 'components/FormObjects/UniversalDatePicker';
+import ConstructReference from 'libs/refconstructor';
+import { getOperatedCountries } from 'libs/db/getOperatedCountries';
+import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
+import { Adress } from 'libs/types/adress';
 
-export default function SignupForm(){
-    const {
+interface IOperatedCountries {
+    countryCode: String,
+    countryEnglish: String,
+    countryNative: String
+}[]
+export default function SignupForm({}){
+  const {
         isLoading,
         sessionSet,
         setIsLoading,
         setSessionSet,
         setCurrentUser,
       }: any = useContext(UserContext);
-    
+      
       const router = useRouter();
+      const [operatedCountries, setOperatedCountries] = useState()
       const [identificationString, setIdentificationString] = useState<string>("");
       const [firstName, setFirstName] = useState<string>("");
       const [lastName, setLastName] = useState<string>("");
       const [birthDate, setBirthDate] = useState<string>("");
+      const [country, setCountry] = useState<string>("")
+      const [postalCode, setPostalCode] = useState<string>("")
+      const [city, setCity] = useState<string>("")
+      const [street, setStreet] = useState<string>("")
+      const [phone, setPhone] = useState<string>("90")
       const [email, setEmail] = useState<string>("");
       const [emaileError, setEmaileError] = useState<boolean>(false);
       const [password, setPassword] = useState<string>("");
       const [passwordError, setPasswordError] = useState<boolean>(false);
       const [passwordAgain, setPasswordAgain] = useState<string>("");
-      const [passwordAgainError, setPasswordAgaineError] =
-        useState<boolean>(false);
+      const [passwordAgainError, setPasswordAgaineError] = useState<boolean>(false);
       const [agrement, setAgrement] = useState<boolean>(false);
       const [error, setError] = useState<string>("");
     
-    
       const { t } = useTranslation('signup');
     
-    
+      const fetchCountries = () => { 
+        return fetch('/api/getOperatedCountries/') 
+                .then((res) => res.json()) 
+                .then((d) => {
+                  setOperatedCountries(d)
+                  console.log(d)
+                }) 
+        }
+        useEffect(() => {
+          fetchCountries();
+        }, [])
       // Input error function
       const handleError = (value: boolean) => {
         if (value === true) return "border-red-500 border";
@@ -62,17 +87,21 @@ export default function SignupForm(){
         setPasswordError(false);
         setPasswordAgaineError(false);
         setError("");
-    
+        
+        if(setItem == setPhone){
+          setItem(e)
+          return
+        }
         if (setItem === setAgrement) {
           setItem(!agrement);
         } else {
           setItem(e.target.value);
         }
       }
-    
+
       const sendRegistration: FormEventHandler = async (e: any) => {
         e.preventDefault();
-    
+        
         // Inputs verification
         if (email === "" || email == null || !isEmail(email))
           return setEmaileError(true);
@@ -85,8 +114,23 @@ export default function SignupForm(){
           return;
         }
          // *****************************************************************
+         let adress:Adress ={
+            country,
+            city,
+            street: street.replace('\n',' '),
+            postalCode,
+            fullAdress: `${street} ${city} ${postalCode} ${country}`.replace('\n',' ')
+         }
          setIsLoading(true);
-         const user: User = { identificationString ,firstName,lastName,email,birthDate, password };
+         const user: User = { 
+          identificationString,
+          firstName,
+          lastName,
+          birthDate,
+          adress,
+          phone,
+          email,
+          password};
      
          const res: ResponseType = await UseIdentify(user, "register");
          setIsLoading(false);
@@ -104,29 +148,32 @@ export default function SignupForm(){
          }
        };
        return(
-        <section className='min-ipad:relative dark:bg-slate-900'>
+        <div className='h-full dark:bg-slate-900 mb-32'>
         <form onSubmit={sendRegistration} className='max-w-md m-auto h-max  mt-32 top-0 bottom-0 left-0 right-0' >
           <header className='px-3'>
             <h1 className='text-[28px] text-gray-400  font-bold'>{t('SignupFormHeader')}</h1>
             <p className=' text-gray-400 text-base'>{t('SignupFormHeaderSubtext')}</p>
           </header>
           <section className='mt-4 px-3'> 
-            <TextField className='border-white'
+            <TextField 
+              className='mt-2'
               label={t('IdentificationString')}
-              
               type='text'
               size='small'
               margin='dense'
+              inputProps={{maxLength: 11}}
               value={identificationString}
               onChange={(e) => handleChange(e, setIdentificationString)}
               InputProps={{
                 endAdornment: <InputAdornment position='end'><PersonRoundedIcon /></InputAdornment>
               }}
               fullWidth
-             
+             required
             />
             <TextField 
+              className='mt-2'
               label={t('FirstName')}
+              required
               type='text'
               size='small'
               margin='dense'
@@ -138,6 +185,8 @@ export default function SignupForm(){
               fullWidth
             />
              <TextField 
+              className='mt-2'
+              required
               label={t('LastName')}
               type='text'
               size='small'
@@ -150,35 +199,74 @@ export default function SignupForm(){
               fullWidth
             />            
             <UniversalDatePicker
+            required
             label={t('BirthDate')}
             format="DD/MM/YYYY"
             onChange={(newDate) => {
               setBirthDate(newDate.$d)
             }}
             />
-            <div className='border-black'>
+            <div className='mt-2'>
               <FormControl variant='filled' sx={ {minWidth:120}} size='small' margin='dense' className='w-3/12 mr-5'>
-                <InputLabel id="countrylabel">{t('Country')}</InputLabel>
+                <InputLabel id="countrylabel">{t('AdressCountry')}</InputLabel>
                 <Select 
                   labelId='countrylabel'
+                  value={country}
+                  onChange={(e) => handleChange(e, setCountry)}
                 >
-                  <MenuItem value="TR">TR</MenuItem>
+                  {
+                    operatedCountries?.operatedCountries?.map(({countryCode, countryNative}) => {
+                      return(<MenuItem key={countryCode} value={countryCode}>{countryNative}</MenuItem>)})
+                  }
                 </Select>
               </FormControl>
               <TextField
-                
-                className='mt-4 w-8/12'
-                label={t('City')}
+               className='w-8/12 mt-4'
+                label={t('AdressPostalCode')}
+                type='text'
+                margin='dense'
+                size='small'
+                value={postalCode}
+                onChange={(e) => handleChange(e, setPostalCode)}
+                ></TextField>
+            </div>
+            <TextField
+                className='mt-2'
+                label={t('AdressCity')}
                 type='text'
                 size='small'
                 margin='dense'
+                value={city}
+                onChange={(e) => handleChange(e, setCity)}
+                fullWidth
               >  
-              </TextField>
+              </TextField> 
+            <TextField
+             className='mt-2'
+              label={t('AdressStreet')}
+              type='text'
+              size='small'
+              margin='dense'
+              inputProps={{maxLength:50}}
+              multiline
+              minRows={2}
+              maxRows={2}
+              value={street}
+              onChange={(e) => handleChange(e, setStreet)}
+              fullWidth
+            >
+            </TextField>
+            <div className='mt-2'>
+              <ReactPhoneInput
+              label={t('Phone')}
+              value={phone}
+              onChange={(e) => handleChange(e, setPhone)}
+              component={TextField}/>
             </div>
              <TextField 
               className={`${handleError(
                 emaileError
-              )}`}
+              )} mt-2`}
               label={t('Email')}
               type='text'
               size='small'
@@ -191,6 +279,7 @@ export default function SignupForm(){
               fullWidth
             />                 
              <TextField 
+              className='mt-2'
               label={t('Password')}
               type='password'
               size='small'
@@ -202,7 +291,8 @@ export default function SignupForm(){
               }}
               fullWidth           
             /> 
-            <TextField 
+            <TextField
+             className='mt-2' 
              label={t('PasswordAgain')}
              type='password'
              size='small'
@@ -218,8 +308,10 @@ export default function SignupForm(){
           <section className='px-3 mt-2'>
             <button type='submit' className='mt-2 bg-gray-700 w-full py-[6px] text-lg rounded-md text-gray-400 font-medium'>{t('SignupFormSubmitButton')}</button>
           </section>
-          <div className='mt-5 mb-3 text-center text-sm text-gray-400'>{t('AlreadyHaveAnAccount')}</div>
+          <a href={ConstructReference('/login/')}>
+            <div className='mt-5 mb-3 text-center text-sm text-gray-400'>{t('AlreadyHaveAnAccount')}</div>
+          </a>
         </form>
-    </section>
+    </div>
        )
 }

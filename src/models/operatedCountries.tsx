@@ -28,8 +28,6 @@ const operatedCountriesSchema : Schema = new Schema<IOperatedCountries>({
 },
 {
     timestamps: false,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
 })
 
 const OperatedCountriesModel = models.OperatedCountries || model('OperatedCountries', operatedCountriesSchema, 'OperatedCountries')
