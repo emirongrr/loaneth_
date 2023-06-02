@@ -1,23 +1,46 @@
 
+import { useEffect, useState } from "react";
 import Chart from "../Charts";
 import { DonutChart } from "@tremor/react";
+import AccountModel, { IAccount } from "models/accountModel";
+import { BankAccount, User } from "libs/types/user";
 
-const ChartSection = () =>
-{
-    const Assets = [
-        {
-          name: "USD",
-          sales: 4567,
-        },
-        {
-          name: "TRY",
-          sales: 3908,
-        },
-        {
-          name: "EUR",
-          sales: 2400,}]
+interface ChartProps {
+    currentUser: User;
+  }
 
+const ChartSection : React.FC<ChartProps> = ({ currentUser }) =>{
+    const [accountBalances, setAccountBalances] = useState<{ name: string; sales: number }[]>([]);
 
+    useEffect(() => {
+      const fetchAccountBalances = async () => {
+        try {
+          // Assign the bank accounts of the current user to the 'accounts' variable
+          const accounts: BankAccount[] = currentUser?.bankAccounts || [];
+  
+          // Calculate the total balance for each currency
+          const currencyBalances = accounts.reduce((balances: { [currency: string]: number }, account) => {
+            if (account.currency && account.balance) {
+              balances[account.currency] = (balances[account.currency] || 0) + account.balance;
+            }
+            return balances;
+          }, {});
+  
+          // Convert the currency balances into the required format for the pie chart
+          const chartData = Object.entries(currencyBalances).map(([currency, balance]) => ({
+            name: currency,
+            sales: balance,
+          }));
+  
+          // Update the state with the account balances
+          setAccountBalances(chartData);
+        } catch (error) {
+          console.error("Error fetching account balances:", error);
+        }
+      };
+  
+      fetchAccountBalances();
+    }, [currentUser]);
     const valueFormatter = (number: number) =>
   `$ ${Intl.NumberFormat("us").format(number).toString()}`;
     return(
@@ -41,7 +64,7 @@ const ChartSection = () =>
                     <div className="flex flex-col shadow-2xl h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300">
                     <DonutChart
             className="mt-12"
-            data={Assets}
+            data={accountBalances}
             category="sales"
             index="name"
             valueFormatter={valueFormatter}

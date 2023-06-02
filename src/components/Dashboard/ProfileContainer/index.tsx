@@ -1,7 +1,5 @@
 import ConstructReference from 'libs/refconstructor';
 import {BankAccount, User} from 'libs/types/user'
-import Account, { IAccount } from 'models/accountModel';
-import UserModel, { IUser } from 'models/userModel';
 import { useRouter } from "next/router";
 
 

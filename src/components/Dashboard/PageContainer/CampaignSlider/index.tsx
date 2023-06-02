@@ -30,10 +30,16 @@ const CampaignSlider = ({ campaigns }) => {
         renderButtonGroupOutside
       >
         {campaigns.map((campaign) => (
-          <div key={campaign.id} className="p-2" >
-            <div className=" rounded-lg  p-4 h-[300px]">
-              <h3 className="text-xl font-semibold mb-2">{campaign.title}</h3>
-              <p>{campaign.description}</p>
+          <div key={campaign.id} className=" relative">
+            <div
+              className="rounded-lg p-4 h-[300px] bg-cover bg-center flex flex-col justify-center items-center"
+              style={{ backgroundImage: `url(${campaign.image})` }}
+            >
+              <div className="absolute top-0 left-0 w-full h-full bg-black opacity-10"></div>
+              <h3 className="text-2xl font-semibold text-white z-10">
+                {campaign.title}
+              </h3>
+              <p className="text-white z-10 text-center">{campaign.description}</p>
             </div>
           </div>
         ))}

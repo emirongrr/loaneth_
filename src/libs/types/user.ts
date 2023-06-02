@@ -3,26 +3,26 @@ import { Adress } from "./adress";
 import { Card } from "./card";
 
 export type User = {
-  identificationString: String
-  firstName: String
-  lastName:String
+  identificationString: string
+  firstName: string
+  lastName:string
   birthDate:Date
   adress: Adress
-  phoneNumber:String
-  email: String;
-  password: String
+  phoneNumber:string
+  email: string;
+  password: string
   cards: Card[]
   bankAccounts: BankAccount[];
   transactions: Transaction[];
   };
 
 export type  BankAccount = {
-  accountNumber: String
-  accountType: String
+  accountNumber: string
+  accountType: string
   balance: number
-  currency: String
-  loan: Number
-  iban: String
+  currency: string
+  loan: number
+  iban: string
 }
 
 export type Transaction = {
