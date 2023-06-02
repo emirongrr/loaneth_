@@ -79,8 +79,8 @@ const accountSchema = new Schema<IAccount>({
 },
 {
   timestamps: true,
-  //toJSON: { virtuals: true },
-  //toObject: { virtuals: true }
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 const AccountModel = models.Account || model('Account', accountSchema, 'bankAccounts');

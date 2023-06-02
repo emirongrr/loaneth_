@@ -1,6 +1,6 @@
 import { Card } from "libs/types/card";
 
-export default function GenerateCard(firstName, lastName, associatedBankAccount, cardLimit, type, processingMethod, allowDigitalTransactions = true){
+export default function GenerateCard(firstName, lastName, cardLimit, type, processingMethod,associatedBankAccount = null, allowDigitalTransactions = true){
     if(!firstName || !lastName || !cardLimit || !type || !processingMethod){
         return null;
     }
@@ -20,6 +20,7 @@ export default function GenerateCard(firstName, lastName, associatedBankAccount,
     if(type == 'DEBIT')
         cardLimit = -1
 
+    
     const card:Card = {
         firstName,
         lastName,

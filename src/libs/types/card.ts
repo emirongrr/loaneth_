@@ -1,14 +1,14 @@
 import { BankAccount } from "./user"
 
 export type Card = {
-    firstName:String
-    lastName:String
-    number:String
-    type:String
-    processingMethod:String
-    expireYear:String
-    expireMonth:String 
-    cvv:String
+    firstName:string
+    lastName:string
+    number:string
+    type:string
+    processingMethod:string
+    expireYear:string
+    expireMonth:string 
+    cvv:string
     allowDigitalTransactions: boolean
     cardLimit: number
     associatedBankAccount: BankAccount

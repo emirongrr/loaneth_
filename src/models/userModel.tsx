@@ -93,15 +93,15 @@ export interface IUser extends Document{
           required: true,
           select: true,
       },
-      cards:[{
+      cards: [{
         type: Schema.Types.ObjectId,
         required: false,
         ref: 'Card'
       }],
       bankAccounts:[{
-              type: Schema.Types.ObjectId,
-              required:false,
-              ref:'Account'
+            type: Schema.Types.ObjectId,
+            required:false,
+            ref:'Account'
           }
       ],
       transactions: [{
@@ -115,19 +115,14 @@ export interface IUser extends Document{
       toObject: { virtuals: true }
   }
 )
-
+/*
 userSchema.pre<IUser>('save', async function (next) {
   if (this.isNew) {
-
-    const accountNumber = generateRandomAccountNumber();
-    const iban = generateRandomIBAN(accountNumber);
-    const bankAccount = new Account({ accountType:'CHECKING', currency:"TL",accountNumber:accountNumber, iban: iban }); 
-
-    const token = createToken(this._id)
+    const token = await createToken(this._id)
     
     try {
       const headersList = {
-        Accept: "*/*",
+        Accept: "",
         "Content-Type": "application/json",
         authorization: `${token}`,
     };
@@ -139,7 +134,7 @@ userSchema.pre<IUser>('save', async function (next) {
         loan: 0,
         doCreateCard: true
       }
-      const response = await fetch('/api/accounts/createaccount/',{
+      const response = await fetch('api/accounts/createaccount',{
         method:'POST',
         headers:headersList,
         body:JSON.stringify(body)
@@ -158,7 +153,7 @@ userSchema.pre<IUser>('save', async function (next) {
     next();
   }
 });
-
+*/
 const UserModel = models.User || model('User', userSchema, 'users')
 
 export default UserModel

@@ -127,7 +127,7 @@ const CardModelSchema = new Schema<Card>({
     },
     associatedBankAccount:{
         type: Schema.Types.ObjectId,
-        required: true
+        required: false
     } 
 },
 {

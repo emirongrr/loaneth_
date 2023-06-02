@@ -4,6 +4,8 @@ import { jwtAuth } from "libs";
 import { generateRandomAccountNumber, generateRandomIBAN } from "utils/accounts/generateAccount";
 import { BankAccount } from "libs/types/user";
 import AccountModel from "models/accountModel";
+import UserModel from "models/userModel";
+import { Types } from "mongoose";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
     if(req.method != 'POST'){
@@ -12,11 +14,14 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     try{
         await mongoConnect()
-        const token = req.headers.authorization.split(" ")[1] 
+        const auth = req.headers.authorization
+        const token = auth.split(" ")[1] 
         const {ok, _id} = jwtAuth(token)
         if(!ok){
-            return res.status(401)
+            return res.status(401).send({message:"Invalid token."})
         }
+        const user = await UserModel.findById(_id)
+
         const {accountType, currency, balance, loan, doCreateCard} = req.body
         if(!accountType || !currency){
             return res.status(401).send({'message':"All fields are required."})
@@ -32,36 +37,15 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
             loan: loan || 0,
             iban
         }
-
-        const savedAccount = await AccountModel.insertMany(account)
-        if(doCreateCard){
-            const headersList = {
-                Accept: "*/*",
-                "Content-Type": "application/json",
-                authorization: `${req.headers.authorization}`,
-            };
-            const body = {
-                bankAccountId: savedAccount!._id,
-                cardLimit:-1,
-                type:'DEBIT',
-                processingMethod:'MASTERCARD'
-            }
-            const response = await fetch('/api/cards/createnewcard',{
-                method:'POST',
-                headers:headersList,
-                body:JSON.stringify(body)
-            })
-            if(response.ok){
-                return res.status(200)
-            }else{
-                return res.status(400).send(await response.json())
-            }
-        }
-
-        return res.status(200).send(savedAccount)
+        const savedAccount = await AccountModel.create(account)
+        const insertedBankAccountID = new Types.ObjectId(savedAccount._id)
+        await UserModel.findByIdAndUpdate(_id ,{ $push: { bankAccounts:insertedBankAccountID } })
+        
+        return res.status(200).send({message:"sucess",insertedBankAccountID})
 
     }
     catch(error){
-        return res.status(500).send(error)
+        console.log(error)
+        return res.status(500).send({message:"failed"})
     }
 }
