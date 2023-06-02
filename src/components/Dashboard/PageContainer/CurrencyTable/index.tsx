@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
 type CurrencyTableProps = {
   currencies: {
     name: string;
-    unit: string
+    unit: string;
     value: string;
-    type: string
+    type: string;
   }[];
 };
 
@@ -24,7 +24,9 @@ const CurrencyTable: React.FC<CurrencyTableProps> = ({ currencies }) => {
             {currencies.map((currency, index) => (
               <tr key={index}>
                 <td className="py-2 px-4 border-b ">{`${currency.unit}/₺`}</td>
-                <td className="py-2 px-4 text-right border-b">{currency.value}</td>
+                <td className="py-2 px-4 text-right border-b">
+                  {currency.value}
+                </td>
               </tr>
             ))}
           </tbody>

@@ -8,20 +8,24 @@ const INVESTORS_DATA = [
   {
     name: 'AKBNK',
     imgClasses: 'rounded-full h-16 lg:h-24',
-  },  {
-    name: 'AKBNK',
-    imgClasses: 'rounded-full h-16 lg:h-24',
-  },  {
-    name: 'AKBNK',
-    imgClasses: 'rounded-full h-16 lg:h-24',
-  },  {
+  },
+  {
     name: 'AKBNK',
     imgClasses: 'rounded-full h-16 lg:h-24',
   },
   {
     name: 'AKBNK',
     imgClasses: 'rounded-full h-16 lg:h-24',
-  },  {
+  },
+  {
+    name: 'AKBNK',
+    imgClasses: 'rounded-full h-16 lg:h-24',
+  },
+  {
+    name: 'AKBNK',
+    imgClasses: 'rounded-full h-16 lg:h-24',
+  },
+  {
     name: 'AKBNK',
     imgClasses: 'rounded-full h-16 lg:h-24',
   },

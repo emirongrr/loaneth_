@@ -1,6 +1,6 @@
-import React from "react";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import React from 'react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 const CampaignSlider = ({ campaigns }) => {
   const responsive = {
@@ -39,7 +39,9 @@ const CampaignSlider = ({ campaigns }) => {
               <h3 className="text-2xl font-semibold text-white z-10">
                 {campaign.title}
               </h3>
-              <p className="text-white z-10 text-center">{campaign.description}</p>
+              <p className="text-white z-10 text-center">
+                {campaign.description}
+              </p>
             </div>
           </div>
         ))}
@@ -47,7 +49,5 @@ const CampaignSlider = ({ campaigns }) => {
     </div>
   );
 };
-
-
 
 export default CampaignSlider;

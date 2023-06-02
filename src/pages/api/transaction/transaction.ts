@@ -3,11 +3,9 @@ import Account from 'models/accountModel';
 import Transaction from 'models/transactionModel';
 import { mongoConnect } from 'libs';
 
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await mongoConnect();
-
 
     if (req.method !== 'POST') {
       return res.status(405).json({ message: 'Method Not Allowed' });
@@ -43,7 +41,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const savedTransaction = await transaction.save();
 
-    res.status(200).json({ message: 'Para gönderme işlemi başarıyla tamamlandı', transactionId: savedTransaction._id });
+    res
+      .status(200)
+      .json({
+        message: 'Para gönderme işlemi başarıyla tamamlandı',
+        transactionId: savedTransaction._id,
+      });
   } catch (error) {
     console.error('Para gönderme işlemi başarısız:', error);
     res.status(500).json({ message: 'Internal Server Error' });

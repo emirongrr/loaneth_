@@ -14,7 +14,7 @@ const data = [
   {
     Month: 'Jan 22',
     Balances: 3890,
-  }
+  },
 ];
 
 const valueFormatter = (number: number) =>
@@ -32,6 +32,6 @@ export default function Chart() {
         colors={['green']}
         valueFormatter={valueFormatter}
       />
-      </>
+    </>
   );
 }

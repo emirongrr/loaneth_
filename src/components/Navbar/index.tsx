@@ -57,20 +57,20 @@ export default function Navbar() {
   const links = [
     { name: t('home'), to: ConstructReference('/') },
     {
-      name: t('learn'), to: ConstructReference('/learn')
+      name: t('learn'),
+      to: ConstructReference('/learn'),
     },
   ];
 
   return (
     <nav
       className={cx(
-        'flex fixed top-0 sm:px-5 w-full text-white z-50 rounded-lg overflow-hidden m-2 shadow-3xl '
-        ,
+        'flex fixed top-0 sm:px-5 w-full text-white z-50 rounded-lg overflow-hidden m-2 shadow-3xl ',
         styles.navbar
       )}
     >
       <Box className="max-w-md  mx-auto w-full flex flex-row justify-between items-center p-5 relative 2xl:max-w-6xl xl:max-w-6xl lg:max-w-4xl sm:max-w-xl sm:p-6 ">
-        <Link href={ConstructReference("/")} className="block">
+        <Link href={ConstructReference('/')} className="block">
           <Box className="flex items-center text-white flex-grow cursor-pointer hover:no-underline ">
             <img src="/svg/logo.svg" alt="logo" className="w-9" />
             <span className="ml-5 text-xl font-extrabold text-black dark:text-white font-mono">
@@ -96,9 +96,8 @@ export default function Navbar() {
           onClose={handleClose}
           classes={{ paper: 'dark:bg-cod-gray' }}
         >
-         
           {links.map((link) => {
-           /* if (link.subLinks) {
+            /* if (link.subLinks) {
               return (
                 <Box key={link.name}>
                   <Typography variant="p" className="font-bold ml-4 my-2">
@@ -136,7 +135,7 @@ export default function Navbar() {
         <Box className="invisible space-x-10 flex flex-row items-center lg:visible">
           <Box className="space-x-10 hidden sm:flex">
             {links.map((link) => {
-             /* if (link.subLinks) {
+              /* if (link.subLinks) {
                 return (
                   <NavSubMenu
                     key={link.name}

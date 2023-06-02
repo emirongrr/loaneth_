@@ -1,25 +1,33 @@
-import { User } from "libs/types/user";
+import { User } from 'libs/types/user';
 
 export const UseIdentify = async (credentials: User, url: string) => {
   const headersList = {
-    Accept: "*/*",
-    "Content-Type": "application/json",
+    Accept: '*/*',
+    'Content-Type': 'application/json',
   };
-  const { identificationString , firstName, lastName , birthDate, adress, email, password } = credentials;
-  let PhoneNumber = credentials.phoneNumber
+  const {
+    identificationString,
+    firstName,
+    lastName,
+    birthDate,
+    adress,
+    email,
+    password,
+  } = credentials;
+  let PhoneNumber = credentials.phoneNumber;
   const bodyContent = JSON.stringify({
     identificationString,
     firstName,
     lastName,
     birthDate,
     adress,
-    phoneNumber : PhoneNumber,
+    phoneNumber: PhoneNumber,
     email,
     password,
   });
   try {
     const response = await fetch(`/api/users/${url}`, {
-      method: "POST",
+      method: 'POST',
       body: bodyContent,
       headers: headersList,
     });

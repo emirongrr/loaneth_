@@ -1,4 +1,4 @@
-import validator from "validator";
+import validator from 'validator';
 
 export const validPwd = async (password: string) => {
   const response: any = validator.isStrongPassword(password, {

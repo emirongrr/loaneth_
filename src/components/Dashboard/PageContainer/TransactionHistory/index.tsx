@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 interface Transaction {
   id: number;
@@ -12,7 +12,9 @@ interface TransactionTableProps {
   transactions: Transaction[];
 }
 
-const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => {
+const TransactionTable: React.FC<TransactionTableProps> = ({
+  transactions,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const transactionsPerPage = 10;
 
@@ -73,31 +75,40 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
               className={`px-3 py-2 border rounded-l-md border-gray-300 text-sm font-medium ${
-                currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
+                currentPage === 1
+                  ? 'text-gray-400 cursor-not-allowed'
+                  : 'text-blue-500 hover:text-blue-700'
               }`}
             >
               Previous
             </button>
-            {Array.from({ length: Math.ceil(transactions.length / transactionsPerPage) }, (_, i) => i + 1).map(
-              (page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`px-3 py-2 border-t border-b border-gray-300 text-sm font-medium ${
-                    currentPage === page ? "text-blue-700 bg-blue-100" : "text-gray-700 hover:text-blue-500"
-                  }`}
-                >
-                  {page}
-                </button>
-              )
-            )}
+            {Array.from(
+              { length: Math.ceil(transactions.length / transactionsPerPage) },
+              (_, i) => i + 1
+            ).map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`px-3 py-2 border-t border-b border-gray-300 text-sm font-medium ${
+                  currentPage === page
+                    ? 'text-blue-700 bg-blue-100'
+                    : 'text-gray-700 hover:text-blue-500'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
             <button
               onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === Math.ceil(transactions.length / transactionsPerPage)}
+              disabled={
+                currentPage ===
+                Math.ceil(transactions.length / transactionsPerPage)
+              }
               className={`px-3 py-2 border rounded-r-md border-gray-300 text-sm font-medium ${
-                currentPage === Math.ceil(transactions.length / transactionsPerPage)
-                  ? "text-gray-400 cursor-not-allowed"
-                  : "text-blue-500 hover:text-blue-700"
+                currentPage ===
+                Math.ceil(transactions.length / transactionsPerPage)
+                  ? 'text-gray-400 cursor-not-allowed'
+                  : 'text-blue-500 hover:text-blue-700'
               }`}
             >
               Next

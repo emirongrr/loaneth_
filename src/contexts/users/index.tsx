@@ -1,8 +1,7 @@
-import { authenticate } from "utils/authenticate";
-import {  createContext, useEffect, useState } from "react";
-import { childrenType,UserContextType } from "interfaces";
-import {BankAccount, User} from 'libs/types/user'
-
+import { authenticate } from 'utils/authenticate';
+import { createContext, useEffect, useState } from 'react';
+import { childrenType, UserContextType } from 'interfaces';
+import { BankAccount, User } from 'libs/types/user';
 
 export const UserContext = createContext<UserContextType | {}>({
   isLoading: true,
@@ -10,20 +9,17 @@ export const UserContext = createContext<UserContextType | {}>({
   currentUser: undefined,
 });
 
-
 export const UserContextProvider = (props: childrenType) => {
   // *******************************
   const [sessionSet, setSessionSet] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<User | undefined | null>(
-    null
-  );
+  const [currentUser, setCurrentUser] = useState<User | undefined | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // controlling if user allready logged in on first load
   useEffect(() => {
     // here is the logic for controlling the user session
     async function refreshUser() {
-      const token: string | null = localStorage.getItem("token");
+      const token: string | null = localStorage.getItem('token');
       if (!token) {
         return setTimeout(() => {
           setIsLoading(false);
@@ -37,21 +33,21 @@ export const UserContextProvider = (props: childrenType) => {
       }
       //pull bankaccounts
       const headersList = {
-        Accept: "*/*",
-        "Content-Type": "application/json",
+        Accept: '*/*',
+        'Content-Type': 'application/json',
         authorization: `Bearer ${token}`,
       };
-      const res = await fetch('/api/accounts/getallbankaccounts',{
-        method: "POST",
+      const res = await fetch('/api/accounts/getallbankaccounts', {
+        method: 'POST',
         headers: headersList,
-      })
-      if(res.ok){
-        data.user.bankAccounts = []
-        const json = await res.json()
-        const c:BankAccount[] = json
-        c.forEach( account =>{
-          data.user.bankAccounts.push(account)
-        })
+      });
+      if (res.ok) {
+        data.user.bankAccounts = [];
+        const json = await res.json();
+        const c: BankAccount[] = json;
+        c.forEach((account) => {
+          data.user.bankAccounts.push(account);
+        });
       }
 
       //push into user

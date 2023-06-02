@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const uri: string | undefined =
-  process.env.MONGODB_URI;
+const uri: string | undefined = process.env.MONGODB_URI;
 
 export const mongoConnect = async () => {
   try {

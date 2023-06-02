@@ -1,6 +1,6 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
-const SECRET_KEY: string = process.env.JWT_SECRET || "";
+const SECRET_KEY: string = process.env.JWT_SECRET || '';
 
 export function jwtAuth(token: any) {
   try {

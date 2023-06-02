@@ -157,8 +157,15 @@ export default function SignupForm({}) {
     } else {
       //if account creation is sucessful create a bank account with an assoicated debit card
       var token = res.data?.token;
-      const {succes, message} = await createAccount(token,'CHECKING','TL', 500, 0, true)
-      console.log({succes,message})
+      const { succes, message } = await createAccount(
+        token,
+        'CHECKING',
+        'TL',
+        500,
+        0,
+        true
+      );
+      console.log({ succes, message });
 
       setCurrentUser(res.data?.user);
       localStorage.setItem('token', token);

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type CreditCardProps = {
   creditCardInfo: {
@@ -8,7 +8,10 @@ type CreditCardProps = {
   applyButtonVisible: boolean;
 };
 
-const CreditCard: React.FC<CreditCardProps> = ({ creditCardInfo, applyButtonVisible }) => {
+const CreditCard: React.FC<CreditCardProps> = ({
+  creditCardInfo,
+  applyButtonVisible,
+}) => {
   const { limit, availableLimit } = creditCardInfo;
 
   return (

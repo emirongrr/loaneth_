@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "contexts";
+import React, { useContext, useState } from 'react';
+import { UserContext } from 'contexts';
 
 const SendMoneyPage: React.FC = () => {
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
@@ -33,7 +33,9 @@ const SendMoneyPage: React.FC = () => {
     setSelectedAccount(event.target.value);
   };
 
-  const handleRecipientChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRecipientChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRecipient(event.target.value);
   };
 
@@ -72,7 +74,10 @@ const SendMoneyPage: React.FC = () => {
       <h1 className="text-2xl font-bold mb-4">Para Gönderme</h1>
       <form onSubmit={handleSubmit} className="w-96">
         <div className="mb-4">
-          <label htmlFor="account" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="account"
+            className="block text-sm font-medium text-gray-700"
+          >
             Hesap Seçin
           </label>
           <select
@@ -86,13 +91,17 @@ const SendMoneyPage: React.FC = () => {
             <option value="">Hesap Seçin</option>
             {sampleAccounts.map((account) => (
               <option key={account.id} value={account.accountNumber}>
-                {account.accountNumber} ({account.balance} {account.accountCurrency})
+                {account.accountNumber} ({account.balance}{' '}
+                {account.accountCurrency})
               </option>
             ))}
           </select>
         </div>
         <div className="mb-4">
-          <label htmlFor="recipient" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="recipient"
+            className="block text-sm font-medium text-gray-700"
+          >
             Alıcı
           </label>
           <input
@@ -106,7 +115,10 @@ const SendMoneyPage: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="amount"
+            className="block text-sm font-medium text-gray-700"
+          >
             Tutar
           </label>
           <input

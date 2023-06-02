@@ -17,12 +17,13 @@ const GradientText = ({ children }: { children: ReactNode }) => {
 const Introduction = () => {
   const { t } = useTranslation('home');
   const { t: tc } = useTranslation('common');
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Section className="mt-32 mb-20 md:mb-0 pt-3 sm:pt-3 md:pt-3 lg:pt-3 xl:pt-3">
       <Box className="flex flex-col items-center pt-5 px-5 md:items-center">
         <Typography variant="h1" className="mb-6 md:m-1 md:text-center">
-          <GradientText>BA</GradientText>NK <GradientText>OF</GradientText>  <GradientText>PEOP</GradientText>LE
+          <GradientText>BA</GradientText>NK <GradientText>OF</GradientText>{' '}
+          <GradientText>PEOP</GradientText>LE
         </Typography>
         <Typography variant="p" className="mb-8 md:m-1">
           {t('siteDescription')}
@@ -33,7 +34,7 @@ const Introduction = () => {
             variant="contained"
             color="primary"
             classes={{ label: 'text-lg md:text-sm' }}
-            href={ConstructReference("/dashboard/")}
+            href={ConstructReference('/dashboard/')}
           >
             {tc('useDopex')}
           </Button>
