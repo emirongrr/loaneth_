@@ -1,5 +1,5 @@
 import ConstructReference from 'libs/refconstructor';
-import {User} from 'libs/types/user'
+import {BankAccount, User} from 'libs/types/user'
 import Account, { IAccount } from 'models/accountModel';
 import UserModel, { IUser } from 'models/userModel';
 import { useRouter } from "next/router";
@@ -9,20 +9,30 @@ type ProfileContainerProps = {
     currentUser: User;
   };
 
+  const USDFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
 
 const ProfileContainer:React.FC<ProfileContainerProps> = ({currentUser}) =>
 {
     const router = useRouter()
-    const identificationString = currentUser.identificationString;
-    const populatedBankAccounts = currentUser.bankAccounts;
-    const iban = currentUser.bankAccounts[0].iban;
-
-
-
+    const mainBankAccount: BankAccount = currentUser?.bankAccounts[0]
+    let totalBalance_TL = 0
+    currentUser.bankAccounts.forEach(account =>{
+        totalBalance_TL += account.balance
+    })
 
     const copyIBAN = () => {
-        navigator.clipboard.writeText(String(iban));
-        alert("Kullanıcı adı kopyalandı!");
+        console.log(currentUser)
+        const mainBankAccountIBAN = mainBankAccount.iban
+        navigator.clipboard.writeText(String(mainBankAccountIBAN));
+        alert(String(mainBankAccountIBAN))
+        //alert("Kullanıcı adı kopyalandı!");
       };
 
     const Logout = (e: any) => {
@@ -46,7 +56,7 @@ const ProfileContainer:React.FC<ProfileContainerProps> = ({currentUser}) =>
                         </div>
                         <span>
                             <div className="grid gap-4 grid-cols-minmax-auto">
-                                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-4xl leading-12 ">{2}</div>
+                                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-4xl leading-12 ">{USDFormatter.format(totalBalance_TL)}</div>
                                 <div className={`block font-graphik text-base leading-5 font-medium tracking-tight ${-3>= 0 ? 'text-green' : 'text-red-500'}`}>2</div>
                             </div>
                         </span>

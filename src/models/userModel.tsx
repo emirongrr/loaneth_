@@ -2,7 +2,7 @@ import { models, model, Schema, Types, SchemaTypes ,Document} from 'mongoose';
 import { Adress } from 'libs/types/adress';
 import moment from 'moment';
 import Account from './accountModel';
-import { generateRandomAccountNumber, generateRandomIBAN } from 'utils/generateAccount';
+import { generateRandomAccountNumber, generateRandomIBAN } from 'utils/accounts/generateAccount';
 
 export interface IUser extends Document{
 

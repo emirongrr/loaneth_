@@ -79,10 +79,10 @@ const accountSchema = new Schema<IAccount>({
 },
 {
   timestamps: true,
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
+  //toJSON: { virtuals: true },
+  //toObject: { virtuals: true }
 });
 
-const Account = models.Account || model('Account', accountSchema, 'bankAccounts');
+const AccountModel = models.Account || model('Account', accountSchema, 'bankAccounts');
 
-export default Account
+export default AccountModel

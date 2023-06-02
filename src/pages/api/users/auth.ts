@@ -21,7 +21,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const decode: any = jwt.verify(token, SECRET_KEY);
     const { _id }: JwtPayload = decode;
     await mongoConnect();
-    const user: any = await UserModel.findOne({ _id });
+    const user: any = await UserModel.findOne({ _id })
     if (!user) return res.status(405).send({ message: `User not found!` });
     res.status(200).send({ message: "Success", user: { ...user._doc, _id: null, password: null } });
   } catch (error: any) {

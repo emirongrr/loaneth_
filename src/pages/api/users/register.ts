@@ -16,7 +16,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
   const { identificationString,firstName,lastName, email, password,phoneNumber, adress} = req.body;
   const birthDate = new Date(req.body.birthDate)
-  console.log(req.body)
   if (!identificationString || !email || !firstName|| !lastName|| !birthDate || !password || !phoneNumber || !adress)
     return res.status(401).send({ message: `All fields are required!` });
 

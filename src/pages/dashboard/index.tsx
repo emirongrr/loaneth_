@@ -26,7 +26,6 @@ function Dashboard() {
 
   return (    
     <div className="min-h-screen flex flex-col p-0 m-0  dark:bg-slate-900 ">
-
     <Head>
       <meta name="description" content={('siteDescription')} />
       <title>{('siteTitle')}</title>

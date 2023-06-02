@@ -65,7 +65,6 @@ export default function SignupForm({}){
                 .then((res) => res.json()) 
                 .then((d) => {
                   setOperatedCountries(d)
-                  console.log(d)
                 }) 
         }
         useEffect(() => {

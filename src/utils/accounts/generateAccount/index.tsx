@@ -3,7 +3,7 @@ export function generateRandomIBAN(accountNumber): string {
   const ibanLength = 26;
   const countryCode = 'TR';
   const bankCode = '00'; // Varsayılan banka kodu
-  const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const characters = '0123456789';
   let iban = '';
 
   if (accountNumber.length !== 6) {

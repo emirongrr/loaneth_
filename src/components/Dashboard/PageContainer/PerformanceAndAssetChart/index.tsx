@@ -6,10 +6,6 @@ const ChartSection = () =>
 {
     const Assets = [
         {
-          name: "Altın",
-          sales: 9800,
-        },
-        {
           name: "USD",
           sales: 4567,
         },

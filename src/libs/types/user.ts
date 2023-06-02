@@ -17,7 +17,7 @@ export type User = {
 export type  BankAccount = {
   accountNumber: String
   accountType: String
-  balance: Number
+  balance: number
   currency: String
   loan: Number
   iban: String

@@ -1,7 +1,7 @@
 import { authenticate } from "utils/authenticate";
 import {  createContext, useEffect, useState } from "react";
 import { childrenType,UserContextType } from "interfaces";
-import {User} from 'libs/types/user'
+import {BankAccount, User} from 'libs/types/user'
 
 
 export const UserContext = createContext<UserContextType | {}>({
@@ -35,6 +35,26 @@ export const UserContextProvider = (props: childrenType) => {
           setIsLoading(false);
         }, 1500);
       }
+      //pull bankaccounts
+      const headersList = {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      };
+      const res = await fetch('/api/accounts/getallbankaccounts',{
+        method: "POST",
+        headers: headersList,
+      })
+      if(res.ok){
+        data.user.bankAccounts = []
+        const json = await res.json()
+        const c:BankAccount[] = json
+        c.forEach( account =>{
+          data.user.bankAccounts.push(account)
+        })
+      }
+
+      //push into user
       setCurrentUser(data.user);
       setSessionSet(true);
       setTimeout(() => {
