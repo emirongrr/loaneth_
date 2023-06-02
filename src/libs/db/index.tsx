@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const uri: string | undefined =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/todo";
+  process.env.MONGODB_URI;
 
 export const mongoConnect = async () => {
   try {

@@ -1,8 +1,10 @@
-import { models, model, Schema, Types, SchemaTypes } from 'mongoose';
+import { models, model, Schema, Types, SchemaTypes ,Document} from 'mongoose';
 import { Adress } from 'libs/types/adress';
 import moment from 'moment';
+import Account from './accountModel';
+import { generateRandomAccountNumber, generateRandomIBAN } from 'utils/generateAccount';
 
-export interface IUser {
+export interface IUser extends Document{
 
   identificationString: String
   email: String;
@@ -29,24 +31,21 @@ export interface IUser {
             },
             message: 'invalidIdentificationString'
           }
-
       },
       firstName:{
           type: String,
           required: true,
+          minlength:1,
           maxlength:32,
           index: true,
-          validate:{
-            validator: function (value : String){
-              return !(value === value.replaceAll(' ',''))
-            },
-            message:'firstNameCannotBeEmpty'
-          },
+          trim:true,
       },
       lastName:{
           type: String,
+          minlength:1,
           maxlength:32,
-          required: true
+          required: true,
+          trim:true
       },
       email:{
           type: String,
@@ -86,8 +85,6 @@ export interface IUser {
           type: String,
           required: true,
           select: false,
-          minlength: 6,
-          maxLength: 32
       },
       adress:{
           type: SchemaTypes.Mixed,
@@ -112,9 +109,27 @@ export interface IUser {
   }
 )
 
+userSchema.pre<IUser>('save', async function (next) {
+  if (this.isNew) {
+
+    const accountNumber = generateRandomAccountNumber();
+    const iban = generateRandomIBAN(accountNumber);
+    const bankAccount = new Account({ accountType:'CHECKING', currency:"TL",accountNumber:accountNumber, iban: iban }); 
+
+    try {
+      const savedBankAccount = await bankAccount.save();
+
+      this.bankAccounts.push(savedBankAccount._id);
+
+      next();
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    next();
+  }
+});
+
 const UserModel = models.User || model('User', userSchema, 'users')
 
 export default UserModel
-
-
-

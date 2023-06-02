@@ -11,7 +11,7 @@ const ACCOUNT_TYPES = [
   'MMA',
   'CD'
 ]
-export interface Account{
+export interface IAccount{
   accountNumber: String
   accountType: String
   balance: Number
@@ -20,7 +20,7 @@ export interface Account{
   iban: String
 }
 
-const accountSchema = new Schema<Account>({
+const accountSchema = new Schema<IAccount>({
   accountNumber: {
     type: String,
     required: true,
@@ -28,7 +28,7 @@ const accountSchema = new Schema<Account>({
     validate: {
       validator: function(value) {
         // Account number'ın belirli bir formata uyduğunu kontrol et
-        const accountNumberRegex = /^\d{10}$/;
+        const accountNumberRegex = /^\d{6}$/;
         return accountNumberRegex.test(value);
       },
       message: 'invalidAccountNumber'
@@ -74,14 +74,6 @@ const accountSchema = new Schema<Account>({
     type: String,
     required: true,
     unique: true,
-    validate: {
-      validator: function(value) {
-        // IBAN'ın belirli bir formata uyduğunu kontrol et
-        const ibanRegex = /^[A-Z]{2}\d{2}[A-Z\d]{4}\d{7}([A-Z\d]?){0,16}$/;
-        return ibanRegex.test(value);
-      },
-      message: 'invalidIBAN'
-    }
   },
   // Diğer hesap özellikleri buraya eklenebilir
 },

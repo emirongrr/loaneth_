@@ -5,6 +5,7 @@ import {
   validEmail,
   validPwd,
 } from "libs";
+import { User } from "libs/types/user";
 import UserModel from "models/userModel";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -13,9 +14,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (method !== "POST")
     return res.status(401).send({ message: `Cannot ${method} at ${req.url}` });
 
-  const { identificationString,firstName,lastName, email, password,phone, adress} = req.body;
+  const { identificationString,firstName,lastName, email, password,phoneNumber, adress} = req.body;
   const birthDate = new Date(req.body.birthDate)
-  if (!identificationString || !email || !firstName|| !lastName|| !birthDate || !password || !phone || !adress)
+  console.log(req.body)
+  if (!identificationString || !email || !firstName|| !lastName|| !birthDate || !password || !phoneNumber || !adress)
     return res.status(401).send({ message: `All fields are required!` });
 
   if ((await validEmail(email)) === false || (await validPwd(password)))
@@ -35,7 +37,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       identificationString,
       firstName,
       lastName,
-      phoneNumber: phone,
+      phoneNumber,
       adress,
       email,
       birthDate,
@@ -43,6 +45,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     });
 
     const token = createToken(newUser?._id);
+
 
     res.status(200).send({
       message: "Success",

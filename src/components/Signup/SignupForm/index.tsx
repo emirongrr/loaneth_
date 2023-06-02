@@ -43,12 +43,12 @@ export default function SignupForm({}){
       const [identificationString, setIdentificationString] = useState<string>("");
       const [firstName, setFirstName] = useState<string>("");
       const [lastName, setLastName] = useState<string>("");
-      const [birthDate, setBirthDate] = useState<string>("");
+      const [birthDate, setBirthDate] = useState<Date>(new Date);
       const [country, setCountry] = useState<string>("")
       const [postalCode, setPostalCode] = useState<string>("")
       const [city, setCity] = useState<string>("")
       const [street, setStreet] = useState<string>("")
-      const [phone, setPhone] = useState<string>("90")
+      const [phoneNumber, setPhoneNumber] = useState<string>("90")
       const [email, setEmail] = useState<string>("");
       const [emaileError, setEmaileError] = useState<boolean>(false);
       const [password, setPassword] = useState<string>("");
@@ -88,7 +88,7 @@ export default function SignupForm({}){
         setPasswordAgaineError(false);
         setError("");
         
-        if(setItem == setPhone){
+        if(setItem == setPhoneNumber){
           setItem(e)
           return
         }
@@ -122,17 +122,21 @@ export default function SignupForm({}){
             fullAdress: `${street} ${city} ${postalCode} ${country}`.replace('\n',' ')
          }
          setIsLoading(true);
-         const user: User = { 
-          identificationString,
-          firstName,
-          lastName,
-          birthDate,
-          adress,
-          phone,
-          email,
-          password};
+         const user: User = {
+           identificationString,
+           firstName,
+           lastName,
+           birthDate,
+           adress,
+           phoneNumber,
+           email,
+           password,
+           bankAccounts: [],
+           transactions: []
+         };
      
          const res: ResponseType = await UseIdentify(user, "register");
+         
          setIsLoading(false);
      
          if (res.success === false || res.success === undefined) {
@@ -259,8 +263,8 @@ export default function SignupForm({}){
             <div className='mt-2'>
               <ReactPhoneInput
               label={t('Phone')}
-              value={phone}
-              onChange={(e) => handleChange(e, setPhone)}
+              value={phoneNumber}
+              onChange={(e) => handleChange(e, setPhoneNumber)}
               component={TextField}/>
             </div>
              <TextField 

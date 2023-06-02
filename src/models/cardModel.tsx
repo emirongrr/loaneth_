@@ -34,22 +34,15 @@ const CardModelSchema = new Schema<Card>({
     firstName:{
         type: String,
         required: true,
-        validate:{
-            validator: function(value : String){
-                return !(value === value.replaceAll(' ',''))
-            },
-            message:'firstNameCannotBeEmpty'
-        }
+        trim:true,
+        minlength:1,
+        maxlength:32
     },
     lastName:{
         type: String,
         required: true,
-        validate:{
-            validator: function(value : String){
-                return !(value === value.replaceAll(' ',''))
-            },
-            message:'lastNameCannotBeEmpty'
-        }
+        minlength:1,
+        maxlength:32
     },
     number:{
         type: String,

@@ -80,7 +80,7 @@ const Login: NextPage = () => {
 
     // *****************************************************************
     setIsLoading(true);
-    const user: User = { identificationString:null ,firstName:null, lastName:null, email, birthDate:null ,password };
+    const user: User = { identificationString:null ,firstName:null, lastName:null, email, birthDate:null ,phoneNumber:null,adress:null,bankAccounts:null,transactions:null,password };
 
     const res: ResponseType = await UseIdentify(user, "login");
     setIsLoading(false);

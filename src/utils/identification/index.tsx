@@ -5,14 +5,15 @@ export const UseIdentify = async (credentials: User, url: string) => {
     Accept: "*/*",
     "Content-Type": "application/json",
   };
-  const { identificationString , firstName, lastName , birthDate, adress, phone, email, password } = credentials;
+  const { identificationString , firstName, lastName , birthDate, adress, email, password } = credentials;
+  let PhoneNumber = credentials.phoneNumber
   const bodyContent = JSON.stringify({
     identificationString,
     firstName,
     lastName,
     birthDate,
     adress,
-    phone,
+    phoneNumber : PhoneNumber,
     email,
     password,
   });

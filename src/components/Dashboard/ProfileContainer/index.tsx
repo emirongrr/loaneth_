@@ -1,5 +1,7 @@
 import ConstructReference from 'libs/refconstructor';
 import {User} from 'libs/types/user'
+import Account, { IAccount } from 'models/accountModel';
+import UserModel, { IUser } from 'models/userModel';
 import { useRouter } from "next/router";
 
 
@@ -11,9 +13,15 @@ type ProfileContainerProps = {
 const ProfileContainer:React.FC<ProfileContainerProps> = ({currentUser}) =>
 {
     const router = useRouter()
+    const identificationString = currentUser.identificationString;
+    const populatedBankAccounts = currentUser.bankAccounts;
+    const iban = currentUser.bankAccounts[0].iban;
+
+
+
 
     const copyIBAN = () => {
-        navigator.clipboard.writeText(currentUser?.firstName);
+        navigator.clipboard.writeText(String(iban));
         alert("Kullanıcı adı kopyalandı!");
       };
 
@@ -34,11 +42,11 @@ const ProfileContainer:React.FC<ProfileContainerProps> = ({currentUser}) =>
                     </div>
                     <div className="grid gap-2 grid-cols-new p-0 m-0 box-border">
                         <div className="grid grid-flow-col auto-cols-new gap-1 items-center justify-start h-6">
-                            <div className="block font-graphik text-20 leading-6 font-medium text-black dark:text-white tracking-tighter text-current whitespace-nowrap">{currentUser?.firstName + currentUser?.lastName}</div>
+                            <div className="block font-graphik text-20 leading-6 font-medium text-black dark:text-white tracking-tighter text-current whitespace-nowrap"> {`${currentUser?.firstName} ${currentUser?.lastName}`}</div>
                         </div>
                         <span>
                             <div className="grid gap-4 grid-cols-minmax-auto">
-                                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-4xl leading-12 ">{currentUser?.email}</div>
+                                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-4xl leading-12 ">{2}</div>
                                 <div className={`block font-graphik text-base leading-5 font-medium tracking-tight ${-3>= 0 ? 'text-green' : 'text-red-500'}`}>2</div>
                             </div>
                         </span>
