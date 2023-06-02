@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { Adress } from "./adress";
+import { Card } from "./card";
 
 export type User = {
   identificationString: String
@@ -10,6 +11,7 @@ export type User = {
   phoneNumber:String
   email: String;
   password: String
+  cards: Card[]
   bankAccounts: BankAccount[];
   transactions: Transaction[];
   };

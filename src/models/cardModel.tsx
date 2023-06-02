@@ -6,13 +6,10 @@ const CARD_TYPES = [
 ]
 const PROCESSING_METHODS = [
     'VISA',
-    'MASTERCARD',
-    'AMERICAN EXPRESS',
-    'DISCOVER'
+    'MASTERCARD'
 ]
 
 export interface Card{
-    owner:Types.ObjectId
     firstName:String
     lastName:String
     number:String
@@ -27,10 +24,6 @@ export interface Card{
 }
 
 const CardModelSchema = new Schema<Card>({
-    owner:{
-        type: Schema.Types.ObjectId,
-        required: true
-    },
     firstName:{
         type: String,
         required: true,
@@ -143,6 +136,6 @@ const CardModelSchema = new Schema<Card>({
     toObject: { virtuals: true } 
 })
 
-const CardModel = models.CardModel || model('Card', CardModelSchema, 'cards')
+const CardModel = models.Card || model('Card', CardModelSchema, 'cards')
 
 export default CardModel

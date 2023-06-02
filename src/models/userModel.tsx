@@ -3,6 +3,7 @@ import { Adress } from 'libs/types/adress';
 import moment from 'moment';
 import Account from './accountModel';
 import { generateRandomAccountNumber, generateRandomIBAN } from 'utils/accounts/generateAccount';
+import { createToken } from 'libs';
 
 export interface IUser extends Document{
 
@@ -14,6 +15,7 @@ export interface IUser extends Document{
   phoneNumber:String
   password: String
   adress: Adress
+  cards: Types.ObjectId[]
   bankAccounts: Types.ObjectId[];
   transactions: Types.ObjectId[];
  }
@@ -91,6 +93,11 @@ export interface IUser extends Document{
           required: true,
           select: true,
       },
+      cards:[{
+        type: Schema.Types.ObjectId,
+        required: false,
+        ref: 'Card'
+      }],
       bankAccounts:[{
               type: Schema.Types.ObjectId,
               required:false,
@@ -116,11 +123,33 @@ userSchema.pre<IUser>('save', async function (next) {
     const iban = generateRandomIBAN(accountNumber);
     const bankAccount = new Account({ accountType:'CHECKING', currency:"TL",accountNumber:accountNumber, iban: iban }); 
 
+    const token = createToken(this._id)
+    
     try {
-      const savedBankAccount = await bankAccount.save();
-
-      this.bankAccounts.push(savedBankAccount._id);
-
+      const headersList = {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        authorization: `${token}`,
+    };
+      //create bank account
+      const body = {
+        accountType:'CHECKING',
+        currency:'TL',
+        balance:'500',// welcome bonus
+        loan: 0,
+        doCreateCard: true
+      }
+      const response = await fetch('/api/accounts/createaccount/',{
+        method:'POST',
+        headers:headersList,
+        body:JSON.stringify(body)
+      })
+      if(response.ok){
+        const responseAccount = await response.json()
+        this.bankAccounts.push(responseAccount._id);
+      }else{
+        throw console.error('Failed to create bank account while creating an user.');
+      }
       next();
     } catch (error) {
       next(error);
