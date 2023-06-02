@@ -2,25 +2,25 @@ import { Types } from "mongoose";
 import { Adress } from "./adress";
 
 export type User = {
-  identificationString: String
-  firstName: String
-  lastName:String
+  identificationString: string
+  firstName: string
+  lastName:string
   birthDate:Date
   adress: Adress
-  phoneNumber:String
-  email: String;
-  password: String
+  phoneNumber:string
+  email: string;
+  password: string
   bankAccounts: BankAccount[];
   transactions: Transaction[];
   };
 
 export type  BankAccount = {
-  accountNumber: String
-  accountType: String
+  accountNumber: string
+  accountType: string
   balance: number
-  currency: String
-  loan: Number
-  iban: String
+  currency: string
+  loan: number
+  iban: string
 }
 
 export type Transaction = {

@@ -1,10 +1,13 @@
+import { User } from "libs/types/user";
 import InfoBox from "./Box";
 import CampaignSlider from "./CampaignSlider";
 import ChartSection from "./PerformanceAndAssetChart";
 import TransactionHistory from "./TransactionHistory";
 
-
-const PageBody = () => {
+type PageBodyContainerProps = {
+  currentUser: User;
+};
+const PageBody : React.FC<PageBodyContainerProps> = ({ currentUser }) =>{
 
     const transactions = [
         {
@@ -85,7 +88,7 @@ const PageBody = () => {
         <div className="mx-auto px-[15p] w-full max-w-[960px] flex-grow">
             <div className="h-6 w-auto"></div>
                 <div className="grid gap-30 grid-cols-new">
-                <ChartSection/>
+                <ChartSection currentUser={currentUser}/>
                 <InfoBox/>
                 <TransactionHistory transactions={transactions}/>
                 </div>
