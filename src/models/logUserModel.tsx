@@ -1,13 +1,13 @@
 import { Schema, model, SchemaTypes, models } from 'mongoose';
-
+import { Snapshot } from 'libs/types/snapshot';
 export interface ILogUser extends Document {
-  id: string;
+  userId: string;
   snapshot: Snapshot[];
 }
 
 const logUserSchema = new Schema<ILogUser>(
   {
-    id: {
+    userId: {
       type: String,
       required: true,
     },
@@ -19,10 +19,12 @@ const logUserSchema = new Schema<ILogUser>(
   },
   {
     timestamps: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
 const LogUserModel =
-  models.LogUser || model('LogUser', logUserSchema, 'LogUserSchema');
+  models.LogUser || model('LogUser', logUserSchema, 'LogUser');
 
 export default LogUserModel;

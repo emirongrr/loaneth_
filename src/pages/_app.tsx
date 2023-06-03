@@ -6,8 +6,19 @@ import Script from 'next/script';
 import theme from '../style/muiTheme';
 import '../style/index.css';
 import { UserContextProvider } from 'contexts';
+import { CronJob } from 'cron';
 
 function App({ Component, pageProps }: AppProps) {
+  new CronJob('5 * * * * *', async function () {
+    console.log('GETTING!');
+    const response = await fetch('/api/users/loguser', {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error('Error:', error));
+    console.log('RESPONSE', response);
+  });
   return (
     <>
       <Head>

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from 'components/Navbar';
+import { User } from 'libs/types/user';
+import getlAllUsers from 'utils/apimiddlewareAdmin/getlAllUsers';
 
 const AdminPage = () => {
   const [currentUser, setCurrentUser] = useState({ role: 'admin' });
@@ -26,19 +28,15 @@ const AdminPage = () => {
     };
 
     // Örnek kullanıcılar ve başvurular verileri
-    const users = [
-      {
-        id: 1,
-        name: 'John',
-        surname: 'Doe',
-        email: 'john.doe@example.com',
-        identificationString: '1234567890',
-        userSince: '2022-01-01',
-        limit: 1000,
-        totalAssetValueInTRY: 50000,
-      },
-      // Diğer kullanıcılar
-    ];
+    const [users, setUsers] = useState<User[]>();
+    const getAllUsersData = () => {
+      return getlAllUsers(localStorage.getItem('token'))
+        .then()
+        .then((res) => setUsers(res.users));
+    };
+    useEffect(() => {
+      getAllUsersData();
+    }, []);
 
     const applications = [
       {
@@ -54,8 +52,8 @@ const AdminPage = () => {
       // Diğer başvurular
     ];
 
-    const userFilteredList = users.filter((user) =>
-      user.name.toLowerCase().includes(searchUser.toLowerCase())
+    const userFilteredList = users?.filter((user) =>
+      user?.firstName.toLowerCase().includes(searchUser.toLowerCase())
     );
 
     const applicationFilteredList = applications.filter((application) =>
@@ -68,7 +66,7 @@ const AdminPage = () => {
         <div className="p-20 dark:bg-slate-900 flex ">
           <div>
             <div className="p-20 mt-32 ">
-              <div className="flex justify-between items-center mb-8">
+              <div className="flex justify-between items-center flex mb-8">
                 <h2 className="text-2xl font-bold">Kullanıcılar</h2>
                 <input
                   type="text"
@@ -81,31 +79,27 @@ const AdminPage = () => {
               <table className="min-w-[1400px] shadow-3xl rounded-[12px] bg-white border">
                 <thead>
                   <tr className="bg-gray-100">
-                    <th className="p-4 text-left">ID</th>
                     <th className="p-4 text-left">Ad</th>
                     <th className="p-4 text-left">Soyad</th>
                     <th className="p-4 text-left">E-posta</th>
-                    <th className="p-4 text-left">userSince</th>
-                    <th className="p-4 text-left">totalAssetValueInTRY</th>
+                    <th className="p-4 text-left">phoneNumber</th>
+                    <th className="p-4 text-left">role</th>
                     <th className="p-4 text-left">Limit</th>
                     <th className="p-4 text-left">Başvuru</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {userFilteredList.map((user) => (
-                    <tr key={user.id}>
-                      <td className="p-4">{user.id}</td>
-                      <td className="p-4">{user.name}</td>
-                      <td className="p-4">{user.surname}</td>
+                  {userFilteredList?.map((user) => (
+                    <tr key={user.identificationString}>
+                      <td className="p-4">{user.firstName}</td>
+                      <td className="p-4">{user.lastName}</td>
                       <td className="p-4">{user.email}</td>
-                      <td className="p-4">{user.userSince}</td>
-                      <td className="p-4">{user.totalAssetValueInTRY}</td>
+                      <td className="p-4">{user.phoneNumber}</td>
+                      <td className="p-4">{user.role}</td>
                       <td className="p-4">
                         <input
                           type="number"
                           className="w-20 p-2 border rounded-md"
-                          value={user.limit}
-                          // Limiti güncellemek için gerekli işlemleri buraya ekleyin
                         />
                       </td>
                       <td className="p-4">

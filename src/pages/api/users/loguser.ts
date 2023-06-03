@@ -1,43 +1,54 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import LogUserModel, { ILogUser } from 'models/logUserSchema';
+import LogUserModel, { ILogUser } from 'models/logUserModel';
 import { mongoConnect } from 'libs';
-import cron from 'node-cron';
 import UserModel from 'models/userModel';
+import { BankAccount } from 'libs/types/user';
+import AccountModel from 'models/accountModel';
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    try {
-      await mongoConnect();
-      const logUsers = await LogUserModel.find({});
-      res.status(200).json(logUsers);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      res.status(500).json({ error: 'Failed to fetch data' });
-    }
-  } else {
-    res.status(405).json({ error: 'Only GET requests are supported' });
+  if (req.method != 'GET') {
+    res.status(400).send({ message: `Cannot ${req.method} at ${req.url}` });
   }
-}
-
-// Cron job for capturing snapshots every 24 hour
-cron.schedule('0 0 */1 * *', async () => {
   try {
-    const users = await UserModel.find({});
+    await mongoConnect();
+    const allUsers = await UserModel.find();
 
-    users.forEach(async (user) => {
-      const logUser = new LogUserModel({
-        id: user._id,
-        snapshot: [
-          {
-            totalAssetValue: 0,
-            date: new Date(),
-          },
-        ],
+    allUsers.forEach(async (user) => {
+      let totalValue = 0;
+      let bankAccounts: BankAccount[] = await Promise.all(
+        user.bankAccounts.map(async (_id) => {
+          return await AccountModel.findById(_id);
+        })
+      );
+
+      bankAccounts.forEach((bankAccount) => {
+        totalValue += bankAccount.balance;
       });
 
-      await logUser.save();
+      //if log exists push to snapshot
+      const logObject = await LogUserModel.findOne({ userId: user?.id });
+      if (logObject) {
+        let newSnapshot = {
+          totalAssetValue: totalValue,
+          date: new Date(),
+        };
+        logObject?.snapshot?.push(newSnapshot);
+        await logObject.save();
+      } else {
+        //if log does not exists create a snapshot
+        let LogUserObject = {
+          userId: user?._id,
+          snapshot: {
+            totalAssetValue: totalValue,
+            date: new Date(),
+          },
+        };
+        await LogUserModel.create(LogUserObject);
+      }
     });
+
+    return res.status(200).send({ message: 'Success' });
   } catch (error) {
-    console.error('Error capturing snapshot:', error);
+    return res.status(500).send({ message: error });
   }
-});
+}

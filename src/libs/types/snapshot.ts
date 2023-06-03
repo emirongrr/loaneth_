@@ -1,4 +1,4 @@
-type Snapshot = {
+export type Snapshot = {
   totalAssetValue: number;
   date: Date;
 };
