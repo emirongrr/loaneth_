@@ -8,6 +8,12 @@ import {
 } from 'utils/accounts/generateAccount';
 import { createToken } from 'libs';
 
+const ROLES = [
+  'SYSADMIN',
+  'DEVELOPER',
+  'TESTER',
+  'CUSTOMER'
+]
 export interface IUser extends Document {
   identificationString: String;
   email: String;
@@ -20,6 +26,7 @@ export interface IUser extends Document {
   cards: Types.ObjectId[];
   bankAccounts: Types.ObjectId[];
   transactions: Types.ObjectId[];
+  role: String
 }
 
 const userSchema: Schema = new Schema<IUser>(
@@ -115,6 +122,19 @@ const userSchema: Schema = new Schema<IUser>(
         ref: 'Transaction',
       },
     ],
+    role:{
+      type: String,
+      required: true,
+      default: 'CUSTOMER',
+      validate:{
+        validator: function (value){
+          if (ROLES.indexOf(value) == -1)
+            return false;
+          return true;
+        },
+        message:'invalidRole'
+      }
+    }
   },
   {
     timestamps: true,
