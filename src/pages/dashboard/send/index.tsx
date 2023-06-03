@@ -8,11 +8,16 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Grid,
+  Button,
+  Box,
+  Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import MenuItemBankAccount from 'components/MakeTransaction/MenuItemBankAccount';
 import makeTransaction from 'utils/apimiddleware/makeTransaction';
 import { createToken } from 'libs';
+import Navbar from 'components/Navbar';
 
 const SendMoneyPage: React.FC = () => {
   const { t } = useTranslation('makeTransaction');
@@ -53,76 +58,90 @@ const SendMoneyPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-8">
-      <h1 className="text-2xl font-bold mb-4">Para Gönderme</h1>
-      <form onSubmit={handleSubmit} className="w-96">
-        <div className="mb-4">
-          <FormControl variant="filled" sx={{ minWidth: 800 }} margin="dense">
-            <InputLabel id="selectAccount">{t('SenderAccount')}</InputLabel>
-            <Select
-              labelId="selectAccount"
-              value={selectedAccountIBAN}
-              onChange={(e) => handleAccountChange(e)}
-            >
-              {bankAccounts?.map((account) => {
-                return (
-                  <MenuItem key={account.iban} value={account.iban}>
-                    <MenuItemBankAccount
-                      accountNumber={account.accountNumber}
-                      iban={account.iban}
-                      balance={account.balance}
-                      currency={account.currency}
-                    ></MenuItemBankAccount>
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="recipient"
-            className="block text-sm font-medium text-gray-700"
+    <>
+      <Navbar />
+      <div className="min-h-screen dark:bg-slate-900">
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Typography
+            className="mt-32"
+            variant="h4"
+            component="h1"
+            gutterBottom
           >
-            Alıcı
-          </label>
-          <input
-            type="text"
-            id="recipient"
-            name="recipient"
-            className="mt-1 block w-full border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-            value={recipient}
-            onChange={handleRecipientChange}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="amount"
-            className="block text-sm font-medium text-gray-700"
+            {t('SendMoneyPage.title')}
+          </Typography>
+          <form
+            className="mt-20 shadow-3xl rounded-[12px]"
+            onSubmit={handleSubmit}
+            style={{ width: '24rem' }}
           >
-            Tutar
-          </label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            className="mt-1 block w-full border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-            value={amount}
-            onChange={handleAmountChange}
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={isSubmitDisabled}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Gönder
-        </button>
-      </form>
-    </div>
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item xs={12}>
+                <FormControl variant="filled" fullWidth>
+                  <InputLabel id="selectAccount">
+                    {t('SenderAccount')}
+                  </InputLabel>
+                  <Select
+                    labelId="selectAccount"
+                    value={selectedAccountIBAN}
+                    onChange={(e) => handleAccountChange(e)}
+                  >
+                    {bankAccounts?.map((account) => {
+                      return (
+                        <MenuItem key={account.iban} value={account.iban}>
+                          <MenuItemBankAccount
+                            accountNumber={account.accountNumber}
+                            iban={account.iban}
+                            balance={account.balance}
+                            currency={account.currency}
+                          />
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="recipient"
+                  name="recipient"
+                  label={t('SendMoneyPage.recipient')}
+                  variant="filled"
+                  fullWidth
+                  value={recipient}
+                  onChange={handleRecipientChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="amount"
+                  name="amount"
+                  label={t('SendMoneyPage.amount')}
+                  variant="filled"
+                  fullWidth
+                  type="number"
+                  value={amount}
+                  onChange={handleAmountChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  className="bg-slate-800"
+                  type="submit"
+                  disabled={isSubmitDisabled}
+                  variant="contained"
+                  fullWidth
+                >
+                  {t('SendMoneyPage.sendButton')}
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
+      </div>
+    </>
   );
 };
-
 export default SendMoneyPage;
