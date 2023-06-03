@@ -6,13 +6,9 @@ type CreditCardProps = {
     limit: number;
     availableLimit: number;
   };
-  applyButtonVisible: boolean;
 };
 
-const CreditCard: React.FC<CreditCardProps> = ({
-  creditCardInfo,
-  applyButtonVisible,
-}) => {
+const CreditCard: React.FC<CreditCardProps> = ({ creditCardInfo }) => {
   const { t } = useTranslation('dashboard');
   const { limit, availableLimit } = creditCardInfo;
 
@@ -27,19 +23,17 @@ const CreditCard: React.FC<CreditCardProps> = ({
                 {t('CreditCardAvailableLimit')}: {availableLimit}
               </>
             ) : (
-              <>{t('MissingCreditCard')}</>
+              <>
+                {t('MissingCreditCard')}
+                <button className="bg-blue-500 text-white rounded-full py-2 px-6 hover:bg-blue-600">
+                  {t('ApplyForCreditCard')}
+                </button>
+                <p className="text-gray-600 text-center mt-2">
+                  {t('ApplyForCreditCardDescription')}
+                </p>
+              </>
             )}
           </p>
-          {applyButtonVisible && (
-            <button className="bg-blue-500 text-white rounded-full py-2 px-6 hover:bg-blue-600">
-              {t('ApplyForCreditCard')}
-            </button>
-          )}
-          {applyButtonVisible && (
-            <p className="text-gray-600 text-center mt-2">
-              {t('ApplyForCreditCardDescription')}
-            </p>
-          )}
         </div>
       </div>
     </div>
