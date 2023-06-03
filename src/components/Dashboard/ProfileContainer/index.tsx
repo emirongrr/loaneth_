@@ -22,7 +22,7 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
   currentUser.bankAccounts.forEach((account) => {
     totalBalance_TL += account?.balance;
   });
-
+    
   const copyIBAN = () => {
     console.log(currentUser);
     const mainBankAccountIBAN = mainBankAccount.iban;

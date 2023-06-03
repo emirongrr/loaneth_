@@ -2,6 +2,7 @@ import { authenticate } from 'utils/authenticate';
 import { createContext, useEffect, useState } from 'react';
 import { childrenType, UserContextType } from 'interfaces';
 import { BankAccount, User } from 'libs/types/user';
+import { Card } from 'libs/types/card';
 
 export const UserContext = createContext<UserContextType | {}>({
   isLoading: true,
@@ -37,20 +38,33 @@ export const UserContextProvider = (props: childrenType) => {
         'Content-Type': 'application/json',
         authorization: `Bearer ${token}`,
       };
-      const res = await fetch('/api/accounts/getallbankaccounts', {
+      data.user.bankAccounts = [];
+      const responseBankAccounts = await fetch('/api/accounts/getallbankaccounts', {
         method: 'POST',
         headers: headersList,
       });
-      if (res.ok) {
-        data.user.bankAccounts = [];
-        const json = await res.json();
-        const c: BankAccount[] = json;
-        c.forEach((account) => {
+      if (responseBankAccounts.ok) {
+        const json = await responseBankAccounts.json();
+        const accounts: BankAccount[] = json;
+        accounts.forEach((account) => {
           data.user.bankAccounts.push(account);
         });
       }
-
-      //push into user
+      //pull cards
+      data.user.cards = []
+      const responseCards = await fetch('/api/cards/getallcards',{
+        method: 'POST',
+        headers:headersList
+      })
+      if(responseCards.ok){
+        const json = await responseCards.json()
+        const cards: Card[] = json
+        cards.forEach(card => {
+          data.user.cards.push(card)
+        });
+      }
+      
+      
       setCurrentUser(data.user);
       setSessionSet(true);
       setTimeout(() => {
