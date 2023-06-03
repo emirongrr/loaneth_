@@ -160,7 +160,7 @@ export default function SignupForm({}) {
       const { succes, message } = await createAccount(
         token,
         'CHECKING',
-        'TL',
+        'TRY',
         500,
         0,
         true

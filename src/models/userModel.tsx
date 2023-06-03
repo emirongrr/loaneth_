@@ -136,7 +136,7 @@ userSchema.pre<IUser>('save', async function (next) {
       //create bank account
       const body = {
         accountType:'CHECKING',
-        currency:'TL',
+        currency:'TRY',
         balance:'500',// welcome bonus
         loan: 0,
         doCreateCard: true

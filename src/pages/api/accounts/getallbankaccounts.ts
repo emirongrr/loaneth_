@@ -17,7 +17,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const token = req.headers.authorization.split(' ')[1];
     const { ok, _id } = jwtAuth(token);
     if (!ok) {
-      return res.status(401);
+      return res.status(401).send('Invalid token.');
     }
 
     const user = await UserModel.findById(_id);

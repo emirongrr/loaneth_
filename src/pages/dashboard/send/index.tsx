@@ -1,14 +1,30 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from 'contexts';
+import { BankAccount, emptyAccount } from 'libs/types/user';
+import {
+  TextField,
+  InputAdornment,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import MenuItemBankAccount from 'components/MakeTransaction/MenuItemBankAccount';
+import makeTransaction from 'utils/apimiddleware/makeTransaction';
+import { createToken } from 'libs';
 
 const SendMoneyPage: React.FC = () => {
+  const { t } = useTranslation('makeTransaction');
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
-  const [selectedAccount, setSelectedAccount] = useState<string>('');
+  const [selectedAccountIBAN, setSelectedAccountIBAN] = useState<string>('');
   const [recipient, setRecipient] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
+  const bankAccounts: BankAccount[] = currentUser?.bankAccounts;
 
-  const handleAccountChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedAccount(event.target.value);
+  const handleAccountChange = (event) => {
+    console.log(event);
+    setSelectedAccountIBAN(event.target.value);
   };
 
   const handleRecipientChange = (
@@ -23,28 +39,15 @@ const SendMoneyPage: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const response = await fetch('/api/transaction/transaction', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          senderAccount: selectedAccount,
-          recipientIban: recipient,
-          amount: amount,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Para gönderme işlemi gerçekleştirildi:', data);
-      } else {
-        console.error('Para gönderme işlemi başarısız:', response.status);
-      }
-    } catch (error) {
-      console.error('Para gönderme işlemi başarısız:', error);
-    }
+    const token = localStorage.getItem('token');
+    const { success, message } = await makeTransaction(
+      token,
+      selectedAccountIBAN,
+      recipient,
+      amount,
+      'TRANSFER'
+    );
+    alert(message);
   };
 
   return (
@@ -52,27 +55,27 @@ const SendMoneyPage: React.FC = () => {
       <h1 className="text-2xl font-bold mb-4">Para Gönderme</h1>
       <form onSubmit={handleSubmit} className="w-96">
         <div className="mb-4">
-          <label
-            htmlFor="account"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Hesap Seçin
-          </label>
-          <select
-            id="account"
-            name="account"
-            className="mt-1 block w-full border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-            value={selectedAccount}
-            onChange={handleAccountChange}
-            required
-          >
-            <option value="">Hesap Seçin</option>
-            {currentUser?.bankAccounts.map((account: any) => (
-              <option key={account.id} value={account.accountNumber}>
-                {account.accountNumber} ({account.balance} {account.currency})
-              </option>
-            ))}
-          </select>
+          <FormControl variant="filled" sx={{ minWidth: 800 }} margin="dense">
+            <InputLabel id="selectAccount">{t('SenderAccount')}</InputLabel>
+            <Select
+              labelId="selectAccount"
+              value={selectedAccountIBAN}
+              onChange={(e) => handleAccountChange(e)}
+            >
+              {bankAccounts?.map((account) => {
+                return (
+                  <MenuItem key={account.iban} value={account.iban}>
+                    <MenuItemBankAccount
+                      accountNumber={account.accountNumber}
+                      iban={account.iban}
+                      balance={account.balance}
+                      currency={account.currency}
+                    ></MenuItemBankAccount>
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
         </div>
         <div className="mb-4">
           <label

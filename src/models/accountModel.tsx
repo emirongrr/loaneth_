@@ -1,6 +1,6 @@
 import { models, model, Schema } from 'mongoose';
 
-const CURRENCIES = ['USD', 'EUR', 'TL'];
+const CURRENCIES = ['USD', 'EUR', 'TRY'];
 const ACCOUNT_TYPES = ['SAVING', 'CHECKING', 'MMA', 'CD'];
 export interface IAccount {
   accountNumber: String;
