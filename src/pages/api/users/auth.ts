@@ -23,12 +23,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     await mongoConnect();
     const user: any = await UserModel.findOne({ _id });
     if (!user) return res.status(405).send({ message: `User not found!` });
-    res
-      .status(200)
-      .send({
-        message: 'Success',
-        user: { ...user._doc, _id: null, password: null },
-      });
+    res.status(200).send({
+      message: 'Success',
+      user: { ...user._doc, _id: null, password: null },
+    });
   } catch (error: any) {
     return res.status(401).send({ message: `${error.message}` });
   }

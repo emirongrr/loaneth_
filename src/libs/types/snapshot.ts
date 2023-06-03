@@ -1,4 +1,4 @@
 type Snapshot = {
-    totalAssetValue: number,
-    date: Date
-}
+  totalAssetValue: number;
+  date: Date;
+};

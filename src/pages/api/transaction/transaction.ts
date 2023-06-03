@@ -3,7 +3,7 @@ import AccountModel from 'models/accountModel';
 import Transaction from 'models/transactionModel';
 import { mongoConnect } from 'libs';
 
-export default async function(req: NextApiRequest, res: NextApiResponse) {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     await mongoConnect();
 
@@ -15,7 +15,7 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
 
     const sender = await AccountModel.findOne({ accountNumber: senderAccount });
     console.log('req.body:', req.body);
-    
+
     if (!sender) {
       return res.status(404).json({ message: 'Gönderen hesap bulunamadı' });
     }
@@ -42,14 +42,12 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
 
     const savedTransaction = await transaction.save();
 
-    res
-      .status(200)
-      .json({
-        message: 'Para gönderme işlemi başarıyla tamamlandı',
-        transactionId: savedTransaction._id,
-      });
+    res.status(200).json({
+      message: 'Para gönderme işlemi başarıyla tamamlandı',
+      transactionId: savedTransaction._id,
+    });
   } catch (error) {
     console.error('Para gönderme işlemi başarısız:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-};
+}

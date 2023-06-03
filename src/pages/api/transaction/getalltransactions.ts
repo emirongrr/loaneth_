@@ -1,9 +1,10 @@
-import { Card } from 'libs/types/card';
+import { Transaction } from 'libs/types/user';
 import UserModel from 'models/userModel';
 import { jwtAuth } from 'libs';
 import { mongoConnect } from 'libs';
 import { NextApiRequest, NextApiResponse } from 'next';
-import CardModel from 'models/cardModel';
+import TransactionModel from 'models/transactionModel';
+
 const SECRET_KEY: string = process.env.JWT_SECRET || '';
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method != 'POST') {
@@ -22,12 +23,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     if (!user) {
       return res.status(404).send('User not found.');
     }
-    const cards: Card[] = await Promise.all(
-      user.cards.map(async (_id) => {
-        return await CardModel.findById(_id);
+    const transactions: Transaction[] = await Promise.all(
+      user.transactions.map(async (_id) => {
+        return await TransactionModel.findById(_id);
       })
     );
-    return res.status(200).send(cards);
+    return res.status(200).send(transactions);
   } catch (error) {
     return res.status(500).send(error);
   }

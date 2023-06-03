@@ -1,7 +1,7 @@
 import { BankAccount } from './user';
 
 export type Card = {
-  id: string
+  id: string;
   firstName: string;
   lastName: string;
   number: string;

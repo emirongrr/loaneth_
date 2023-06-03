@@ -38,11 +38,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         associatedBankAccount: bankAccountId,
       });
       if (doesCardExist != undefined) {
-        return res
-          .status(400)
-          .send({
-            message: 'A card already exists for specified bank account.',
-          });
+        return res.status(400).send({
+          message: 'A card already exists for specified bank account.',
+        });
       }
     }
 

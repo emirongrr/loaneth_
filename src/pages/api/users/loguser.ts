@@ -1,13 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import LogUserModel, { ILogUser }  from 'models/logUserSchema';
+import LogUserModel, { ILogUser } from 'models/logUserSchema';
 import { mongoConnect } from 'libs';
 import cron from 'node-cron';
 import UserModel from 'models/userModel';
 
-export default async function(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
       await mongoConnect();
@@ -24,22 +21,22 @@ export default async function(
 
 // Cron job for capturing snapshots every 24 hour
 cron.schedule('0 0 */1 * *', async () => {
-    try {
-        const users = await UserModel.find({});
-    
-        users.forEach(async (user) => {
-          const logUser = new LogUserModel({
-            id: user._id,
-            snapshot: [
-              {
-                totalAssetValue: 0, 
-                date: new Date(),
-              },
-            ],
-          });
-    
-          await logUser.save();
-        });
+  try {
+    const users = await UserModel.find({});
+
+    users.forEach(async (user) => {
+      const logUser = new LogUserModel({
+        id: user._id,
+        snapshot: [
+          {
+            totalAssetValue: 0,
+            date: new Date(),
+          },
+        ],
+      });
+
+      await logUser.save();
+    });
   } catch (error) {
     console.error('Error capturing snapshot:', error);
   }

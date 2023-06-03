@@ -1,24 +1,28 @@
-import { Schema, model,SchemaTypes, models } from 'mongoose';
+import { Schema, model, SchemaTypes, models } from 'mongoose';
 
 export interface ILogUser extends Document {
-    id: string;
-    snapshot: Snapshot[];
+  id: string;
+  snapshot: Snapshot[];
 }
 
-const logUserSchema = new Schema<ILogUser>({
-  id: {
-    type: String,
-    required: true,
+const logUserSchema = new Schema<ILogUser>(
+  {
+    id: {
+      type: String,
+      required: true,
+    },
+    snapshot: [
+      {
+        type: SchemaTypes.Mixed,
+      },
+    ],
   },
-  snapshot:[{
-    type: SchemaTypes.Mixed
-  }]
-},
-{ 
-    timestamps: false 
-});
+  {
+    timestamps: false,
+  }
+);
 
-const LogUserModel = models.LogUser || model('LogUser', logUserSchema,"LogUserSchema");
-
+const LogUserModel =
+  models.LogUser || model('LogUser', logUserSchema, 'LogUserSchema');
 
 export default LogUserModel;

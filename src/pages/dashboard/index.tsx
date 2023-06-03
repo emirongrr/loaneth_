@@ -9,13 +9,12 @@ import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 import { Loader } from 'components/Loader';
 
-
 function Dashboard() {
   const { t } = useTranslation('dashboard');
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
   const router = useRouter();
 
-/*  fetch('/api/users/loguser')
+  /*  fetch('/api/users/loguser')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));*/
@@ -23,7 +22,6 @@ function Dashboard() {
   if (isLoading) return <Loader />;
 
   if (!sessionSet) return router.push('/login').then(router.reload);
-
 
   return (
     <div className="min-h-screen flex flex-col p-0 m-0  dark:bg-slate-900 ">

@@ -72,7 +72,6 @@ const SendMoneyPage: React.FC = () => {
                 {account.accountNumber} ({account.balance} {account.currency})
               </option>
             ))}
-
           </select>
         </div>
         <div className="mb-4">
