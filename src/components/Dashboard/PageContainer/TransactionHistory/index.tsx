@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-
-interface Transaction {
-  id: number;
-  date: string;
-  description: string;
-  category: string;
-  amount: number;
-}
-
+import { Transaction } from 'libs/types/user';
 interface TransactionTableProps {
   transactions: Transaction[];
 }
@@ -20,7 +12,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 
   const indexOfLastTransaction = currentPage * transactionsPerPage;
   const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
-  const currentTransactions = transactions.slice(
+  let currentTransactions: Transaction[] = transactions?.slice(
     indexOfFirstTransaction,
     indexOfLastTransaction
   );
@@ -28,7 +20,6 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-
   return (
     <div className="dark:bg-slate-900 shadow-3xl rounded-[12px] text-white dark:text-white">
       <table className="min-w-full divide-y divide-gray-200">
@@ -49,10 +40,10 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {currentTransactions.map((transaction) => (
+          {currentTransactions?.map((transaction) => (
             <tr key={transaction.id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {transaction.date}
+                {String(transaction.date).replace('T', ' ').split('.')[0]}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {transaction.description}
@@ -61,7 +52,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                 {transaction.category}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-500">
-                {transaction.amount}
+                {String(transaction.amount)}
               </td>
             </tr>
           ))}
@@ -83,7 +74,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
               Previous
             </button>
             {Array.from(
-              { length: Math.ceil(transactions.length / transactionsPerPage) },
+              { length: Math.ceil(transactions?.length / transactionsPerPage) },
               (_, i) => i + 1
             ).map((page) => (
               <button
@@ -102,11 +93,11 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={
                 currentPage ===
-                Math.ceil(transactions.length / transactionsPerPage)
+                Math.ceil(transactions?.length / transactionsPerPage)
               }
               className={`px-3 py-2 border rounded-r-md border-gray-300 text-sm font-medium ${
                 currentPage ===
-                Math.ceil(transactions.length / transactionsPerPage)
+                Math.ceil(transactions?.length / transactionsPerPage)
                   ? 'text-gray-400 cursor-not-allowed'
                   : 'text-blue-500 hover:text-blue-700'
               }`}

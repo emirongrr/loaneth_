@@ -20,6 +20,7 @@ const SendMoneyPage: React.FC = () => {
   const [selectedAccountIBAN, setSelectedAccountIBAN] = useState<string>('');
   const [recipient, setRecipient] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
   const bankAccounts: BankAccount[] = currentUser?.bankAccounts;
 
   const handleAccountChange = (event) => {
@@ -38,6 +39,7 @@ const SendMoneyPage: React.FC = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setIsSubmitDisabled(true);
     event.preventDefault();
     const token = localStorage.getItem('token');
     const { success, message } = await makeTransaction(
@@ -47,7 +49,7 @@ const SendMoneyPage: React.FC = () => {
       amount,
       'TRANSFER'
     );
-    alert(message);
+    setIsSubmitDisabled(false);
   };
 
   return (
@@ -113,6 +115,7 @@ const SendMoneyPage: React.FC = () => {
         </div>
         <button
           type="submit"
+          disabled={isSubmitDisabled}
           className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Gönder

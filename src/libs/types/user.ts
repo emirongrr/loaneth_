@@ -35,10 +35,21 @@ export const emptyAccount: BankAccount = {
   iban: 'nan',
 };
 export type Transaction = {
+  id: string;
   senderAccount: BankAccount;
   recipientAccount: BankAccount;
   category: String;
   description: String;
   amount: Number;
   date: Date;
+};
+
+export const emptyTransaction: Transaction = {
+  id: 'nan',
+  senderAccount: emptyAccount,
+  recipientAccount: emptyAccount,
+  category: 'nan',
+  description: 'nan',
+  amount: 0,
+  date: new Date(),
 };

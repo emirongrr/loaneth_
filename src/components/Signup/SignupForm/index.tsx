@@ -47,10 +47,12 @@ export default function SignupForm({}) {
     setCurrentUser,
   }: any = useContext(UserContext);
   type OperatedCountries = {
-    operatedCountries: []
-  }
+    operatedCountries: [];
+  };
   const router = useRouter();
-  const [operatedCountries, setOperatedCountries] = useState<OperatedCountries>({operatedCountries:[]});
+  const [operatedCountries, setOperatedCountries] = useState<OperatedCountries>(
+    { operatedCountries: [] }
+  );
   const [identificationString, setIdentificationString] = useState<string>('');
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');

@@ -1,7 +1,7 @@
 import { models, model, Schema, Types } from 'mongoose';
 
 const TRANSACTION_CATEGORIES = ['TRANSFER', 'PURCHASE', 'GETLOAN', 'PAYLOAN'];
-export interface Transaction {
+interface ITransaction {
   senderAccount: Types.ObjectId;
   recipientAccount: Types.ObjectId;
   category: String;
@@ -10,7 +10,7 @@ export interface Transaction {
   date: Date;
 }
 
-const transactionSchema = new Schema<Transaction>(
+const transactionSchema = new Schema<ITransaction>(
   {
     senderAccount: {
       type: Schema.Types.ObjectId,

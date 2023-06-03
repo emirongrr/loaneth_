@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import AccountModel from 'models/accountModel';
-import Transaction from 'models/transactionModel';
+import { Transaction } from 'libs/types/user';
 import { mongoConnect } from 'libs';
 import { jwtAuth } from 'libs';
 import UserModel from 'models/userModel';
@@ -21,7 +21,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return res.status(401).send('Invalid token.');
     }
 
-    const user: User = await UserModel.findById(_id);
+    const user = await UserModel.findById(_id);
     if (!user) {
       return res.status(404).send('User not found.');
     }
@@ -60,24 +60,39 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     if (senderAccount.balance < amount) {
       return res.status(400).json({ message: 'Insufficient funds.' });
     }
-
-    const senderNewBalance = senderAccount.balance - amount;
-    const recipientNewBalance = recipientAccount.balance + amount;
-
+    const recipientUser = await UserModel.findOne({
+      bankAccounts: recipientAccount?._id,
+    });
     senderAccount.balance -= amount;
     recipientAccount.balance += amount;
-    const transaction = new Transaction({
+
+    const senderTransaction: Transaction = {
       senderAccount: senderAccount?._id,
       recipientAccount: recipientAccount._id,
-      amount,
+      amount: -1 * amount,
       category,
       description,
-    });
+      date: undefined,
+    };
+    const recipientTransaction = {
+      senderAccount: senderAccount?._id,
+      recipientAccount: recipientAccount._id,
+      amount: amount,
+      category,
+      description,
+      date: undefined,
+    };
+    await senderAccount.save();
+    await recipientAccount.save();
 
-    senderAccount.save();
-    recipientAccount.save();
-
-    const savedTransaction = await TransactionModel.create(transaction);
+    const savedTransaction = await TransactionModel.create(senderTransaction);
+    const savedRecTransaction = await TransactionModel.create(
+      recipientTransaction
+    );
+    await recipientUser.transactions.push(savedRecTransaction._id);
+    await user.transactions.push(savedTransaction._id);
+    await user.save();
+    await recipientUser.save();
 
     res.status(200).json({
       message: 'Transfer success.',
