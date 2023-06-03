@@ -24,7 +24,7 @@ const CampaignSlider = ({ campaigns }) => {
         responsive={responsive}
         infinite
         swipeable
-        draggable={false}
+        draggable={true}
         showDots={false}
         arrows
         renderButtonGroupOutside

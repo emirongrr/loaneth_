@@ -1,0 +1,18 @@
+{
+  "siteDescription": "Hesabınızın genel incelemesi",
+  "siteTitle": "Anasayfa | BANK OF PEOPLE",
+  "Performance": "Performans",
+  "Assets": "Varlıklar",
+  "copyIBAN": "IBAN'i Kopyala",
+  "logOut": "Çıkış Yap",
+  "TotalCreditCardLimit": "Toplam Limit",
+  "CreditCardAvailableLimit": "Kullanılabilir Limit",
+  "Currency": "Döviz",
+  "CurrencyValue": "Kur",
+  "TableDate": "İşlem Tarihi",
+  "TableDescription": "Açıklama",
+  "TableCategory": "Kategori",
+  "TableAmount": "Miktar",
+  "Previous": "Önceki",
+  "Next": "Sonraki"
+}

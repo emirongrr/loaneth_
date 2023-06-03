@@ -1,0 +1,18 @@
+{
+  "siteDescription": "Overview of your account",
+  "siteTitle": "Dashboard | BANK OF PEOPLE",
+  "Performance": "Performance",
+  "copyIBAN": "Copy IBAN",
+  "logOut": "Log Out",
+  "Assets": "Assets",
+  "TotalCreditCardLimit": "Total Limit",
+  "CreditCardAvailableLimit": "Available Limit",
+  "Currency": "Currency",
+  "CurrencyValue": "Exchange Rate",
+  "TableDate": "Date of Transaction",
+  "TableDescription": "Description",
+  "TableCategory": "Category",
+  "TableAmount": "Amount",
+  "Previous": "Previous",
+  "Next": "Next"
+}

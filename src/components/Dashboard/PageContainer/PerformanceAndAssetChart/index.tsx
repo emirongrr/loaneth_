@@ -3,12 +3,17 @@ import Chart from '../Charts';
 import { DonutChart } from '@tremor/react';
 import AccountModel, { IAccount } from 'models/accountModel';
 import { BankAccount, User } from 'libs/types/user';
+import FormatCurrency, {
+  GetFormatter,
+} from 'utils/formatters/currencyFormatters';
+import { useTranslation } from 'react-i18next';
 
 interface ChartProps {
   currentUser: User;
 }
 
 const ChartSection: React.FC<ChartProps> = ({ currentUser }) => {
+  const { t } = useTranslation('dashboard');
   const [accountBalances, setAccountBalances] = useState<
     { name: string; sales: number }[]
   >([]);
@@ -49,13 +54,13 @@ const ChartSection: React.FC<ChartProps> = ({ currentUser }) => {
     fetchAccountBalances();
   }, [currentUser]);
   const valueFormatter = (number: number) =>
-    `$ ${Intl.NumberFormat('us').format(number).toString()}`;
+    `${GetFormatter('TRY')?.format(number).toString()}`;
   return (
     <div className="grid grid-flow-col auto-cols-new gap-[30px] grid-cols-[1fr,300px] items-initial justify-initial">
       <div className="grid gap-[12px] grid-cols-new">
         <div className="grid grid-flow-col auto-cols-new gap-[8px] items-end">
           <div className="block font-graphik text-[24px] text-black dark:text-white leading-28 font-medium tracking-normal ">
-            Performance
+            {t('Performance')}
           </div>
         </div>
         <span>
@@ -67,7 +72,7 @@ const ChartSection: React.FC<ChartProps> = ({ currentUser }) => {
 
       <div className="grid gap-[12px] grid-cols-new1">
         <div className="block font-graphik text-[24px] text-black dark:text-white leading-28 font-medium tracking-normal text-current">
-          Assets
+          {t('Assets')}
         </div>
         <span>
           <div className="flex flex-col shadow-2xl h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300">

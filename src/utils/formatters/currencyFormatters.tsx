@@ -6,3 +6,12 @@ export default function FormatCurrency(value, currency) {
 
   return currencyFormatter.format(value);
 }
+
+export function GetFormatter(currency) {
+  const formatter: Intl.NumberFormat = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+  });
+
+  return formatter;
+}

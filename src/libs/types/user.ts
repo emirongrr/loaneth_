@@ -14,7 +14,7 @@ export type User = {
   cards: Card[];
   bankAccounts: BankAccount[];
   transactions: Transaction[];
-  role: string
+  role: string;
 };
 
 export type BankAccount = {

@@ -1,6 +1,8 @@
 'use client';
 
 import { Card, AreaChart, Title, Text } from '@tremor/react';
+import { useTranslation } from 'react-i18next';
+import { GetFormatter } from 'utils/formatters/currencyFormatters';
 
 const data = [
   {
@@ -18,14 +20,15 @@ const data = [
 ];
 
 const valueFormatter = (number: number) =>
-  `$ ${Intl.NumberFormat('us').format(number).toString()}`;
+  `${GetFormatter('TRY').format(number).toString()}`;
 
 export default function Chart() {
+  const { t } = useTranslation('dashboard');
   return (
     <>
       <AreaChart
         data={data}
-        categories={['Balances']}
+        categories={[t('Assets')]}
         showGridLines={false}
         showXAxis={false}
         index=""

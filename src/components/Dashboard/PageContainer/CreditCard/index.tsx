@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 type CreditCardProps = {
   creditCardInfo: {
@@ -12,6 +13,7 @@ const CreditCard: React.FC<CreditCardProps> = ({
   creditCardInfo,
   applyButtonVisible,
 }) => {
+  const { t } = useTranslation('dashboard');
   const { limit, availableLimit } = creditCardInfo;
 
   return (
@@ -21,21 +23,21 @@ const CreditCard: React.FC<CreditCardProps> = ({
           <p className="text-gray-600 text-center mb-4">
             {limit && availableLimit ? (
               <>
-                Limit: {limit} <br />
-                Available Limit: {availableLimit}
+                {t('TotalCreditCardLimit')}: {limit} <br />
+                {t('CreditCardAvailableLimit')}: {availableLimit}
               </>
             ) : (
-              "You don't have a credit card."
+              <>{t('MissingCreditCard')}</>
             )}
           </p>
           {applyButtonVisible && (
             <button className="bg-blue-500 text-white rounded-full py-2 px-6 hover:bg-blue-600">
-              Apply Now
+              {t('ApplyForCreditCard')}
             </button>
           )}
           {applyButtonVisible && (
             <p className="text-gray-600 text-center mt-2">
-              Apply for a credit card with the Apply Now button.
+              {t('ApplyForCreditCardDescription')}
             </p>
           )}
         </div>

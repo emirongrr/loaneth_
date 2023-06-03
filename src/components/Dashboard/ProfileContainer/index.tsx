@@ -1,6 +1,7 @@
 import ConstructReference from 'libs/refconstructor';
 import { BankAccount, User } from 'libs/types/user';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 import FormatCurrency from 'utils/formatters/currencyFormatters';
 
 type ProfileContainerProps = {
@@ -8,6 +9,7 @@ type ProfileContainerProps = {
 };
 
 const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
+  const { t } = useTranslation('dashboard');
   const router = useRouter();
   const mainBankAccount: BankAccount = currentUser?.bankAccounts[0];
   let totalBalance_TL = 0;
@@ -50,10 +52,11 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
             <span>
               <div className="grid gap-4 grid-cols-minmax-auto">
                 <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-4xl leading-12 ">
-                  {FormatCurrency(
-                    mainBankAccount.balance,
-                    mainBankAccount.currency
-                  )}
+                  {mainBankAccount &&
+                    FormatCurrency(
+                      mainBankAccount.balance,
+                      mainBankAccount.currency
+                    )}
                 </div>
                 <div
                   className={`block font-graphik text-base leading-5 font-medium tracking-tight ${
@@ -71,7 +74,7 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
             onClick={copyIBAN}
             className="bg-transparent text-black dark:text-white border-none outline-none"
           >
-            iban
+            {t('copyIBAN')}
           </button>
           <a
             href={ConstructReference('/dashboard/send/')}
@@ -99,7 +102,7 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
             onClick={Logout}
             className="bg-transparent border-none text-black dark:text-white outline-none"
           >
-            logout
+            {t('LogOut')}
           </button>
         </div>
       </div>

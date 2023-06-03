@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 type CurrencyTableProps = {
   currencies: {
@@ -10,14 +11,19 @@ type CurrencyTableProps = {
 };
 
 const CurrencyTable: React.FC<CurrencyTableProps> = ({ currencies }) => {
+  const { t } = useTranslation('dashboard');
   return (
     <div className="flex justify-center">
       <div className="w-[300px] h-[340px] overflow-auto">
         <table className="w-full">
           <thead>
             <tr>
-              <th className="py-2 px-4 bg-gray-100 text-left">Currency</th>
-              <th className="py-2 px-4 bg-gray-100 text-right">Value</th>
+              <th className="py-2 px-4 bg-gray-100 text-left">
+                {t('Currency')}
+              </th>
+              <th className="py-2 px-4 bg-gray-100 text-right">
+                {t('CurrencyValue')}
+              </th>
             </tr>
           </thead>
           <tbody>
