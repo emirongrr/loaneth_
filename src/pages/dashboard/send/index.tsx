@@ -7,28 +7,6 @@ const SendMoneyPage: React.FC = () => {
   const [recipient, setRecipient] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
 
-  const sampleAccounts = [
-    {
-      id: 11,
-      accountNumber: '1234567890',
-      accountType: 'Savings',
-      accountCurrency: 'USD',
-      balance: 5000,
-      loan: 0,
-      iban: 'TR330006100519786457841326',
-    },
-    {
-      id: 12,
-      accountNumber: '0987654321',
-      accountType: 'Checking',
-      accountCurrency: 'TL',
-      balance: 10000,
-      loan: 0,
-      iban: 'TR660006100519786457842135',
-    },
-    // Diğer örnek hesaplar buraya eklenebilir
-  ];
-
   const handleAccountChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedAccount(event.target.value);
   };
@@ -89,12 +67,12 @@ const SendMoneyPage: React.FC = () => {
             required
           >
             <option value="">Hesap Seçin</option>
-            {sampleAccounts.map((account) => (
+            {currentUser?.bankAccounts.map((account: any) => (
               <option key={account.id} value={account.accountNumber}>
-                {account.accountNumber} ({account.balance}{' '}
-                {account.accountCurrency})
+                {account.accountNumber} ({account.balance} {account.currency})
               </option>
             ))}
+
           </select>
         </div>
         <div className="mb-4">

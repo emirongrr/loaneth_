@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import Account from 'models/accountModel';
+import AccountModel from 'models/accountModel';
 import Transaction from 'models/transactionModel';
 import { mongoConnect } from 'libs';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function(req: NextApiRequest, res: NextApiResponse) {
   try {
     await mongoConnect();
 
@@ -13,13 +13,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { senderAccount, recipientIban, amount } = req.body;
 
-    const sender = await Account.findOne({ accountNumber: senderAccount });
-
+    const sender = await AccountModel.findOne({ accountNumber: senderAccount });
+    console.log('req.body:', req.body);
+    
     if (!sender) {
       return res.status(404).json({ message: 'Gönderen hesap bulunamadı' });
     }
 
-    const recipient = await Account.findOne({ iban: recipientIban });
+    const recipient = await AccountModel.findOne({ iban: recipientIban });
 
     if (!recipient) {
       return res.status(404).json({ message: 'Alıcı hesap bulunamadı' });
@@ -52,5 +53,3 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
-export default handler;

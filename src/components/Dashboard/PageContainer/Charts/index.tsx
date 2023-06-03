@@ -28,7 +28,7 @@ export default function Chart() {
         categories={['Balances']}
         showGridLines={false}
         showXAxis={false}
-        index="Month"
+        index=""
         colors={['green']}
         valueFormatter={valueFormatter}
       />
