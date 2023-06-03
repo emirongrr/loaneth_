@@ -12,6 +12,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.7.0",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.14",
@@ -26,6 +27,7 @@
     "@tremor/react": "^2.8.3",
     "bcrypt": "^5.1.0",
     "dayjs": "^1.11.7",
+    "framer-motion": "^10.12.16",
     "i18next": "^22.4.9",
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
