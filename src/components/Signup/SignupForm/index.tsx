@@ -46,9 +46,11 @@ export default function SignupForm({}) {
     setSessionSet,
     setCurrentUser,
   }: any = useContext(UserContext);
-
+  type OperatedCountries = {
+    operatedCountries: []
+  }
   const router = useRouter();
-  const [operatedCountries, setOperatedCountries] = useState<any[]>([]);
+  const [operatedCountries, setOperatedCountries] = useState<OperatedCountries>({operatedCountries:[]});
   const [identificationString, setIdentificationString] = useState<string>('');
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
