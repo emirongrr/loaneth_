@@ -3,8 +3,13 @@ import CampaignSlider from '../CampaignSlider';
 import CreditCard from '../CreditCard';
 import CurrencyTable from '../CurrencyTable';
 import TransactionHistory from '../TransactionHistory';
+import { User } from 'libs/types/user';
+import { Card } from 'libs/types/card';
+type InfoBoxProps = {
+  currentUser: User;
+};
 
-const InfoBox = () => {
+const InfoBox: React.FC<InfoBoxProps> = ({ currentUser }) => {
   const [filteredCurrencies, setFilteredCurrencies] = useState<
     {
       name: string;
@@ -13,7 +18,9 @@ const InfoBox = () => {
       type: string;
     }[]
   >([]);
-
+  const creditCard: Card = currentUser?.cards?.find((card) => {
+    return card.type == 'CREDIT';
+  });
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,10 +61,6 @@ const InfoBox = () => {
 
     fetchData();
   }, []);
-  const creditCardInfo = {
-    limit: undefined,
-    availableLimit: 2500,
-  };
 
   const campaigns = [
     {
@@ -89,7 +92,7 @@ const InfoBox = () => {
         <a>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[30px]">
             <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-2xl backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300 w-[300px] mb-4">
-              <CreditCard creditCardInfo={creditCardInfo} />
+              <CreditCard creditCard={creditCard} />
             </div>
             <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-2xl backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300 w-[300px] mb-4">
               <CampaignSlider campaigns={campaigns} />

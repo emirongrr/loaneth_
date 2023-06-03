@@ -31,6 +31,7 @@ export default function GenerateCard(
   if (type == 'DEBIT') cardLimit = -1;
 
   const card: Card = {
+    id: undefined,
     firstName,
     lastName,
     number: cardNumber,
@@ -41,6 +42,7 @@ export default function GenerateCard(
     cvv,
     allowDigitalTransactions,
     cardLimit,
+    maxCardLimit: cardLimit,
     associatedBankAccount,
   };
 

@@ -93,9 +93,11 @@ const Login: NextPage = () => {
       birthDate: null,
       phoneNumber: null,
       adress: null,
+      cards: null,
       bankAccounts: null,
       transactions: null,
       password,
+      role: null,
     };
 
     const res: ResponseType = await UseIdentify(user, 'login');

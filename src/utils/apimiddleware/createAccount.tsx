@@ -26,7 +26,8 @@ export default async function (
     body: JSON.stringify(body),
   });
   if (!response.ok) {
-    return { succes: false, smessage: 'Failed to create bank account.' };
+    const data = await response.json();
+    return { success: false, message: data?.message };
   }
   const data = await response.json();
   const insertedAccountID = data?.insertedBankAccountID;

@@ -14,11 +14,11 @@ export default async function (token) {
     method: 'POST',
     headers: headersList,
   });
-
   if (response.ok) {
     const transactions: Transaction[] = await response.json();
     return { success: true, transactions };
   } else {
-    return { success: false };
+    const data = await response.json();
+    return { success: false, message: data?.message };
   }
 }

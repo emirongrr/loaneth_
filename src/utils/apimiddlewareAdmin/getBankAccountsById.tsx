@@ -1,28 +1,21 @@
-export default async function (
-  token,
-  cardLimit,
-  type,
-  processingMethod,
-  associatedBankAccount = undefined
-) {
+export default async function (token, userId) {
   const headersList = {
     Accept: '*/*',
     'Content-Type': 'application/json',
     authorization: `Bearer ${token}`,
   };
   const body = {
-    cardLimit,
-    type,
-    processingMethod,
-    associatedBankAccount,
+    userId,
   };
-  const response = await fetch('/api/cards/createnewcard', {
+  const response = await fetch('/api/admin/getBankAccountsById', {
     method: 'POST',
     headers: headersList,
     body: JSON.stringify(body),
   });
+
   if (response.ok) {
-    return { success: true };
+    const data = await response.json();
+    return { success: true, user: data?.user };
   } else {
     const data = await response.json();
     return { success: false, message: data?.message };

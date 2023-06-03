@@ -16,12 +16,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const token = req.headers.authorization.split(' ')[1];
     const { ok, _id } = jwtAuth(token);
     if (!ok) {
-      return res.status(401).send('Invalid token.');
+      return res.status(401).send({ message: 'Invalid token.' });
     }
 
     const user = await UserModel.findById(_id);
     if (!user) {
-      return res.status(404).send('User not found.');
+      return res.status(404).send({ message: 'User not found.' });
     }
     const transactions: Transaction[] = await Promise.all(
       user.transactions.map(async (_id) => {

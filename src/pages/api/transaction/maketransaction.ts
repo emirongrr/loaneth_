@@ -18,12 +18,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const token = req.headers.authorization.split(' ')[1];
     const { ok, _id } = jwtAuth(token);
     if (!ok) {
-      return res.status(401).send('Invalid token.');
+      return res.status(401).send({ message: 'Invalid token.' });
     }
 
     const user = await UserModel.findById(_id);
     if (!user) {
-      return res.status(404).send('User not found.');
+      return res.status(404).send({ message: 'User not found.' });
     }
     const {
       senderAccountIBAN,
@@ -37,14 +37,14 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       iban: senderAccountIBAN,
     });
     if (!senderAccount) {
-      return res.status(401).send('Bad request.');
+      return res.status(401).send({ message: 'Bad request.' });
     }
 
     const isAuthorized = user.bankAccounts.find((id) => {
       return id == senderAccount.id;
     });
     if (!isAuthorized) {
-      return res.status(401).send('Unauthorized request.');
+      return res.status(401).send({ message: 'Unauthorized request.' });
     }
     const recipientAccount = await AccountModel.findOne({
       iban: recipientAccountIBAN,
@@ -67,6 +67,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     recipientAccount.balance += amount;
 
     const senderTransaction: Transaction = {
+      id: undefined,
       senderAccount: senderAccount?._id,
       recipientAccount: recipientAccount._id,
       amount: -1 * amount,
@@ -99,7 +100,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       transactionId: savedTransaction._id,
     });
   } catch (error) {
-    console.error('Para gönderme işlemi başarısız:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: error });
   }
 }

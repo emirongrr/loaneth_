@@ -136,45 +136,7 @@ const userSchema: Schema = new Schema<IUser>(
     toObject: { virtuals: true },
   }
 );
-/*
-userSchema.pre<IUser>('save', async function (next) {
-  if (this.isNew) {
-    const token = await createToken(this._id)
-    
-    try {
-      const headersList = {
-        Accept: "",
-        "Content-Type": "application/json",
-        authorization: `${token}`,
-    };
-      //create bank account
-      const body = {
-        accountType:'CHECKING',
-        currency:'TRY',
-        balance:'500',// welcome bonus
-        loan: 0,
-        doCreateCard: true
-      }
-      const response = await fetch('api/accounts/createaccount',{
-        method:'POST',
-        headers:headersList,
-        body:JSON.stringify(body)
-      })
-      if(response.ok){
-        const responseAccount = await response.json()
-        this.bankAccounts.push(responseAccount._id);
-      }else{
-        throw console.error('Failed to create bank account while creating an user.');
-      }
-      next();
-    } catch (error) {
-      next(error);
-    }
-  } else {
-    next();
-  }
-});
-*/
+
 const UserModel = models.User || model('User', userSchema, 'users');
 
 export default UserModel;

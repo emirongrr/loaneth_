@@ -24,9 +24,10 @@ export default async function (
     body: JSON.stringify(body),
   });
   if (response.ok) {
-    return { success: true, message: 'success' };
+    const data = await response.json();
+    return { success: true, message: data?.message };
   } else {
     const data = await response.json();
-    return { success: false, message: data };
+    return { success: false, message: data?.message };
   }
 }

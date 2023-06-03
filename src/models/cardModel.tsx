@@ -14,6 +14,7 @@ export interface Card {
   cvv: String;
   allowDigitalTransactions: boolean;
   cardLimit: number;
+  maxCardLimit: number;
   associatedBankAccount: Types.ObjectId;
 }
 
@@ -108,6 +109,11 @@ const CardModelSchema = new Schema<Card>(
       default: true,
     },
     cardLimit: {
+      type: Number,
+      required: true,
+      default: -1,
+    },
+    maxCardLimit: {
       type: Number,
       required: true,
       default: -1,

@@ -12,5 +12,6 @@ export type Card = {
   cvv: string;
   allowDigitalTransactions: boolean;
   cardLimit: number;
+  maxCardLimit: number;
   associatedBankAccount: BankAccount;
 };

@@ -24,6 +24,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     }
 
     const user = await UserModel.findById(_id);
+    if (!user) {
+      return res.status(404).send({ message: 'User not found.' });
+    }
     const { firstName, lastName } = user;
     const {
       bankAccountId,

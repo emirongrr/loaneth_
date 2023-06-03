@@ -20,7 +20,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     const user = await UserModel.findById(_id);
     if (!user) {
-      return res.status(404).send('User not found.');
+      return res.status(404).send({ message: 'User not found.' });
     }
     const cards: Card[] = await Promise.all(
       user.cards.map(async (_id) => {
@@ -29,6 +29,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     );
     return res.status(200).send(cards);
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(500).send({ message: error });
   }
 }

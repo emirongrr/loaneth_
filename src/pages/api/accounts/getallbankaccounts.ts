@@ -17,12 +17,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const token = req.headers.authorization.split(' ')[1];
     const { ok, _id } = jwtAuth(token);
     if (!ok) {
-      return res.status(401).send('Invalid token.');
+      return res.status(401).send({ message: 'Invalid token.' });
     }
 
     const user = await UserModel.findById(_id);
     if (!user) {
-      return res.status(404).send('User not found.');
+      return res.status(404).send({ message: 'User not found.' });
     }
     const accounts: BankAccount[] = await Promise.all(
       user.bankAccounts.map(async (_id) => {
@@ -31,6 +31,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     );
     return res.status(200).send(accounts);
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(500).send({ message: error });
   }
 }

@@ -148,6 +148,7 @@ export default function SignupForm({}) {
       cards: [],
       bankAccounts: [],
       transactions: [],
+      role: undefined,
     };
 
     const res: ResponseType = await UseIdentify(user, 'register');
@@ -161,7 +162,7 @@ export default function SignupForm({}) {
     } else {
       //if account creation is sucessful create a bank account with an assoicated debit card
       var token = res.data?.token;
-      const { succes, message } = await createAccount(
+      const { success, message } = await createAccount(
         token,
         'CHECKING',
         'TRY',
@@ -169,7 +170,7 @@ export default function SignupForm({}) {
         0,
         true
       );
-      console.log({ succes, message });
+      console.log({ success, message });
 
       setCurrentUser(res.data?.user);
       localStorage.setItem('token', token);
