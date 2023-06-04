@@ -1,12 +1,16 @@
-export default async function (token) {
+export default async function (token,applicationId) {
     const headersList = {
       Accept: '*/*',
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     };
+    const body = {
+      applicationId
+    }
     const response = await fetch('/api/admin/rejectCreditCardApplication', {
       method: 'POST',
       headers: headersList,
+      body: JSON.stringify(body)
     });
   
     if (response.ok) {

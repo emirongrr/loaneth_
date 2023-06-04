@@ -2,12 +2,14 @@ import { User } from 'libs/types/user';
 import { useEffect, useState } from 'react';
 import getAllApplicationsToObject from 'utils/apimiddlewareAdmin/getAllApplicationsToObject';
 import { useTranslation } from 'next-i18next';
+import approveCreditCardApplication from 'utils/apimiddlewareAdmin/approveCreditCardApplication';
+import rejectCreditCardApplication from 'utils/apimiddlewareAdmin/rejectCreditCardApplication';
 
 export default function (props) {
   const { t } = useTranslation('admin');
   const [searchApplication, setSearchApplication] = useState('');
   const [cardLimit, setCardLimit] = useState<string>('');
-  const applications = props?.applications;
+  let applications = props?.applications;
 
   const handleApplicationSearch = (e) => {
     setSearchApplication(e.target.value);
@@ -20,6 +22,26 @@ export default function (props) {
   const handleLimitChange = (e) => {
     setCardLimit(e?.target?.value);
   };
+
+  const handleApproveButtonClick = async (id) => {
+    let resp = await approveCreditCardApplication(localStorage.getItem('token'),id,5000)
+    if(resp.success){
+      //if successfull remove row from table
+      let res = await getAllApplicationsToObject(localStorage.getItem('token'))
+      applications = res?.allApplications
+    }
+    console.log(resp)
+  }
+
+  const handleRejectButtonClick = async (id) =>{
+    let resp = await rejectCreditCardApplication(localStorage.getItem('token'), id)
+    if(resp.success){
+      let res = await getAllApplicationsToObject(localStorage.getItem('token'))
+      applications = res?.allApplications
+    }
+    console.log(resp)
+  }
+
   return (
     <div key="applicationsss" className="relative h-full w-full">
       <h2 className="text-2xl font-bold">Bekleyen Başvurular</h2>
@@ -58,12 +80,17 @@ export default function (props) {
               </td>
               <td className="p-4">{application?.totalAssetValueInTRY}</td>
               <td className="p-4">
-                <button className="px-4 py-2 mr-2 text-sm font-medium text-white bg-green rounded-md hover:bg-green-600">
+                <button
+                  className="px-4 py-2 mr-2 text-sm font-medium text-white bg-green rounded-md hover:bg-green-600"
+                  onClick={(e) =>handleApproveButtonClick(application?.id)}
+                >
                   Onayla
                 </button>
               </td>
               <td className="p-4">
-                <button className="px-4 py-2 mr-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600">
+                <button className="px-4 py-2 mr-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600"
+                onClick={(e) => handleRejectButtonClick(application?.id)}
+                >
                   Reddet
                 </button>
               </td>
