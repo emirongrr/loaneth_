@@ -11,8 +11,8 @@ export default async function (token) {
     headers: headersList,
   });
   if (response.ok) {
-    const snapshotsarr: Snapshot[] = await response.json();
-    return { success: true, snapshots: snapshotsarr };
+    const { success, snapshots } = await response.json();
+    return { success: true, snapshots };
   } else {
     const data = await response.json();
     return { success: false, message: data?.message };

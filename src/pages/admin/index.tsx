@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Navbar from 'components/Navbar';
 import { User } from 'libs/types/user';
-import getlAllUsers from 'utils/apimiddlewareAdmin/getlAllUsers';
 import getAllUsersToObject from 'utils/apimiddlewareAdmin/getAllUsersToObject';
 import UsersComponent from 'components/Admin/UsersComponent';
 import ApplicationsComponent from 'components/Admin/ApplicationsComponent';
 import getAllApplicationsToObject from 'utils/apimiddlewareAdmin/getAllApplicationsToObject';
+import { UserContext } from 'contexts';
+import { Loader } from 'components/Loader';
 
 type AdminApplication = {
   id: string;
@@ -19,7 +20,7 @@ type AdminApplication = {
 };
 
 const AdminPage = () => {
-  const [currentUser, setCurrentUser] = useState({ role: 'ADMIN' });
+  const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
   const [users, setUsers] = useState<User[]>();
   const [applications, setApplications] = useState<AdminApplication[]>();
 
@@ -33,11 +34,11 @@ const AdminPage = () => {
         console.log(res?.allApplications);
       });
   };
+
   useEffect(() => {
     fetchApplications();
   }, []);
 
-  // Örnek kullanıcılar ve başvurular verileri
   const getAllUsersData = () => {
     return getAllUsersToObject(localStorage.getItem('token'))
       .then()
@@ -53,7 +54,7 @@ const AdminPage = () => {
   }, []);
 
   const requireAdmin = () => {
-    if (currentUser.role !== 'ADMIN') {
+    if (currentUser?.role !== 'ADMIN') {
       return (
         <div>
           <p>Admin sayfasına erişim izniniz yok.</p>

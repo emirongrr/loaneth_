@@ -105,7 +105,7 @@ function generate(bin, length) {
 
 function getCheckDigit(number) {
   var sum = 0,
-    module,
+    modMa,
     checkDigit;
 
   for (var i = 0; i < number.length; i++) {
@@ -120,8 +120,8 @@ function getCheckDigit(number) {
     sum += digit;
   }
 
-  module = parseInt(String(sum)) % 10;
-  checkDigit = module === 0 ? 0 : 10 - module;
+  modMa = parseInt(String(sum)) % 10;
+  checkDigit = modMa === 0 ? 0 : 10 - modMa;
 
   return checkDigit;
 }

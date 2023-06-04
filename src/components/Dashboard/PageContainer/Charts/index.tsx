@@ -28,7 +28,10 @@ export default function Chart() {
   const getSnapshotsAsync = () => {
     return getSnapshots(localStorage.getItem('token'))
       .then()
-      .then((res) => setSnapshots(res?.snapshots?.snapshots));
+      .then((res) => {
+        setSnapshots(res?.snapshots);
+        console.log(res);
+      });
   };
   useEffect(() => {
     getSnapshotsAsync();

@@ -72,7 +72,11 @@ export default function UserList(props) {
                 <StyledTableCell>{user.phoneNumber}</StyledTableCell>
                 <StyledTableCell>{user.role}</StyledTableCell>
                 <StyledTableCell>
-                  <input type="number" className="w-20 p-2 border rounded-md" />
+                  <input
+                    type="number"
+                    className="w-20 p-2 border rounded-md"
+                    value={user?.cards[1]?.maxCardLimit}
+                  />
                 </StyledTableCell>
                 <StyledTableCell>
                   <button className="px-4 py-2 mr-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600">

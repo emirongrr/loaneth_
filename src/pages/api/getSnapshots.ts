@@ -21,9 +21,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     if (!logUser) {
       return res.status(404).send({ message: 'User log not found.' });
     }
-    const snapshots: Snapshot[] = await logUser?.snapshot;
+    const snapshots = logUser?.snapshot;
 
-    return res.status(200).send({ snapshots: snapshots });
+    return res.status(200).send({ snapshots });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: error });

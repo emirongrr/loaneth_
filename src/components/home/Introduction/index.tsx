@@ -36,7 +36,7 @@ const Introduction = () => {
             classes={{ label: 'text-lg md:text-sm' }}
             href={ConstructReference('/dashboard/')}
           >
-            {tc('useDopex')}
+            {tc('getStarted')}
           </Button>
         </Box>
       </Box>

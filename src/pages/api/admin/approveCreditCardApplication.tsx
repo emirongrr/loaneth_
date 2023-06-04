@@ -45,11 +45,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     }
     const user = await UserModel.findById(application.userId);
     if (!user) {
-      return res
-        .status(404)
-        .send({
-          message: "Could'nt find the user assoicated with the application.",
-        });
+      return res.status(404).send({
+        message: "Could'nt find the user assoicated with the application.",
+      });
     }
     const { firstName, lastName } = user;
     const cardObj = GenerateCard(

@@ -86,13 +86,20 @@ const Login: NextPage = () => {
     // *****************************************************************
     setIsLoading(true);
     const user: User = {
-      identificationString: null,
-      firstName: null,
-      lastName: null,
+      id: '',
+      identificationString: '',
+      firstName: '',
+      lastName: '',
       email,
-      birthDate: null,
-      phoneNumber: null,
-      adress: null,
+      birthDate: new Date(),
+      phoneNumber: '',
+      adress: {
+        country: '',
+        city: '',
+        street: '',
+        postalCode: '',
+        fullAdress: '',
+      },
       cards: null,
       bankAccounts: null,
       transactions: null,

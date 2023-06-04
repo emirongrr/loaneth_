@@ -37,9 +37,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function ApplicationsList(props) {
   const { t } = useTranslation('admin');
   const [searchApplication, setSearchApplication] = useState('');
-  const [cardLimit, setCardLimit] = useState("");
+  const [cardLimit, setCardLimit] = useState('');
   const [applications, setApplications] = useState<AdminApplication[]>([]);
   const [loading, setLoading] = useState(true);
+  const ProcessedApplicationsId = [];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,10 +66,12 @@ export default function ApplicationsList(props) {
     setSearchApplication(e.target.value);
   };
 
-  const applicationFilteredList = applications?.filter((application) =>
-    application?.firstName
-      .toLowerCase()
-      .includes(searchApplication.toLowerCase())
+  const applicationFilteredList = applications?.filter(
+    (application) =>
+      !ProcessedApplicationsId.includes(application?.id) &&
+      application?.firstName
+        .toLowerCase()
+        .includes(searchApplication.toLowerCase())
   );
 
   const handleLimitChange = (e) => {
@@ -87,8 +90,8 @@ export default function ApplicationsList(props) {
         localStorage.getItem('token')
       );
       setApplications(res?.allApplications);
+      ProcessedApplicationsId.push(id);
     }
-    console.log(resp);
   };
 
   const handleRejectButtonClick = async (id) => {
@@ -102,8 +105,8 @@ export default function ApplicationsList(props) {
         localStorage.getItem('token')
       );
       setApplications(res?.allApplications);
+      ProcessedApplicationsId.push(id);
     }
-    console.log(resp);
   };
 
   if (loading) {

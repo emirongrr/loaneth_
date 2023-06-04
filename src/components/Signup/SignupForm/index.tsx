@@ -171,13 +171,6 @@ export default function SignupForm({}) {
         0,
         true
       );
-      try{
-          if(!success){
-            return setError(String(message) || 'Please try again, or reload the page.')
-          }
-      }catch(error){
-        console.error()
-      }
 
       setCurrentUser(res.data?.user);
       localStorage.setItem('token', token);

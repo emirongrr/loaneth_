@@ -12,12 +12,19 @@ import {
   Button,
   Box,
   Typography,
+  SelectChangeEvent,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import MenuItemBankAccount from 'components/MakeTransaction/MenuItemBankAccount';
 import makeTransaction from 'utils/apimiddleware/makeTransaction';
-import { createToken } from 'libs';
 import Navbar from 'components/Navbar';
+import Toast from 'components/Toast';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+interface IError {
+  message: string;
+  show: boolean;
+}
 
 const SendMoneyPage: React.FC = () => {
   const { t } = useTranslation('makeTransaction');
@@ -26,10 +33,18 @@ const SendMoneyPage: React.FC = () => {
   const [recipient, setRecipient] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
+  const [recipientError, setRecipientError] = useState<boolean>(false);
   const bankAccounts: BankAccount[] = currentUser?.bankAccounts;
+  const [showSuccessToast, setShowSuccessToast] = useState<IError>({
+    message: '',
+    show: false,
+  });
+  const [showErrorToast, setShowErrorToast] = useState<IError>({
+    message: '',
+    show: false,
+  });
 
-  const handleAccountChange = (event) => {
-    console.log(event);
+  const handleAccountChange = (event: SelectChangeEvent<string>) => {
     setSelectedAccountIBAN(event.target.value);
   };
 
@@ -43,9 +58,13 @@ const SendMoneyPage: React.FC = () => {
     setAmount(parseFloat(event.target.value));
   };
 
+  const handleError = (value: boolean) => {
+    if (value === true) return 'border-red-500 border';
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    setIsSubmitDisabled(true);
     event.preventDefault();
+    setIsSubmitDisabled(true);
     const token = localStorage.getItem('token');
     const { success, message } = await makeTransaction(
       token,
@@ -54,7 +73,20 @@ const SendMoneyPage: React.FC = () => {
       amount,
       'TRANSFER'
     );
+    if (success) {
+      setShowSuccessToast({ message: message, show: true });
+    } else {
+      setShowErrorToast({ message: message, show: true });
+    }
     setIsSubmitDisabled(false);
+  };
+
+  const hideSuccessToast = () => {
+    setShowSuccessToast({ ...showSuccessToast, show: false });
+  };
+
+  const hideErrorToast = () => {
+    setShowErrorToast({ ...showErrorToast, show: false });
   };
 
   return (
@@ -79,12 +111,12 @@ const SendMoneyPage: React.FC = () => {
               <Grid item xs={12}>
                 <FormControl variant="filled" fullWidth>
                   <InputLabel id="selectAccount">
-                    {t('SenderAccount')}
+                    {t('SendMoneyPage.sender')}
                   </InputLabel>
                   <Select
                     labelId="selectAccount"
                     value={selectedAccountIBAN}
-                    onChange={(e) => handleAccountChange(e)}
+                    onChange={handleAccountChange}
                   >
                     {bankAccounts?.map((account) => {
                       return (
@@ -111,6 +143,9 @@ const SendMoneyPage: React.FC = () => {
                   value={recipient}
                   onChange={handleRecipientChange}
                   required
+                  className={`bg-gray-100 outline-none flex-1 ${handleError(
+                    recipientError
+                  )}`}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -139,9 +174,35 @@ const SendMoneyPage: React.FC = () => {
               </Grid>
             </Grid>
           </form>
+          <Toast
+            show={showSuccessToast.show}
+            title="Transaction Successful"
+            message={showSuccessToast.message}
+            onClose={hideSuccessToast}
+            variant="success"
+            closeAfter={2000}
+          />
+
+          <Toast
+            show={showErrorToast.show}
+            title="Transaction Failed"
+            message={showErrorToast.message}
+            onClose={hideErrorToast}
+            variant="error"
+            closeAfter={2000}
+          />
         </Box>
       </div>
     </>
   );
 };
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'makeTransaction'])),
+    },
+  };
+}
+
 export default SendMoneyPage;

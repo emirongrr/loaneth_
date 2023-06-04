@@ -32,7 +32,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       category,
       description,
     } = req.body;
-
+    if (amount && amount <= 0) {
+      return res
+        .status(401)
+        .send({ message: 'Transfer amount must be bigger than 0.' });
+    }
     const senderAccount = await AccountModel.findOne({
       iban: senderAccountIBAN,
     });
