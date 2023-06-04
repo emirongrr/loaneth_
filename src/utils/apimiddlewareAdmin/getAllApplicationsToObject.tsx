@@ -1,7 +1,7 @@
 import getAllApplications from './getAllApplications';
 import getUserById from './getUserById';
 
-export default async function (token) {
+export default async function getAllApplicationsToObject(token) {
   const headersList = {
     Accept: '*/*',
     'Content-Type': 'application/json',
@@ -12,13 +12,14 @@ export default async function (token) {
   if (!res_applications.success) {
     return { success: false, message: res_applications?.message };
   }
-  let non_applications = res_applications?.applications;
-  let applications = [];
-  non_applications.forEach(async (appl) => {
-    let userRes = await getUserById(token, appl?.userId);
+
+  const non_applications = res_applications?.applications;
+
+  const applicationPromises = non_applications.map(async (appl) => {
+    const userRes = await getUserById(token, appl?.userId);
     if (userRes.success) {
-      let user = userRes?.user;
-      applications.push({
+      const user = userRes?.user;
+      return {
         id: appl.id,
         userId: user.id,
         userSince: appl.userSince,
@@ -27,8 +28,11 @@ export default async function (token) {
         lastName: user.lastName,
         email: user.email,
         phoneNumber: user.phoneNumber,
-      });
+      };
     }
   });
-  return { success: true, allApplications: applications };
+
+  const applications = await Promise.all(applicationPromises);
+
+  return { success: true, allApplications: applications.filter(Boolean) };
 }

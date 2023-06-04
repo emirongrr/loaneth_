@@ -137,6 +137,7 @@ export default function SignupForm({}) {
     };
     setIsLoading(true);
     const user: User = {
+      id: undefined,
       identificationString,
       firstName,
       lastName,

@@ -31,42 +31,53 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return res.status(401).send({ message: 'Authorization failed.' });
     }
 
-    const {applicationId, limit} = req.body
+    const { applicationId, limit } = req.body;
 
-
-    if(!applicationId){
-        return res.status(401).send({message: 'All fields are required.'})
+    if (!applicationId) {
+      return res.status(401).send({ message: 'All fields are required.' });
     }
 
-    const application = await CreditCardApplicationModel.findById(applicationId)
-    if(!application){
-        return res.status(404).send({message: 'Application not found.'})
+    const application = await CreditCardApplicationModel.findById(
+      applicationId
+    );
+    if (!application) {
+      return res.status(404).send({ message: 'Application not found.' });
     }
-    const user = await UserModel.findById(application.userId)
-    if(!user){
-        return res.status(404).send({message:'Could\'nt find the user assoicated with the application.'})
+    const user = await UserModel.findById(application.userId);
+    if (!user) {
+      return res
+        .status(404)
+        .send({
+          message: "Could'nt find the user assoicated with the application.",
+        });
     }
-    const { firstName, lastName } = user
-    const cardObj = GenerateCard(firstName, lastName, limit, 'CREDIT', 'MASTERCARD')
-    const card = await CardModel.create(cardObj)
+    const { firstName, lastName } = user;
+    const cardObj = GenerateCard(
+      firstName,
+      lastName,
+      limit,
+      'CREDIT',
+      'MASTERCARD'
+    );
+    const card = await CardModel.create(cardObj);
     const insertedCardID: Types.ObjectId = new Types.ObjectId(card._id);
-    
+
     await UserModel.findByIdAndUpdate(user._id, {
-        $push: { cards: insertedCardID },
+      $push: { cards: insertedCardID },
     });
 
     const creditCardHistory = {
-        userId: (application.userId),
-        userSince: (application.userSince),
-        totalAssetValueInTRY: (application.totalAssetValueInTRY),
-        assignedLimit: limit,
-        isApproved: true
-    }
-    await CreditCardApplicationHistoryModel.create(creditCardHistory)
-    await CreditCardApplicationModel.findByIdAndDelete(application._id)
-    
-    return res.status(200).send({message:"Success", card:card})
-} catch (error) {
+      userId: application.userId,
+      userSince: application.userSince,
+      totalAssetValueInTRY: application.totalAssetValueInTRY,
+      assignedLimit: limit,
+      isApproved: true,
+    };
+    await CreditCardApplicationHistoryModel.create(creditCardHistory);
+    await CreditCardApplicationModel.findByIdAndDelete(application._id);
+
+    return res.status(200).send({ message: 'Success', card: card });
+  } catch (error) {
     console.log(error);
     return res.status(500).send({ message: error });
   }

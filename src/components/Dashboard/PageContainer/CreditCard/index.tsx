@@ -53,8 +53,10 @@ const CreditCard: React.FC<CreditCardProps> = ({ creditCard }) => {
           <p className="text-gray-600 text-center m-4">
             {creditCard ? (
               <>
-                {t('TotalCreditCardLimit')}: {FormatCurrency(creditCard.maxCardLimit,'TRY')} <br />
-                {t('CreditCardAvailableLimit')}: {FormatCurrency(creditCard.cardLimit, 'TRY')}
+                {t('TotalCreditCardLimit')}:{' '}
+                {FormatCurrency(creditCard.maxCardLimit, 'TRY')} <br />
+                {t('CreditCardAvailableLimit')}:{' '}
+                {FormatCurrency(creditCard.cardLimit, 'TRY')}
               </>
             ) : (
               <>
