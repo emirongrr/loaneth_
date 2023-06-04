@@ -6,6 +6,7 @@ import ApplyForCreditCard from 'utils/apimiddleware/applyforCreditCard';
 import hasCreditCardApplication from 'utils/apimiddleware/hasCreditCardApplication';
 import { useState } from 'react';
 import { IError } from 'pages/login';
+import FormatCurrency from 'utils/formatters/currencyFormatters';
 
 type CreditCardProps = {
   creditCard: Card;
@@ -52,8 +53,8 @@ const CreditCard: React.FC<CreditCardProps> = ({ creditCard }) => {
           <p className="text-gray-600 text-center m-4">
             {creditCard ? (
               <>
-                {t('TotalCreditCardLimit')}: {creditCard.maxCardLimit} <br />
-                {t('CreditCardAvailableLimit')}: {creditCard.cardLimit}
+                {t('TotalCreditCardLimit')}: {FormatCurrency(creditCard.maxCardLimit,'TRY')} <br />
+                {t('CreditCardAvailableLimit')}: {FormatCurrency(creditCard.cardLimit, 'TRY')}
               </>
             ) : (
               <>
