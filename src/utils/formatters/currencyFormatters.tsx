@@ -1,4 +1,7 @@
 export default function FormatCurrency(value, currency) {
+  if(!currency){
+    currency = 'TRY'
+  }
   let currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,
