@@ -12,6 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import { CreditCard } from 'react-feather';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.MuiTableCell-head`]: {
@@ -36,7 +37,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function ApplicationsList(props) {
   const { t } = useTranslation('admin');
   const [searchApplication, setSearchApplication] = useState('');
-  const [cardLimit, setCardLimit] = useState('');
+  const [cardLimit, setCardLimit] = useState("");
   const [applications, setApplications] = useState<AdminApplication[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -78,7 +79,7 @@ export default function ApplicationsList(props) {
     const resp = await approveCreditCardApplication(
       localStorage.getItem('token'),
       id,
-      5000
+      parseInt(cardLimit)
     );
     if (resp.success) {
       // After approving the application, update the table
