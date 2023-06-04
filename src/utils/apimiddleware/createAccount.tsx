@@ -27,6 +27,9 @@ export default async function (
   });
   if (!response.ok) {
     const data = await response.json();
+    await fetch('/api/users/loguser', {
+      method: 'GET',
+    });
     return { success: false, message: data?.message };
   }
   const data = await response.json();

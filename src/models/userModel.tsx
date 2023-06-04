@@ -8,7 +8,7 @@ import {
 } from 'utils/accounts/generateAccount';
 import { createToken } from 'libs';
 
-const ROLES = ['SYSADMIN', 'DEVELOPER', 'TESTER', 'CUSTOMER'];
+const ROLES = ['ADMIN', 'DEVELOPER', 'TESTER', 'CUSTOMER'];
 export interface IUser extends Document {
   identificationString: String;
   email: String;
