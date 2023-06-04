@@ -8,10 +8,9 @@ import ConstructReference from 'libs/refconstructor';
 import Section from 'components/UI/Section';
 import Typography from 'components/UI/Typography';
 
-import styles from './styles.module.scss';
 
 const GradientText = ({ children }: { children: ReactNode }) => {
-  return <span className={styles.textGradient}>{children}</span>;
+  return <span className="color-aqua">{children}</span>;
 };
 
 const Introduction = () => {
