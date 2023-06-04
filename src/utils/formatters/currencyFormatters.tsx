@@ -8,6 +8,9 @@ export default function FormatCurrency(value, currency) {
 }
 
 export function GetFormatter(currency) {
+  if (!currency) {
+    currency = 'TRY';
+  }
   const formatter: Intl.NumberFormat = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,

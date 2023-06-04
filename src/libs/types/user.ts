@@ -3,6 +3,7 @@ import { Adress } from './adress';
 import { Card } from './card';
 
 export type User = {
+  id: string;
   identificationString: string;
   firstName: string;
   lastName: string;

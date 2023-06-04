@@ -7,7 +7,7 @@ export default async function (token, userId) {
   const body = {
     userId,
   };
-  const response = await fetch('/api/admin/getBankAccountsById', {
+  const response = await fetch('/api/admin/getAllCardsById', {
     method: 'POST',
     headers: headersList,
     body: JSON.stringify(body),
@@ -15,7 +15,7 @@ export default async function (token, userId) {
 
   if (response.ok) {
     const data = await response.json();
-    return { success: true, bankAccounts: data?.bankAccounts };
+    return { success: true, cards: data?.cards };
   } else {
     const data = await response.json();
     return { success: false, message: data?.message };

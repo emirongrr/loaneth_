@@ -2,8 +2,7 @@ import { mongoConnect } from 'libs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { jwtAuth } from 'libs';
 import UserModel from 'models/userModel';
-import { BankAccount } from 'libs/types/user';
-import AccountModel from 'models/accountModel';
+import CreditCardApplicationModel from 'models/creditCardApplicationModel';
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method != 'POST') {
@@ -27,20 +26,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     if (requser?.role != 'ADMIN') {
       return res.status(401).send({ message: 'Authorization failed.' });
     }
-    const { userId } = req.body;
-    const user = await UserModel.findById(userId);
 
-    if (!user) {
-      return res.status(404).send({ message: 'User not found.' });
-    }
-
-    const accounts: BankAccount[] = await Promise.all(
-      user.bankAccounts.map(async (_id) => {
-        return await AccountModel.findById(_id);
-      })
-    );
-
-    return res.status(200).send({ bankAccounts: accounts });
+    const applications = await CreditCardApplicationModel.find();
+    return res.status(200).send({ applications: applications });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: error });

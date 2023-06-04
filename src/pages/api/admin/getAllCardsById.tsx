@@ -2,8 +2,8 @@ import { mongoConnect } from 'libs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { jwtAuth } from 'libs';
 import UserModel from 'models/userModel';
-import { BankAccount } from 'libs/types/user';
-import AccountModel from 'models/accountModel';
+import { Card } from 'libs/types/card';
+import CardModel from 'models/cardModel';
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method != 'POST') {
@@ -34,13 +34,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return res.status(404).send({ message: 'User not found.' });
     }
 
-    const accounts: BankAccount[] = await Promise.all(
-      user.bankAccounts.map(async (_id) => {
-        return await AccountModel.findById(_id);
+    const cards: Card[] = await Promise.all(
+      user.cards.map(async (_id) => {
+        return await CardModel.findById(_id);
       })
     );
 
-    return res.status(200).send({ bankAccounts: accounts });
+    return res.status(200).send({ cards: cards });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: error });
