@@ -1,39 +1,56 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "contexts";
+import React, { useContext, useState } from 'react';
+import { UserContext } from 'contexts';
+import { BankAccount, emptyAccount } from 'libs/types/user';
+import {
+  TextField,
+  InputAdornment,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Grid,
+  Button,
+  Box,
+  Typography,
+  SelectChangeEvent,
+} from '@mui/material';
+import { useTranslation } from 'next-i18next';
+import MenuItemBankAccount from 'components/MakeTransaction/MenuItemBankAccount';
+import makeTransaction from 'utils/apimiddleware/makeTransaction';
+import Navbar from 'components/Navbar';
+import Toast from 'components/Toast';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+interface IError {
+  message: string;
+  show: boolean;
+}
 
 const SendMoneyPage: React.FC = () => {
+  const { t } = useTranslation('makeTransaction');
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
-  const [selectedAccount, setSelectedAccount] = useState<string>('');
+  const [selectedAccountIBAN, setSelectedAccountIBAN] = useState<string>('');
   const [recipient, setRecipient] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
+  const [recipientError, setRecipientError] = useState<boolean>(false);
+  const bankAccounts: BankAccount[] = currentUser?.bankAccounts;
+  const [showSuccessToast, setShowSuccessToast] = useState<IError>({
+    message: '',
+    show: false,
+  });
+  const [showErrorToast, setShowErrorToast] = useState<IError>({
+    message: '',
+    show: false,
+  });
 
-  const sampleAccounts = [
-    {
-      id: 11,
-      accountNumber: '1234567890',
-      accountType: 'Savings',
-      accountCurrency: 'USD',
-      balance: 5000,
-      loan: 0,
-      iban: 'TR330006100519786457841326',
-    },
-    {
-      id: 12,
-      accountNumber: '0987654321',
-      accountType: 'Checking',
-      accountCurrency: 'TL',
-      balance: 10000,
-      loan: 0,
-      iban: 'TR660006100519786457842135',
-    },
-    // Diğer örnek hesaplar buraya eklenebilir
-  ];
-
-  const handleAccountChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedAccount(event.target.value);
+  const handleAccountChange = (event: SelectChangeEvent<string>) => {
+    setSelectedAccountIBAN(event.target.value);
   };
 
-  const handleRecipientChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRecipientChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRecipient(event.target.value);
   };
 
@@ -41,93 +58,151 @@ const SendMoneyPage: React.FC = () => {
     setAmount(parseFloat(event.target.value));
   };
 
+  const handleError = (value: boolean) => {
+    if (value === true) return 'border-red-500 border';
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const response = await fetch('/api/transaction/transaction', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          senderAccount: selectedAccount,
-          recipientIban: recipient,
-          amount: amount,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Para gönderme işlemi gerçekleştirildi:', data);
-      } else {
-        console.error('Para gönderme işlemi başarısız:', response.status);
-      }
-    } catch (error) {
-      console.error('Para gönderme işlemi başarısız:', error);
+    setIsSubmitDisabled(true);
+    const token = localStorage.getItem('token');
+    const { success, message } = await makeTransaction(
+      token,
+      selectedAccountIBAN,
+      recipient,
+      amount,
+      'TRANSFER'
+    );
+    if (success) {
+      setShowSuccessToast({ message: message, show: true });
+    } else {
+      setShowErrorToast({ message: message, show: true });
     }
+    setIsSubmitDisabled(false);
+  };
+
+  const hideSuccessToast = () => {
+    setShowSuccessToast({ ...showSuccessToast, show: false });
+  };
+
+  const hideErrorToast = () => {
+    setShowErrorToast({ ...showErrorToast, show: false });
   };
 
   return (
-    <div className="flex flex-col items-center mt-8">
-      <h1 className="text-2xl font-bold mb-4">Para Gönderme</h1>
-      <form onSubmit={handleSubmit} className="w-96">
-        <div className="mb-4">
-          <label htmlFor="account" className="block text-sm font-medium text-gray-700">
-            Hesap Seçin
-          </label>
-          <select
-            id="account"
-            name="account"
-            className="mt-1 block w-full border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-            value={selectedAccount}
-            onChange={handleAccountChange}
-            required
+    <>
+      <Navbar />
+      <div className="min-h-screen dark:bg-slate-900">
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Typography
+            className="mt-32"
+            variant="h4"
+            component="h1"
+            gutterBottom
           >
-            <option value="">Hesap Seçin</option>
-            {sampleAccounts.map((account) => (
-              <option key={account.id} value={account.accountNumber}>
-                {account.accountNumber} ({account.balance} {account.accountCurrency})
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="recipient" className="block text-sm font-medium text-gray-700">
-            Alıcı
-          </label>
-          <input
-            type="text"
-            id="recipient"
-            name="recipient"
-            className="mt-1 block w-full border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-            value={recipient}
-            onChange={handleRecipientChange}
-            required
+            {t('SendMoneyPage.title')}
+          </Typography>
+          <form
+            className="mt-20 shadow-3xl rounded-[12px]"
+            onSubmit={handleSubmit}
+            style={{ width: '24rem' }}
+          >
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item xs={12}>
+                <FormControl variant="filled" fullWidth>
+                  <InputLabel id="selectAccount">
+                    {t('SendMoneyPage.sender')}
+                  </InputLabel>
+                  <Select
+                    labelId="selectAccount"
+                    value={selectedAccountIBAN}
+                    onChange={handleAccountChange}
+                  >
+                    {bankAccounts?.map((account) => {
+                      return (
+                        <MenuItem key={account.iban} value={account.iban}>
+                          <MenuItemBankAccount
+                            accountNumber={account.accountNumber}
+                            iban={account.iban}
+                            balance={account.balance}
+                            currency={account.currency}
+                          />
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="recipient"
+                  name="recipient"
+                  label={t('SendMoneyPage.recipient')}
+                  variant="filled"
+                  fullWidth
+                  value={recipient}
+                  onChange={handleRecipientChange}
+                  required
+                  className={`bg-gray-100 outline-none flex-1 ${handleError(
+                    recipientError
+                  )}`}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="amount"
+                  name="amount"
+                  label={t('SendMoneyPage.amount')}
+                  variant="filled"
+                  fullWidth
+                  type="number"
+                  value={amount}
+                  onChange={handleAmountChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  className="bg-slate-800"
+                  type="submit"
+                  disabled={isSubmitDisabled}
+                  variant="contained"
+                  fullWidth
+                >
+                  {t('SendMoneyPage.sendButton')}
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+          <Toast
+            show={showSuccessToast.show}
+            title="Transaction Successful"
+            message={showSuccessToast.message}
+            onClose={hideSuccessToast}
+            variant="success"
+            closeAfter={2000}
           />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
-            Tutar
-          </label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            className="mt-1 block w-full border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-            value={amount}
-            onChange={handleAmountChange}
-            required
+
+          <Toast
+            show={showErrorToast.show}
+            title="Transaction Failed"
+            message={showErrorToast.message}
+            onClose={hideErrorToast}
+            variant="error"
+            closeAfter={2000}
           />
-        </div>
-        <button
-          type="submit"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Gönder
-        </button>
-      </form>
-    </div>
+        </Box>
+      </div>
+    </>
   );
 };
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'makeTransaction'])),
+    },
+  };
+}
 
 export default SendMoneyPage;

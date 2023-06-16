@@ -13,7 +13,7 @@ export const LANGUAGE_CODES = {
 const LangMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const router = useRouter();
-  
+
   const handleClick = useCallback(
     (event) => setAnchorEl(event.currentTarget),
     []
@@ -42,9 +42,9 @@ const LangMenu = () => {
         classes={{ paper: 'dark:bg-cod-gray' }}
       >
         {Object.keys(LANGUAGE_CODES).map((lang) => {
-          const handleClick = () =>{
-            router.push(router.pathname, router.pathname, {locale: lang,});
-          }  
+          const handleClick = () => {
+            router.push(router.pathname, router.pathname, { locale: lang });
+          };
           return (
             <MenuItem onClick={handleClick} key={lang}>
               <Typography variant="p" component="span">

@@ -1,40 +1,80 @@
-import React from "react";
+import Toast from 'components/Toast';
+import { Card } from 'libs/types/card';
+import React, { FormEventHandler, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import ApplyForCreditCard from 'utils/apimiddleware/applyforCreditCard';
+import hasCreditCardApplication from 'utils/apimiddleware/hasCreditCardApplication';
+import { useState } from 'react';
+import { IError } from 'pages/login';
+import FormatCurrency from 'utils/formatters/currencyFormatters';
 
 type CreditCardProps = {
-  creditCardInfo: {
-    limit: number;
-    availableLimit: number;
-  };
-  applyButtonVisible: boolean;
+  creditCard: Card;
 };
 
-const CreditCard: React.FC<CreditCardProps> = ({ creditCardInfo, applyButtonVisible }) => {
-  const { limit, availableLimit } = creditCardInfo;
+const CreditCard: React.FC<CreditCardProps> = ({ creditCard }) => {
+  const { t } = useTranslation('dashboard');
+  const [error, setError] = useState<IError>({
+    message: '',
+    show: false,
+  });
 
+  const hideError = () => {
+    setError({ message: '', show: false });
+  };
+
+  const handleApplyForCreditCard = async (e) => {
+    e.preventDefault();
+    const hasApplication = await hasCreditCardApplication(
+      localStorage.getItem('token')
+    );
+    if (hasApplication) {
+      setError({ message: 'AlreadHasApplication', show: true });
+      return;
+    }
+    const response = await ApplyForCreditCard(localStorage.getItem('token'));
+    if (response?.success) {
+      setError({ message: 'SuccessfullApplication', show: true });
+    } else {
+      setError({ message: response?.message, show: true });
+    }
+  };
   return (
     <div className="flex justify-center">
+      <Toast
+        title="Error!"
+        message={error.message}
+        onClose={hideError}
+        show={error.show}
+        variant="error"
+      />
       <div className="w-[300px] h-[340px]  overflow-auto">
         <div className="flex flex-col justify-center items-center h-full">
-          <p className="text-gray-600 text-center mb-4">
-            {limit && availableLimit ? (
+          <p className="text-gray-600 text-center m-4">
+            {creditCard ? (
               <>
-                Limit: {limit} <br />
-                Available Limit: {availableLimit}
+                {t('TotalCreditCardLimit')}:{' '}
+                {FormatCurrency(creditCard.maxCardLimit, 'TRY')} <br />
+                {t('CreditCardAvailableLimit')}:{' '}
+                {FormatCurrency(creditCard.cardLimit, 'TRY')}
               </>
             ) : (
-              "You don't have a credit card."
+              <>
+                {t('MissingCreditCard')}
+                <form onSubmit={handleApplyForCreditCard}>
+                  <button
+                    className="m-4 bg-blue-500 text-white rounded-full py-2 px-6 hover:bg-blue-600"
+                    type="submit"
+                  >
+                    {t('ApplyForCreditCard')}
+                  </button>
+                </form>
+                <p className="text-gray-600 text-center m-4">
+                  {t('ApplyForCreditCardDescription')}
+                </p>
+              </>
             )}
           </p>
-          {applyButtonVisible && (
-            <button className="bg-blue-500 text-white rounded-full py-2 px-6 hover:bg-blue-600">
-              Apply Now
-            </button>
-          )}
-          {applyButtonVisible && (
-            <p className="text-gray-600 text-center mt-2">
-              Apply for a credit card with the Apply Now button.
-            </p>
-          )}
         </div>
       </div>
     </div>

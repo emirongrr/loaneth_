@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
 type Props = {};
 
-export function Loader({}: Props):JSX.Element {
+export function Loader({}: Props): JSX.Element {
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <div className="w-[60px] h-[60px]">
@@ -14,7 +14,13 @@ export function Loader({}: Props):JSX.Element {
           viewBox="0 0 100 100"
           enableBackground="new 0 0 0 0"
         >
-          <circle className="fill-black dark:fill-white" stroke="none" cx="6" cy="50" r="6">
+          <circle
+            className="fill-black dark:fill-white"
+            stroke="none"
+            cx="6"
+            cy="50"
+            r="6"
+          >
             <animateTransform
               attributeName="transform"
               dur="1s"
@@ -24,7 +30,13 @@ export function Loader({}: Props):JSX.Element {
               begin="0.1"
             />
           </circle>
-          <circle className="fill-black dark:fill-white" stroke="none" cx="30" cy="50" r="6">
+          <circle
+            className="fill-black dark:fill-white"
+            stroke="none"
+            cx="30"
+            cy="50"
+            r="6"
+          >
             <animateTransform
               attributeName="transform"
               dur="1s"
@@ -34,7 +46,13 @@ export function Loader({}: Props):JSX.Element {
               begin="0.15"
             />
           </circle>
-          <circle className="fill-black dark:fill-white" stroke="none" cx="54" cy="50" r="6">
+          <circle
+            className="fill-black dark:fill-white"
+            stroke="none"
+            cx="54"
+            cy="50"
+            r="6"
+          >
             <animateTransform
               attributeName="transform"
               dur="1s"
