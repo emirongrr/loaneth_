@@ -2,6 +2,12 @@ import ConstructReference from 'libs/refconstructor';
 import { BankAccount, User } from 'libs/types/user';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+import {
+  IconArrowsDiagonalMinimize2,
+  IconChevronDown,
+  IconDots,
+  IconShare3,
+} from '@tabler/icons-react';
 import FormatCurrency from 'utils/formatters/currencyFormatters';
 
 type ProfileContainerProps = {
@@ -32,82 +38,57 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
   };
 
   return (
-    <div className="w-full max-w-[960px] shadow-2xl rounded-[12px] mx-auto px-3.5 box-border block mt-4">
-      <div className="h-6 w-auto"></div>
-      <div className="grid grid-flow-col grid-cols-new gap-0 items-start flex justify-between box-border">
-        <div className="grid grid-flow-col grid-cols-new gap-5 items-start justify-start">
-          <div className="rounded-2xl w-[104px] h-[104px] relative">
-            <img
-              className="w-full h-full object-cover object-center block rounded-xl"
-              src="/svg/profile.png"
-            />
-          </div>
-          <div className="grid gap-2 grid-cols-new p-0 m-0 box-border">
-            <div className="grid grid-flow-col auto-cols-new gap-1 items-center justify-start h-6">
-              <div className="block font-graphik text-20 leading-6 font-medium text-black dark:text-white tracking-tighter text-current whitespace-nowrap">
-                {' '}
-                {`${currentUser?.firstName} ${currentUser?.lastName}`}
-              </div>
-            </div>
-            <span>
-              <div className="grid gap-4 grid-cols-minmax-auto">
-                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-4xl leading-12 ">
-                  {mainBankAccount &&
-                    FormatCurrency(
-                      mainBankAccount.balance,
-                      mainBankAccount.currency
-                    )}
-                </div>
-                <div
-                  className={`block font-graphik text-base leading-5 font-medium tracking-tight ${
-                    -3 >= 0 ? 'text-green' : 'text-red-500'
-                  }`}
-                >
-                  2
-                </div>
-              </div>
+    <div className='flex justify-between items-center mt-6 mb-8 m-4 xl:mb-0 flex-col md:flex-row gap-5'>
+    <div className='rounded-lg flex gap-5 items-center w-full'>
+      <Image
+        src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAA7NJREFUeF7tnbFtHEEMRbmR4AbUhTL1ociAL3EDSh25gCtEyRkwYOBqce42HEpFPAEPxD7nNKnPNyRnb3b2ePz38D7iv68vN9G77/r3/aIGcQSAqv8EQBVAJbAKoMo/VYBmgGYAeQ267psBmgFUApsBVPmbAaYZoBlAXoOu+2aAZgCVwGYAVf5mgGaAfgvoxyCzCNUCTPWnFlALsFvAj+szOg/w//ZTXkPndv/lckUCHAGA9NONA0BPgRtAALj6694DQE+BG0AAuPrr3gNAT4EbQAC4+uveA0BPgRtAALj6694DQE+BG0AAuPrr3gNAT4EbQAC4+uveA0BPgRtAALj6694xAPT1cHqun/4B9nkEO356rBwfCQsAdiCDAhwA8omkKgB8scMWkDZxO/4qQBUAMdwMgOSbqQLUAhBCDYHwWDMVEGVvqgD4xQ67hAYAvCiy5wA9B0CLqArA3qxqG9g2EC3AtoFIvobAhkB5F1MLqAWgGlYLQPLVAnALgPqf3nx9Czh9BqEAAQAF3G4eANszCOMPACjgdvMA2J5BGH8AQAG3mwfA9gzC+AMACrjdPAC2ZxDGHwBQwO3mAbA9gzD+AIACbjcPgO0ZhPEHABRwu3kAbM8gjB8D8Pr0B30vAMaPzakANAB6LJ76p/ZHADAJA4Dph62rAEzCKgDTb/2RuAAIgIZAwkAzAFHvE2ybAZiItQCmXzMA1A+bVwGYhFUApl8VAOqHzasATMIqANOvCgD1w+ZVACZhFYDpVwWA+mHzKgCTsArA9NtfAezPx9MVbD+KteOnt6wdAcBKQADAO3psAVn6Z+z4qwDwsuoAuD6jM4H0smZ7BQVAACAGbIBrAbUABHC7ACRfQ+A0A1wQQvQ5Ri2gFoAArAUg+WoBtYB7LQCtIXsbhYKfKkAVoArgfvOGTtFVgJ4EIgbsFoa3gY/ws3FIvZn5/usJ/Rdv3/4ie2q8PX78xZCzCxgAkIDtAm6PvwpwcoADIAAe0IEQqF9DoDzEVgEgwc0AJxcwAAIAKWA/x6gFoPTtf5AVAAHQLoAw0AxA1Ou3gGkG6McguISYeTMA02/9g6wAODsA9Lp4+0AE9Q/zjy+IoPHTE1H4hhD7D6D+AwB+MYQmgBJM/QdAACAGbICp/1oASv80A9ASTAmm/mH+A4AmIADcV8tqAbAE2ABT/wEQAOybQbWAG0LI1q8KgNLXLkC/KJGuIJj/dgE0AXSIof4DoCeBiAEbYOq/GQClvxmgGQDeUkZbGK0AH6653W4HFud0AAAAAElFTkSuQmCC'
+        alt="0xf3b2badd991ed22bc2532641de87a8bb199979e4's image"
+        width={104}
+        height={104}
+        className='rounded-2xl object-cover block w-[104px] h-[104px]'
+      />
+      <div className='flex flex-col'>
+        <div className='flex gap-2 items-center'>
+          <span className='text-white font-semibold text-xl'>
+            0xf3b2…79e4
+          </span>
+          <button className='outline-none p-[5px] h-6 w-h-6 hover:bg-[#29292c] flex items-center justify-center rounded-lg'>
+            <IconChevronDown color='#fff' size={14} />
+          </button>
+        </div>
+        <div className='flex items-center gap-2'>
+          <div className='text-3xl'>
+            <span className='text-white font-semibold text-[28px] xl:text-[40px]'>
+              $
+            </span>
+            <span className='text-white font-semibold text-[28px] xl:text-[40px]'>
+              0
+            </span>
+            <span className='text-gray-500 font-semibold text-[28px] xl:text-[40px]'>
+              .
+            </span>
+            <span className='text-gray-500 font-semibold text-[28px] xl:text-[40px]'>
+              00
             </span>
           </div>
-        </div>
-        <div className="grid grid-flow-col auto-cols-new grid-cols-1fr gap-3 items-center justify-start">
-          <button
-            onClick={copyIBAN}
-            className="bg-transparent text-black dark:text-white border-none outline-none"
-          >
-            {t('copyIBAN')}
-          </button>
-          <a
-            href={ConstructReference('/dashboard/send/')}
-            className="text-black dark:text-white p-[7px] min-w-0 rounded-[50%] h-10 w-10"
-          >
-            <div className="grid grid-flow-col auto-cols-new gap-0 items-center justify-center">
-              <svg
-                className="w-6 h-6"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M17.675 6.056c.784-.261 1.543.442 1.267 1.176l-4.558 12.15c-.31.824-1.559.824-1.87 0l-2.03-5.397-5.814-1.853a.905.905 0 01-.012-1.745l13.017-4.331z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </div>
-          </a>
-          <button
-            onClick={Logout}
-            className="bg-transparent border-none text-black dark:text-white outline-none"
-          >
-            {t('LogOut')}
+          <button className='outline-none p-[5px] h-6 w-h-6 hover:bg-[#29292c] flex items-center justify-center rounded-lg'>
+            <IconDots color='#fff' size={14} />
           </button>
         </div>
+        <span className='text-[#4fbf67]'>+0% ($0.00)</span>
       </div>
-      <div className="h-2 w-auto"></div>
     </div>
+
+    <div className='flex gap-4 w-full md:w-64'>
+      <button className='ring-1 ring-[#45464a] p-[7px] h-8 w-8 hover:bg-[#29292c] flex items-center justify-center rounded-full'>
+        <IconShare3 color='#fff' />
+      </button>
+
+      <button className='text-sm ring-1 ring-[#45464a] text-white py-[9px] px-[19px] h-8 hover:bg-[#29292c] flex items-center justify-center rounded-lg w-full'>
+        Remove Wallet
+      </button>
+    </div>
+  </div>
   );
 };
 

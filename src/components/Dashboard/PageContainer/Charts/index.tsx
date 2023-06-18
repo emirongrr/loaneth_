@@ -1,5 +1,3 @@
-'use client';
-
 import { Card, AreaChart, Title, Text } from '@tremor/react';
 import { useTranslation } from 'react-i18next';
 import { GetFormatter } from 'utils/formatters/currencyFormatters';
@@ -14,6 +12,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Area,
+  ComposedChart,
 } from 'recharts';
 import getSnapshots from 'utils/apimiddleware/getSnapshots';
 
@@ -38,16 +38,35 @@ export default function Chart() {
   }, []);
 
   return (
-    <LineChart width={580} height={300} data={snapshots}>
-      <XAxis dataKey="date" />
-      <YAxis />
-      <Tooltip />
-      <Line
-        type="monotone"
-        dataKey="totalAssetValue"
-        stroke={`${2 ? 'green' : 'red'}`}
-        activeDot={{ r: 0 }}
-      />
-    </LineChart>
+    <ResponsiveContainer>
+      <ComposedChart width={580} height={300} data={snapshots}>
+        <defs>
+          <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#4F46E5" stopOpacity={1} />
+            <stop offset="50%" stopColor="#A35EF1" stopOpacity={0.7} />
+            <stop offset="95%" stopColor="#925DE5" stopOpacity={0.01} />
+          </linearGradient>
+        </defs>
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Line
+          strokeLinecap="round"
+          type="monotone"
+          dataKey="totalAssetValue"
+          stroke="#925DE5"
+          opacity={0.6}
+          strokeWidth={0.9}
+          dot={false}
+        />
+        <Area
+          type="monotone"
+          dataKey="totalAssetValue"
+          strokeWidth={0}
+          fillOpacity={0.8}
+          fill="url(#gradient)"
+        />
+      </ComposedChart>
+    </ResponsiveContainer>
   );
 }
