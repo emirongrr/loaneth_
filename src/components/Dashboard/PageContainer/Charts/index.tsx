@@ -54,7 +54,7 @@ export default function Chart() {
           strokeLinecap="round"
           type="monotone"
           dataKey="totalAssetValue"
-          stroke="#925DE5"
+          stroke="#8884d8"
           opacity={0.6}
           strokeWidth={0.9}
           dot={false}
