@@ -13,6 +13,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { CreditCard } from 'react-feather';
+import Typography from 'components/UI/Typography';
+import Box from '@material-ui/core/Box';
+import FormatCurrency from 'utils/formatters/currencyFormatters';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.MuiTableCell-head`]: {
@@ -114,15 +117,17 @@ export default function ApplicationsList(props) {
   }
 
   return (
-    <div key="applicationsss" className="relative h-full w-[1600px]">
-      <h2 className="text-2xl font-bold">Bekleyen Başvurular</h2>
+    <div key="applications" className="relative h-full w-full">
+      <Box className='m-6'>
+        <Typography variant='h3'>{t('SearchApplications')}</Typography>
+      </Box>
       <div className="flex justify-end items-center mb-8 ">
         <input
           type="text"
-          placeholder="Ara..."
+          placeholder={(t('SearchApplicationsPlaceHolder'))}
           value={searchApplication}
           onChange={handleApplicationSearch}
-          className="px-4 py-2 border w-full rounded-[12px]"
+          className="px-4 py-2 border justify-end w-full rounded-[12px] bg-white-dark dark:bg-black text-black dark:text-white"
         />
       </div>
       {applications.length > 0 ? (
@@ -130,30 +135,30 @@ export default function ApplicationsList(props) {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>{t('ApplicationId')}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {t('ApplicationFirstName')}
+                <StyledTableCell><Typography variant='h4'>{t('ApplicationId')}</Typography></StyledTableCell>
+                <StyledTableCell align="left">
+                  <Typography variant='h4'>{t('ApplicationFirstName')}</Typography>
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  {t('ApplicationLastName')}
+                <StyledTableCell align="left">
+                  <Typography variant='h4'>{t('ApplicationLastName')}</Typography>
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  {t('ApplicationEmail')}
+                <StyledTableCell align="left">
+                  <Typography variant='h4'>{t('ApplicationEmail')}</Typography>
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  {t('ApplicationUserSince')}
+                <StyledTableCell align="left">
+                  <Typography variant='h4'>{t('ApplicationUserSince')}</Typography>
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  {t('ApplicationTotalAssetValue')}
+                <StyledTableCell align="left">
+                  <Typography variant='h4'>{t('ApplicationTotalAssetValue')}</Typography>
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  {t('ApplicationApprove')}
+                <StyledTableCell align="left">
+                  <Typography variant='h4'>{t('ApplicationApprove')}</Typography>
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  {t('ApplicationReject')}
+                <StyledTableCell align="left">
+                  <Typography variant='h4'>{t('ApplicationReject')}</Typography>
                 </StyledTableCell>
-                <StyledTableCell align="right">
-                  {t('ApplicationCardLimit')}
+                <StyledTableCell align="left">
+                  <Typography variant='h4'>{t('ApplicationCardLimit')}</Typography>
                 </StyledTableCell>
               </TableRow>
             </TableHead>
@@ -161,24 +166,24 @@ export default function ApplicationsList(props) {
               {applicationFilteredList?.map((application) => (
                 <StyledTableRow key={application.id}>
                   <StyledTableCell component="th" scope="row">
-                    {application?.id}
+                    <Typography variant='p'>{application?.id}</Typography>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {application?.firstName}
+                  <StyledTableCell align="left">
+                   <Typography variant='p'>{application?.firstName}</Typography>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {application?.lastName}
+                  <StyledTableCell align="left">
+                    <Typography variant='p'>{application?.lastName}</Typography>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {application?.email}
+                  <StyledTableCell align="left">
+                    <Typography variant='p'>{application?.email}</Typography>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {String(application.userSince).split('T')[0]}
+                  <StyledTableCell align="left">
+                    <Typography variant='p'>{String(application.userSince).split('T')[0]}</Typography>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {application?.totalAssetValueInTRY}
+                  <StyledTableCell align="left">
+                    <Typography variant='p'>{FormatCurrency(application?.totalAssetValueInTRY,"TRY")}</Typography>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="left">
                     <button
                       className="px-4 py-2 mr-2 text-sm font-medium text-white bg-green rounded-md hover:bg-green-600"
                       onClick={() => handleApproveButtonClick(application?.id)}
@@ -186,7 +191,7 @@ export default function ApplicationsList(props) {
                       {t('Approve')}
                     </button>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="left">
                     <button
                       className="px-4 py-2 mr-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600"
                       onClick={() => handleRejectButtonClick(application?.id)}
@@ -194,7 +199,7 @@ export default function ApplicationsList(props) {
                       {t('Reject')}
                     </button>
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="left">
                     <input
                       type="text"
                       className="w-20 p-2 border rounded-md"
@@ -208,7 +213,7 @@ export default function ApplicationsList(props) {
           </Table>
         </TableContainer>
       ) : (
-        <div>No applications found.</div>
+        <div><Typography variant='h4'>{t('NoApplicationsFound')}</Typography></div>
       )}
     </div>
   );

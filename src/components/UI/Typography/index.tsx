@@ -11,9 +11,9 @@ const CLASSES = {
   h1: `font-mono font-extrabold text-black dark:text-white sm:text-5xl text-4xl`,
   h2: 'font-bold text-black dark:text-white sm:text-4xl text-3xl',
   h3: 'font-bold text-black dark:text-white text-2xl',
-  h4: 'font-medium text-black dark:text-white text-lg',
+  h4: 'font-medium text-gray dark:text-white text-lg',
   h5: `font-mono text-lg`,
-  p: 'font-light text-lg text-stieglitz dark:text-wave-blue',
+  p: 'font-medium text-lg text-stieglitz dark:text-wave-blue',
 };
 
 const Typography: FC<TypographyProps> = (props) => {
