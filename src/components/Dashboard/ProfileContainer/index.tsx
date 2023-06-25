@@ -1,15 +1,32 @@
+import { Box, Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from '@chakra-ui/react';
 import ConstructReference from 'libs/refconstructor';
 import { BankAccount, User } from 'libs/types/user';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { LogOut } from 'react-feather';
 import { useTranslation } from 'react-i18next';
+import { ChevronDown } from 'tabler-icons-react';
 import FormatCurrency from 'utils/formatters/currencyFormatters';
+
 
 type ProfileContainerProps = {
   currentUser: User;
 };
 
+export const tabConfig = [
+  {
+    name: 'Portfolio',
+    value: 'portfolio',
+  },
+  {
+    name: 'History',
+    value: 'history',
+  },
+];
 const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
+  
   const { t } = useTranslation('dashboard');
+  const [tab, setTab] = useState(tabConfig[0].value);
   const router = useRouter();
   const mainBankAccount: BankAccount = currentUser?.bankAccounts[0];
   let totalBalance_TL = 0;
@@ -32,7 +49,8 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
   };
 
   return (
-    <div className="w-full max-w-[960px] shadow-2xl rounded-[12px] mx-auto px-3.5 box-border block mt-4">
+    <>
+    <div className="w-full max-w-[960px] shadow-lg shadow-3xl rounded-[12px] mx-auto px-3.5  box-border block mt-4">
       <div className="h-6 w-auto"></div>
       <div className="grid grid-flow-col grid-cols-new gap-0 items-start flex justify-between box-border">
         <div className="grid grid-flow-col grid-cols-new gap-5 items-start justify-start">
@@ -42,40 +60,56 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
               src="/svg/profile.png"
             />
           </div>
-          <div className="grid gap-2 grid-cols-new p-0 m-0 box-border">
-            <div className="grid grid-flow-col auto-cols-new gap-1 items-center justify-start h-6">
-              <div className="block font-graphik text-20 leading-6 font-medium text-black dark:text-white tracking-tighter text-current whitespace-nowrap">
+          <div className="grid gap-1 grid-cols-new">
+            <div className="grid grid-flow-col auto-cols-new gap-1 items-center justify-start h-6 flex gap-2">
+              <span className="block font-semibold text-xl leading-6 font-medium text-black dark:text-white tracking-tighter text-current whitespace-nowrap">
                 {' '}
                 {`${currentUser?.firstName} ${currentUser?.lastName}`}
-              </div>
+              </span>
+              <Menu>
+  {({ isOpen }) => (
+    <>
+      <MenuButton
+        isActive={isOpen}
+        as={Button}
+        rightIcon={<ChevronDown className="dark:text-white text-black" size={14} />}
+      >
+        {isOpen ? ' ' : ' '}
+      </MenuButton>
+      <MenuList className="w-[250px]">
+        <MenuItem className="dark:bg-[#16161a] bg-white text-black dark:text-white border-none outline-none" onClick={copyIBAN}>
+          IBAN KOPYALA
+        </MenuItem>
+        <MenuItem className="dark:bg-[#16161a] bg-white hover:opacity-2 text-black dark:text-white border-none outline-none">
+          QR KOD GÖSTER
+        </MenuItem>
+      </MenuList>
+    </>
+  )}
+</Menu>
+
             </div>
-            <span>
-              <div className="grid gap-4 grid-cols-minmax-auto">
-                <div className="grid grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-4xl leading-12 ">
+            <div>
+              <div className="grid grid-cols-minmax-auto">
+                <span className="grid grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-3xl leading-12 ">
                   {mainBankAccount &&
                     FormatCurrency(
                       mainBankAccount.balance,
                       mainBankAccount.currency
                     )}
-                </div>
-                <div
+                </span>
+                <span
                   className={`block font-graphik text-base leading-5 font-medium tracking-tight ${
                     -3 >= 0 ? 'text-green' : 'text-red-500'
                   }`}
                 >
                   2
-                </div>
+                </span>
               </div>
-            </span>
+            </div>
           </div>
         </div>
-        <div className="grid grid-flow-col auto-cols-new grid-cols-1fr gap-3 items-center justify-start">
-          <button
-            onClick={copyIBAN}
-            className="bg-transparent text-black dark:text-white border-none outline-none"
-          >
-            {t('copyIBAN')}
-          </button>
+        <div className="grid grid-flow-col auto-cols-new grid-cols-1fr items-center justify-start">
           <a
             href={ConstructReference('/dashboard/send/')}
             className="text-black dark:text-white p-[7px] min-w-0 rounded-[50%] h-10 w-10"
@@ -100,14 +134,49 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
           </a>
           <button
             onClick={Logout}
-            className="bg-transparent border-none text-black dark:text-white outline-none"
+            className="text-black dark:text-white p-[7px]  rounded-[50%] h-10 w-10"
           >
-            {t('LogOut')}
+          <LogOut className='text-black dark:text-white' size={15}/>
           </button>
         </div>
       </div>
       <div className="h-2 w-auto"></div>
     </div>
+
+    <div className="mx-auto px-[15p] w-full max-w-[960px] flex-grow">
+
+<div className=' text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 mt-6 xl:mb-0 sticky top-0 '>
+<ul className='flex flex-wrap -mb-px'>
+  {/* {pendingTransaction.map((item) => (
+    <li key={item.value} onClick={() => setTab(item.value)}>
+      <a
+        href='#'
+        className={`inline-block pb-2 px-2 pt-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ${
+          item.value === tab && 'text-blue-500 !border-blue-500 active'
+        }}`}
+      >
+        {item.name}
+      </a>
+    </li>
+  ))} */}
+
+  {tabConfig.map((item) => (
+    <li key={item.value} onClick={() => setTab(item.value)}>
+      <a
+        href='#'
+        className={`inline-block pb-2 px-2 pt-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ${
+          item.value === tab && 'text-blue-500 !border-blue-500 active'
+        }}`}
+      >
+        {item.name}
+      </a>
+    </li>
+  ))}
+</ul>
+</div>
+</div>
+</>
+
   );
 };
 

@@ -64,7 +64,7 @@ const ChartSection: React.FC<ChartProps> = ({ currentUser }) => {
           </div>
         </div>
         <span>
-          <div className="flex shadow-2xl flex-col h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border  border-neutral-300  ">
+          <div className="flex shadow-2xl flex-col h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border  dark:border-[#2d2d32]  ">
             <Chart />
           </div>
         </span>
@@ -75,7 +75,7 @@ const ChartSection: React.FC<ChartProps> = ({ currentUser }) => {
           {t('Assets')}
         </div>
         <span>
-          <div className="flex flex-col shadow-2xl h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300">
+          <div className="flex flex-col shadow-2xl h-[340px] justify-between p-[16px] shadow-elevation-100 rounded-[12px] border border-solid dark:border-[#2d2d32]">
             <DonutChart
               className="mt-12"
               data={accountBalances}

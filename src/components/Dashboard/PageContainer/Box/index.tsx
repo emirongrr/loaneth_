@@ -88,16 +88,16 @@ const InfoBox: React.FC<InfoBoxProps> = ({ currentUser }) => {
     <div>
       <div className="flex justify-between items-center"></div>
       <div className="h-[48px] w-auto"></div>
-      <div className="p-[24px 24px 0px] shadow-elevation-100 rounded-[12px]  border-neutral-300">
+      <div className="p-[24px 24px 0px] shadow-elevation-100 rounded-[12px]  dark:border-[#2d2d32]">
         <a>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[30px]">
-            <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-2xl backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300 w-[300px] mb-4">
+            <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-2xl backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid  dark:border-[#2d2d32] w-[300px] mb-4">
               <CreditCard creditCard={creditCard} />
             </div>
-            <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-2xl backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300 w-[300px] mb-4">
+            <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-2xl backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid  dark:border-[#2d2d32] w-[300px] mb-4">
               <CampaignSlider campaigns={campaigns} />
             </div>
-            <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-2xl backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid border-neutral-300 w-[300px] mb-4">
+            <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-2xl backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid  dark:border-[#2d2d32] w-[300px] mb-4">
               <CurrencyTable currencies={filteredCurrencies} />
             </div>
           </div>

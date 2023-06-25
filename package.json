@@ -49,6 +49,7 @@
     "reactjs-popup": "^2.0.5",
     "recharts": "^2.6.2",
     "sass": "^1.62.1",
+    "tabler-icons-react": "^1.56.0",
     "universal-cookie": "^4.0.4",
     "validator": "^13.9.0"
   },
