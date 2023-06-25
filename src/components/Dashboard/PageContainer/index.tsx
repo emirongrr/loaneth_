@@ -34,7 +34,6 @@ const PageBody: React.FC<PageBodyContainerProps> = ({ currentUser }) => {
       <div className="grid gap-30 grid-cols-new">
         <ChartSection currentUser={currentUser} />
         <InfoBox currentUser={currentUser} />
-        <TransactionHistory transactions={transactions} />
       </div>
     </div>
   );

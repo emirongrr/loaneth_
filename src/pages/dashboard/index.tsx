@@ -13,7 +13,7 @@ function Dashboard() {
   const { t } = useTranslation('dashboard');
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
   const router = useRouter();
-  
+
   if (isLoading) return <Loader />;
 
   if (!sessionSet) return router.push('/login').then(router.reload);
@@ -30,7 +30,6 @@ function Dashboard() {
         <div className="pl-20 pr-20 w-full pb-20 flex flex-col flex-1">
           <div className="grid gap-0 grid-cols-auto p-0 m-0 box-border">
             <ProfileContainer currentUser={currentUser} />
-            <PageBody currentUser={currentUser} />
           </div>
         </div>
       </div>

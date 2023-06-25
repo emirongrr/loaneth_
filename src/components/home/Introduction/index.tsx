@@ -8,7 +8,6 @@ import ConstructReference from 'libs/refconstructor';
 import Section from 'components/UI/Section';
 import Typography from 'components/UI/Typography';
 
-
 const GradientText = ({ children }: { children: ReactNode }) => {
   return <span className="color-aqua">{children}</span>;
 };
