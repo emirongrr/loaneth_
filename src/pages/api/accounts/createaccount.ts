@@ -5,10 +5,11 @@ import {
   generateRandomAccountNumber,
   generateRandomIBAN,
 } from 'utils/accounts/generateAccount';
-import { BankAccount } from 'libs/types/user';
+import { BankAccount, Transaction } from 'libs/types/user';
 import AccountModel from 'models/accountModel';
 import UserModel from 'models/userModel';
 import { Types } from 'mongoose';
+import TransactionModel from 'models/transactionModel';
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method != 'POST') {
@@ -46,6 +47,25 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       $push: { bankAccounts: insertedBankAccountID },
     });
 
+    const newAccountTransaction = {
+      senderAccount: '-1',
+      recipientAccount: insertedBankAccountID,
+      category: 'TRANSFER',
+      description: '',
+      amount: balance,
+      balanceAfterTransaction: balance,
+      date: undefined,
+    };
+
+    const insertedTransaction = await TransactionModel.create(
+      newAccountTransaction
+    );
+    await UserModel.findByIdAndUpdate(_id, {
+      $push: { bankAccounts: insertedBankAccountID },
+    });
+    await UserModel.findByIdAndUpdate(_id, {
+      $push: { transactions: insertedTransaction },
+    });
     return res.status(200).send({ message: 'sucess', insertedBankAccountID });
   } catch (error) {
     console.log(error);

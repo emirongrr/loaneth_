@@ -42,6 +42,9 @@ export default function Chart() {
     return getAllTransactions(localStorage.getItem('token'))
       .then()
       .then((res) => {
+        if (res?.transactions.length == 1) {
+          res.transactions.push(res.transactions[0]);
+        }
         settransactions(res?.transactions);
         Set24HourValues();
       });
@@ -54,7 +57,7 @@ export default function Chart() {
           new Date(new Date().getTime() - 24 * 60 * 60 * 1000).getTime() >
         0
       );
-    }).balanceAfterTransaction;
+    })?.balanceAfterTransaction;
 
     set_24HourFirstValue(firstValue);
 
@@ -64,9 +67,9 @@ export default function Chart() {
           new Date(new Date().getTime() - 24 * 60 * 60 * 1000).getTime() >
         0
       );
-    }).balanceAfterTransaction;
+    })?.balanceAfterTransaction;
     set_24HourLastValue(lastValue);
-    set_24HourChangeRatio((Number(lastValue) / Number(firstValue)) * 100);
+    set_24HourChangeRatio((Number(lastValue) / Number(firstValue) - 1) * 100);
     set24HourChange(Number(lastValue) - Number(firstValue));
   };
 
@@ -114,15 +117,15 @@ export default function Chart() {
 
   return (
     <div className="relative">
-      {_24HourChange > 0 ? (
+      {_24HourChange >= 0 ? (
         <>
-          <div className="b-[4px] text-2xl text-lime-500 font-medium leading-normal ">
+          <div className="b-[4px] text-2xl text-lime-700 font-medium leading-normal ">
             {t('24HourDifference')}
           </div>
-          <div className="mb-[4px] text-xl text-lime-500 leading-normal">
+          <div className="mb-[4px] text-xl text-lime-700 leading-normal">
             {FormatCurrency(String(_24HourChange), 'TRY')} +
           </div>
-          <div className="mb-[4px] text-xl text-lime-500 leading-normal">
+          <div className="mb-[4px] text-xl text-lime-700 leading-normal">
             %{String(_24HourChangeRatio.toFixed(2))}+
           </div>
         </>

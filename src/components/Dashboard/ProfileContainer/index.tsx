@@ -132,13 +132,6 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
                         mainBankAccount.currency
                       )}
                   </span>
-                  <span
-                    className={`block font-graphik text-base leading-5 font-medium tracking-tight ${
-                      -3 >= 0 ? 'text-green' : 'text-red-500'
-                    }`}
-                  >
-                    2
-                  </span>
                 </div>
               </div>
             </div>
