@@ -61,7 +61,7 @@ export default function Navbar() {
       to: ConstructReference('/'),
     },
   ];
-  if(currentUser.role == 'ADMIN'){
+  if(currentUser?.role == 'ADMIN'){
     links.push({
       name:t('Management'),
       to: ConstructReference('/admin')
