@@ -1,11 +1,18 @@
 import {
+<<<<<<< HEAD
+=======
+  Box,
+>>>>>>> 2319f2bb125694294c24157292e692f202aa842b
   Button,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
+<<<<<<< HEAD
   Switch,
+=======
+>>>>>>> 2319f2bb125694294c24157292e692f202aa842b
 } from '@chakra-ui/react';
 import ConstructReference from 'libs/refconstructor';
 import { BankAccount, User } from 'libs/types/user';
@@ -15,10 +22,13 @@ import { LogOut } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'tabler-icons-react';
 import FormatCurrency from 'utils/formatters/currencyFormatters';
+<<<<<<< HEAD
 import { Route, Routes } from 'react-router-dom';
 import TransactionHistory from 'components/Dashboard/PageContainer/TransactionHistory';
 import CampaignSlider from '../PageContainer/CampaignSlider';
 import PageBody from '../PageContainer';
+=======
+>>>>>>> 2319f2bb125694294c24157292e692f202aa842b
 
 type ProfileContainerProps = {
   currentUser: User;
@@ -191,10 +201,13 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
             ))}
           </ul>
         </div>
+<<<<<<< HEAD
         <div className="content">
           {tab === 'portfolio' && <PageBody currentUser={currentUser} />}
           {tab === 'history' && <TransactionHistory transactions={null} />}
         </div>
+=======
+>>>>>>> 2319f2bb125694294c24157292e692f202aa842b
       </div>
     </>
   );
