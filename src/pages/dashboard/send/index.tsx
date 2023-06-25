@@ -20,6 +20,7 @@ import makeTransaction from 'utils/apimiddleware/makeTransaction';
 import Navbar from 'components/Navbar';
 import Toast from 'components/Toast';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Head from 'next/head';
 
 interface IError {
   message: string;
@@ -91,19 +92,23 @@ const SendMoneyPage: React.FC = () => {
 
   return (
     <>
+      <Head>
+        <meta name="description" content={t('siteDescription')} />
+        <title>{t('siteTitle')}</title>
+      </Head>
       <Navbar />
       <div className="min-h-screen dark:bg-slate-900">
         <Box display="flex" flexDirection="column" alignItems="center">
           <Typography
-            className="mt-32"
-            variant="h4"
+            className="mt-32 text-black dark:text-white"
+            variant="h3"
             component="h1"
             gutterBottom
           >
             {t('SendMoneyPage.title')}
           </Typography>
           <form
-            className="mt-20 shadow-3xl rounded-[12px]"
+            className="mt-20 shadow-3xl rounded-[12px] p-1 bg-gradient-to-br from-[#0F2027] via-[#203A43] to-[#2c5364]"
             onSubmit={handleSubmit}
             style={{ width: '24rem' }}
           >
@@ -117,10 +122,12 @@ const SendMoneyPage: React.FC = () => {
                     labelId="selectAccount"
                     value={selectedAccountIBAN}
                     onChange={handleAccountChange}
+                    variant='filled'
+                    className='bg-gray-100 outline-none flex-1 hover:bg-gray-300 focus:bg-gray-300'
                   >
                     {bankAccounts?.map((account) => {
                       return (
-                        <MenuItem key={account.iban} value={account.iban}>
+                        <MenuItem key={account.iban} value={account.iban} className='selected:bg-gray-300'>
                           <MenuItemBankAccount
                             accountNumber={account.accountNumber}
                             iban={account.iban}
@@ -159,6 +166,7 @@ const SendMoneyPage: React.FC = () => {
                   value={amount}
                   onChange={handleAmountChange}
                   required
+                  className='bg-gray-100 outline-none flex-1'
                 />
               </Grid>
               <Grid item xs={12}>
