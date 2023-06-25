@@ -118,13 +118,13 @@ export default function ApplicationsList(props) {
 
   return (
     <div key="applications" className="relative h-full w-full">
-      <Box className='m-6'>
-        <Typography variant='h3'>{t('SearchApplications')}</Typography>
+      <Box className="m-6">
+        <Typography variant="h3">{t('SearchApplications')}</Typography>
       </Box>
       <div className="flex justify-end items-center mb-8 ">
         <input
           type="text"
-          placeholder={(t('SearchApplicationsPlaceHolder'))}
+          placeholder={t('SearchApplicationsPlaceHolder')}
           value={searchApplication}
           onChange={handleApplicationSearch}
           className="px-4 py-2 border justify-end w-full rounded-[12px] bg-white-dark dark:bg-black text-black dark:text-white"
@@ -135,30 +135,44 @@ export default function ApplicationsList(props) {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell><Typography variant='h4'>{t('ApplicationId')}</Typography></StyledTableCell>
-                <StyledTableCell align="left">
-                  <Typography variant='h4'>{t('ApplicationFirstName')}</Typography>
+                <StyledTableCell>
+                  <Typography variant="h4">{t('ApplicationId')}</Typography>
                 </StyledTableCell>
                 <StyledTableCell align="left">
-                  <Typography variant='h4'>{t('ApplicationLastName')}</Typography>
+                  <Typography variant="h4">
+                    {t('ApplicationFirstName')}
+                  </Typography>
                 </StyledTableCell>
                 <StyledTableCell align="left">
-                  <Typography variant='h4'>{t('ApplicationEmail')}</Typography>
+                  <Typography variant="h4">
+                    {t('ApplicationLastName')}
+                  </Typography>
                 </StyledTableCell>
                 <StyledTableCell align="left">
-                  <Typography variant='h4'>{t('ApplicationUserSince')}</Typography>
+                  <Typography variant="h4">{t('ApplicationEmail')}</Typography>
                 </StyledTableCell>
                 <StyledTableCell align="left">
-                  <Typography variant='h4'>{t('ApplicationTotalAssetValue')}</Typography>
+                  <Typography variant="h4">
+                    {t('ApplicationUserSince')}
+                  </Typography>
                 </StyledTableCell>
                 <StyledTableCell align="left">
-                  <Typography variant='h4'>{t('ApplicationApprove')}</Typography>
+                  <Typography variant="h4">
+                    {t('ApplicationTotalAssetValue')}
+                  </Typography>
                 </StyledTableCell>
                 <StyledTableCell align="left">
-                  <Typography variant='h4'>{t('ApplicationReject')}</Typography>
+                  <Typography variant="h4">
+                    {t('ApplicationApprove')}
+                  </Typography>
                 </StyledTableCell>
                 <StyledTableCell align="left">
-                  <Typography variant='h4'>{t('ApplicationCardLimit')}</Typography>
+                  <Typography variant="h4">{t('ApplicationReject')}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <Typography variant="h4">
+                    {t('ApplicationCardLimit')}
+                  </Typography>
                 </StyledTableCell>
               </TableRow>
             </TableHead>
@@ -166,22 +180,28 @@ export default function ApplicationsList(props) {
               {applicationFilteredList?.map((application) => (
                 <StyledTableRow key={application.id}>
                   <StyledTableCell component="th" scope="row">
-                    <Typography variant='p'>{application?.id}</Typography>
+                    <Typography variant="p">{application?.id}</Typography>
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                   <Typography variant='p'>{application?.firstName}</Typography>
+                    <Typography variant="p">
+                      {application?.firstName}
+                    </Typography>
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    <Typography variant='p'>{application?.lastName}</Typography>
+                    <Typography variant="p">{application?.lastName}</Typography>
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    <Typography variant='p'>{application?.email}</Typography>
+                    <Typography variant="p">{application?.email}</Typography>
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    <Typography variant='p'>{String(application.userSince).split('T')[0]}</Typography>
+                    <Typography variant="p">
+                      {String(application.userSince).split('T')[0]}
+                    </Typography>
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    <Typography variant='p'>{FormatCurrency(application?.totalAssetValueInTRY,"TRY")}</Typography>
+                    <Typography variant="p">
+                      {FormatCurrency(application?.totalAssetValueInTRY, 'TRY')}
+                    </Typography>
                   </StyledTableCell>
                   <StyledTableCell align="left">
                     <button
@@ -213,7 +233,9 @@ export default function ApplicationsList(props) {
           </Table>
         </TableContainer>
       ) : (
-        <div><Typography variant='h4'>{t('NoApplicationsFound')}</Typography></div>
+        <div>
+          <Typography variant="h4">{t('NoApplicationsFound')}</Typography>
+        </div>
       )}
     </div>
   );

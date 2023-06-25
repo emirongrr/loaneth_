@@ -29,7 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: theme.palette.action.hover,
   },
   '&:nth-of-type(even)': {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   '&:last-child td, &:last-child th': {
     border: 0,
@@ -38,17 +38,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function UserList(props) {
   const { t } = useTranslation('admin');
-  const [searchUser, setSearchUser] = useState('')
-  const [selectedUser, setSelectedUser] = useState<User>()
+  const [searchUser, setSearchUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState<User>();
   const [open, setOpen] = useState(false);
   const users = props?.users;
-  
+
   const handleOpen = (user) => {
-    setSelectedUser(user)
-    setOpen(true)
-  }
+    setSelectedUser(user);
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
-  
 
   const handleUserSearch = (e) => {
     setSearchUser(e.target.value);
@@ -59,15 +58,19 @@ export default function UserList(props) {
 
   return (
     <div key="users" className="relative h-full w-full">
-    <Modal 
-      open={open}
-      onClose={handleClose}
-      style={{display:'flex',alignItems:'center',justifyContent:'center'}}
-    >
-      <AdminShowCardsPopup selectedUser={selectedUser}></AdminShowCardsPopup>
-    </Modal>
-      <Box className='m-6'>
-        <Typography variant='h3'>{t('SearchUsers')}</Typography>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <AdminShowCardsPopup selectedUser={selectedUser}></AdminShowCardsPopup>
+      </Modal>
+      <Box className="m-6">
+        <Typography variant="h3">{t('SearchUsers')}</Typography>
       </Box>
       <input
         type="text"
@@ -80,26 +83,48 @@ export default function UserList(props) {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <StyledTableRow>
-              <StyledTableCell><Typography variant='h4'>{t('Name')}</Typography></StyledTableCell>
-              <StyledTableCell><Typography variant='h4'>{t('LastName')}</Typography></StyledTableCell>
-              <StyledTableCell><Typography variant='h4'>{t('E-Mail')}</Typography></StyledTableCell>
-              <StyledTableCell><Typography variant='h4'>{t('PhoneNumber')}</Typography></StyledTableCell>
-              <StyledTableCell><Typography variant='h4'>{t('Role')}</Typography></StyledTableCell>
-              <StyledTableCell><Typography variant='h4'>{t('Cards')}</Typography></StyledTableCell>
+              <StyledTableCell>
+                <Typography variant="h4">{t('Name')}</Typography>
+              </StyledTableCell>
+              <StyledTableCell>
+                <Typography variant="h4">{t('LastName')}</Typography>
+              </StyledTableCell>
+              <StyledTableCell>
+                <Typography variant="h4">{t('E-Mail')}</Typography>
+              </StyledTableCell>
+              <StyledTableCell>
+                <Typography variant="h4">{t('PhoneNumber')}</Typography>
+              </StyledTableCell>
+              <StyledTableCell>
+                <Typography variant="h4">{t('Role')}</Typography>
+              </StyledTableCell>
+              <StyledTableCell>
+                <Typography variant="h4">{t('Cards')}</Typography>
+              </StyledTableCell>
             </StyledTableRow>
           </TableHead>
           <TableBody>
             {userFilteredList?.map((user) => (
               <StyledTableRow key={user.identificationString}>
-                <StyledTableCell><Typography variant='p'>{user.firstName}</Typography></StyledTableCell>
-                <StyledTableCell><Typography variant='p'>{user.lastName}</Typography></StyledTableCell>
-                <StyledTableCell><Typography variant='p'>{user.email}</Typography></StyledTableCell>
-                <StyledTableCell><Typography variant='p'>{user.phoneNumber}</Typography></StyledTableCell>
-                <StyledTableCell><Typography variant='p'>{user.role}</Typography></StyledTableCell>
                 <StyledTableCell>
-                  <button 
-                  className="px-4 py-2 mr-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                  onClick={()=> handleOpen(user)}
+                  <Typography variant="p">{user.firstName}</Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography variant="p">{user.lastName}</Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography variant="p">{user.email}</Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography variant="p">{user.phoneNumber}</Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography variant="p">{user.role}</Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <button
+                    className="px-4 py-2 mr-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                    onClick={() => handleOpen(user)}
                   >
                     {t('ShowCards')}
                   </button>

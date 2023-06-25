@@ -42,27 +42,31 @@ export default function Chart() {
 
   const dateFormatter = (dateString) => {
     const date = new Date(dateString);
-    const formattedDate = date.toLocaleDateString('tr-TR', { year: 'numeric', month: 'short', day: 'numeric' });
+    const formattedDate = date.toLocaleDateString('tr-TR', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
     return formattedDate;
   };
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      return (
-          <p className="label">{`${label} : ${payload[0].value}`}</p>
-      );
+      return <p className="label">{`${label} : ${payload[0].value}`}</p>;
     }
-  
+
     return null;
   };
-  
-  
-  
+
   return (
     <div className="relative">
-    <div className="b-[4px] text-xs font-medium dark:text-white leading-normal ">NetWorth</div>
-    <div className="mb-[4px] text-2xl dark:text-white leading-normal">123213</div>
-    <div className="mb-[12px] text-base text-red dark:text-white">-5.08%</div>
+      <div className="b-[4px] text-xs font-medium dark:text-white leading-normal ">
+        NetWorth
+      </div>
+      <div className="mb-[4px] text-2xl dark:text-white leading-normal">
+        123213
+      </div>
+      <div className="mb-[12px] text-base text-red dark:text-white">-5.08%</div>
 
       <ResponsiveContainer width="100%" height={200}>
         <ComposedChart data={snapshots}>
@@ -75,7 +79,7 @@ export default function Chart() {
           <Tooltip />
           <Line
             isAnimationActive={false}
-            strokeLinejoin='round'
+            strokeLinejoin="round"
             dataKey="totalAssetValue"
             stroke="#00c087"
             strokeWidth={1}
@@ -84,7 +88,7 @@ export default function Chart() {
           <Area
             dataKey="totalAssetValue"
             type="linear"
-            strokeLinejoin='round'
+            strokeLinejoin="round"
             strokeWidth={0}
             fill="url(#gradient)"
           />
@@ -92,5 +96,4 @@ export default function Chart() {
       </ResponsiveContainer>
     </div>
   );
-  
 }

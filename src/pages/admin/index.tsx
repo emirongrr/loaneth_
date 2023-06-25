@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import Box from '@material-ui/core/Box';
 import Footer from 'components/Footer';
 
-
 type AdminApplication = {
   id: string;
   userId: string;
@@ -29,8 +28,7 @@ const AdminPage = () => {
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
   const [users, setUsers] = useState<User[]>();
   const [applications, setApplications] = useState<AdminApplication[]>();
-  const { t } = useTranslation('admin')
-
+  const { t } = useTranslation('admin');
 
   const fetchApplications = async () => {
     return getAllApplicationsToObject(localStorage.getItem('token'))
@@ -72,10 +70,10 @@ const AdminPage = () => {
 
     return (
       <>
-      <Head>
-        <meta name="description" content={t('siteDescription')} />
-        <title>{t('siteTitle')}</title>
-      </Head>
+        <Head>
+          <meta name="description" content={t('siteDescription')} />
+          <title>{t('siteTitle')}</title>
+        </Head>
         <Box className="bg-white-dark dark:bg-slate-800 h-full overflow-x-hidden">
           <Navbar />
           <div className="mt-32 m-20 bg-transparent">
@@ -96,7 +94,11 @@ const AdminPage = () => {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'admin','cardsPopUpTable'])),
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'admin',
+        'cardsPopUpTable',
+      ])),
     },
   };
 }

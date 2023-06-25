@@ -13,7 +13,7 @@ function Dashboard() {
   const { t } = useTranslation('dashboard');
   const { isLoading, sessionSet, currentUser }: any = useContext(UserContext);
   const router = useRouter();
-  
+
   if (isLoading) return <Loader />;
 
   if (!sessionSet) return router.push('/login').then(router.reload);
