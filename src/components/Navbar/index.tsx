@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
@@ -16,11 +16,12 @@ import Moon from 'assets/home/Moon';
 import Sun from 'assets/home/Sun';
 
 import ConstructReference from 'libs/refconstructor';
+import { UserContext } from 'contexts';
 
 export default function Navbar() {
   const [theme, setTheme] = useState('dark');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
+  const { currentUser }: any = useContext(UserContext);
   const { t } = useTranslation('common');
 
   const updateTheme = useCallback((theme) => {
@@ -57,9 +58,15 @@ export default function Navbar() {
     { name: t('home'), to: ConstructReference('/') },
     {
       name: t('learn'),
-      to: ConstructReference('/learn'),
+      to: ConstructReference('/'),
     },
   ];
+  if(currentUser.role == 'ADMIN'){
+    links.push({
+      name:t('Management'),
+      to: ConstructReference('/admin')
+    })
+  }
 
   return (
     <nav
@@ -68,7 +75,7 @@ export default function Navbar() {
       )}
     >
       <Box className="max-w-md  mx-auto w-full flex flex-row justify-between items-center p-5 relative 2xl:max-w-6xl xl:max-w-6xl lg:max-w-4xl sm:max-w-xl sm:p-6 ">
-        <Link href={ConstructReference('/')} className="block">
+        <Link href={ConstructReference('/dashboard')} className="block">
           <Box className="flex items-center text-white flex-grow cursor-pointer hover:no-underline ">
             <img src="/svg/logo.svg" alt="logo" className="w-9" />
             <span className="ml-5 text-xl font-extrabold text-black dark:text-white font-mono">
