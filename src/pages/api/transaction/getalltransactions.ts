@@ -24,10 +24,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return res.status(404).send({ message: 'User not found.' });
     }
     const transactions: Transaction[] = await Promise.all(
-      user.transactions.map(async (_id) => {
-        return await TransactionModel.findById(_id);
+      user.transactions.map(async (transaction) => {
+        return await TransactionModel.findById(transaction);
       })
     );
+
     return res.status(200).send(transactions);
   } catch (error) {
     return res.status(500).send(error);

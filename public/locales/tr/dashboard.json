@@ -17,5 +17,8 @@
   "TableCategory": "Kategori",
   "TableAmount": "Miktar",
   "Previous": "Önceki",
-  "Next": "Sonraki"
+  "Next": "Sonraki",
+  "24HourDifference": "Değişim (24S)",
+  "TransactionHistory": "İşlem Geçmişi",
+  "Portfolio": "Portfolyo"
 }

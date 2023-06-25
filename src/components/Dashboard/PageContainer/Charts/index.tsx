@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { GetFormatter } from 'utils/formatters/currencyFormatters';
+import FormatCurrency, {
+  GetFormatter,
+} from 'utils/formatters/currencyFormatters';
 import { Snapshot } from 'libs/types/snapshot';
 import { useEffect, useState } from 'react';
 import {
@@ -19,40 +21,92 @@ import {
   ReferenceLine,
 } from 'recharts';
 import getSnapshots from 'utils/apimiddleware/getSnapshots';
+import { Transaction } from 'libs/types/user';
+import getAllTransactions from 'utils/apimiddleware/getAllTransactions';
+import Typography from 'components/UI/Typography';
+import moment from 'moment';
 
 const valueFormatter = (number: number) =>
   `${GetFormatter('TRY').format(number).toString()}`;
 
 export default function Chart() {
   const { t } = useTranslation('dashboard');
-  let chartData = [];
+  const [_24HourChange, set24HourChange] = useState<number>(0);
+  const [_24HourChangeRatio, set_24HourChangeRatio] = useState<number>(0);
+  const [_24HourFirstValue, set_24HourFirstValue] = useState<number>(0);
+  const [_24HourLastValue, set_24HourLastValue] = useState<number>(0);
+  const [_24HourChartColor, set_24HourChartColor] = useState('#00c087');
 
-  const [snapshots, setSnapshots] = useState<Snapshot[]>();
-  const getSnapshotsAsync = () => {
-    return getSnapshots(localStorage.getItem('token'))
+  const [transactions, settransactions] = useState<Transaction[]>();
+  const getTransactionsAsync = () => {
+    return getAllTransactions(localStorage.getItem('token'))
       .then()
       .then((res) => {
-        setSnapshots(res?.snapshots);
-        console.log(res);
+        settransactions(res?.transactions);
+        Set24HourValues();
       });
   };
-  useEffect(() => {
-    getSnapshotsAsync();
-  }, []);
 
+  const Set24HourValues = () => {
+    let firstValue = transactions?.find((transaction) => {
+      return (
+        new Date(transaction?.date).getTime() -
+          new Date(new Date().getTime() - 24 * 60 * 60 * 1000).getTime() >
+        0
+      );
+    }).balanceAfterTransaction;
+
+    set_24HourFirstValue(firstValue);
+
+    let lastValue = transactions?.findLast((transaction) => {
+      return (
+        new Date(transaction?.date).getTime() -
+          new Date(new Date().getTime() - 24 * 60 * 60 * 1000).getTime() >
+        0
+      );
+    }).balanceAfterTransaction;
+    set_24HourLastValue(lastValue);
+    set_24HourChangeRatio((Number(lastValue) / Number(firstValue)) * 100);
+    set24HourChange(Number(lastValue) - Number(firstValue));
+  };
+
+  useEffect(() => {
+    if (_24HourChange >= 0) {
+      set_24HourChartColor('#00c087');
+    } else {
+      set_24HourChartColor('#A21105');
+    }
+  }, [_24HourChange]);
+
+  useEffect(() => {
+    Set24HourValues();
+    console.log(transactions);
+  }, [transactions]);
+
+  useEffect(() => {
+    getTransactionsAsync();
+    console.log(
+      `${_24HourChange}  ${_24HourChangeRatio} ${_24HourFirstValue}  ${_24HourLastValue}`
+    );
+  }, []);
   const dateFormatter = (dateString) => {
     const date = new Date(dateString);
     const formattedDate = date.toLocaleDateString('tr-TR', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
     return formattedDate;
   };
-
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      return <p className="label">{`${label} : ${payload[0].value}`}</p>;
+      return (
+        <Typography variant="h4">{`${dateFormatter(
+          payload[0]?.payload.date
+        )} : ${FormatCurrency(payload[0].value, 'TRY')}`}</Typography>
+      );
     }
 
     return null;
@@ -60,33 +114,59 @@ export default function Chart() {
 
   return (
     <div className="relative">
-      <div className="b-[4px] text-xs font-medium dark:text-white leading-normal ">
-        NetWorth
-      </div>
-      <div className="mb-[4px] text-2xl dark:text-white leading-normal">
-        123213
-      </div>
-      <div className="mb-[12px] text-base text-red dark:text-white">-5.08%</div>
+      {_24HourChange > 0 ? (
+        <>
+          <div className="b-[4px] text-2xl text-lime-500 font-medium leading-normal ">
+            {t('24HourDifference')}
+          </div>
+          <div className="mb-[4px] text-xl text-lime-500 leading-normal">
+            {FormatCurrency(String(_24HourChange), 'TRY')} +
+          </div>
+          <div className="mb-[4px] text-xl text-lime-500 leading-normal">
+            %{String(_24HourChangeRatio.toFixed(2))}+
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="b-[4px] text-2xl text-red-800 font-medium leading-normal ">
+            {t('24HourDifference')}
+          </div>
+          <div className="mb-[4px] text-xl text-red-800 leading-normal">
+            {FormatCurrency(String(_24HourChange), 'TRY').replace('-', '')}-
+          </div>
+          <div className="mb-[4px] text-xl text-red-800 leading-normal">
+            %{String(_24HourChangeRatio.toFixed(2))}-
+          </div>
+        </>
+      )}
 
       <ResponsiveContainer width="100%" height={200}>
-        <ComposedChart data={snapshots}>
+        <ComposedChart data={transactions}>
           <defs>
             <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#00c087" stopOpacity={0.8} />
-              <stop offset="90%" stopColor="#00c087" stopOpacity={0} />
+              <stop
+                offset="5%"
+                stopColor={_24HourChartColor}
+                stopOpacity={0.8}
+              />
+              <stop
+                offset="90%"
+                stopColor={_24HourChartColor}
+                stopOpacity={0}
+              />
             </linearGradient>
           </defs>
-          <Tooltip />
+          <Tooltip content={CustomTooltip} />
           <Line
             isAnimationActive={false}
             strokeLinejoin="round"
-            dataKey="totalAssetValue"
-            stroke="#00c087"
+            dataKey="balanceAfterTransaction"
+            stroke={_24HourChartColor}
             strokeWidth={1}
             dot={false}
           />
           <Area
-            dataKey="totalAssetValue"
+            dataKey="balanceAfterTransaction"
             type="linear"
             strokeLinejoin="round"
             strokeWidth={0}

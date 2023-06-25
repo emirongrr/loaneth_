@@ -13,9 +13,7 @@ type PageBodyContainerProps = {
 
 const PageBody: React.FC<PageBodyContainerProps> = ({ currentUser }) => {
   let token = localStorage.getItem('token');
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    emptyTransaction,
-  ]);
+  const [transactions, setTransactions] = useState<Transaction[]>();
   useEffect(() => {
     getAllTransactions(token)
       .then()

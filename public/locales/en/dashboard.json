@@ -17,5 +17,8 @@
   "TableCategory": "Category",
   "TableAmount": "Amount",
   "Previous": "Previous",
-  "Next": "Next"
+  "Next": "Next",
+  "24HourDifference": "Change (24H)",
+  "TransactionHistory": "Transaction History",
+  "Portfolio": "Portfolio"
 }

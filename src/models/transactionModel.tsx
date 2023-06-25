@@ -7,6 +7,7 @@ interface ITransaction {
   category: String;
   description: String;
   amount: Number;
+  balanceAfterTransaction: Number;
   date: Date;
 }
 
@@ -38,6 +39,10 @@ const transactionSchema = new Schema<ITransaction>(
       default: '',
     },
     amount: {
+      type: Number,
+      required: true,
+    },
+    balanceAfterTransaction: {
       type: Number,
       required: true,
     },

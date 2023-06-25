@@ -8,36 +8,53 @@ import {
   Switch,
 } from '@chakra-ui/react';
 import ConstructReference from 'libs/refconstructor';
-import { BankAccount, User } from 'libs/types/user';
+import { BankAccount, Transaction, User } from 'libs/types/user';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LogOut } from 'react-feather';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown } from 'tabler-icons-react';
+import { ChevronDown } from 'react-feather';
 import FormatCurrency from 'utils/formatters/currencyFormatters';
 import { Route, Routes } from 'react-router-dom';
 import TransactionHistory from 'components/Dashboard/PageContainer/TransactionHistory';
 import CampaignSlider from '../PageContainer/CampaignSlider';
 import PageBody from '../PageContainer';
+import getAllTransactions, {
+  GetTransactionsResponse,
+} from 'utils/apimiddleware/getAllTransactions';
 
 type ProfileContainerProps = {
   currentUser: User;
 };
 
-export const tabConfig = [
-  {
-    name: 'Portfolio',
-    value: 'portfolio',
-  },
-  {
-    name: 'History',
-    value: 'history',
-  },
-];
 const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
   const { t } = useTranslation('dashboard');
+  const tabConfig = [
+    {
+      name: t('Portfolio'),
+      value: 'portfolio',
+    },
+    {
+      name: t('TransactionHistory'),
+      value: 'history',
+    },
+  ];
+
   const [tab, setTab] = useState(tabConfig[0].value);
   const router = useRouter();
+  const [transactions, setTransactions] = useState<Transaction[]>();
+  useEffect(() => {
+    getAllTransactions(localStorage.getItem('token'))
+      .then()
+      .then((response: GetTransactionsResponse) => {
+        if (response.success) {
+          setTransactions(response.transactions);
+          console.log(transactions);
+        } else {
+          alert('Failed to fetch transactions.');
+        }
+      });
+  }, []);
   const mainBankAccount: BankAccount = currentUser?.bankAccounts[0];
   let totalBalance_TL = 0;
   currentUser.bankAccounts.forEach((account) => {
@@ -96,10 +113,10 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
                           className="dark:bg-[#16161a] bg-white text-black dark:text-white border-none outline-none"
                           onClick={copyIBAN}
                         >
-                          IBAN KOPYALA
+                          {t('copyIBAN')}
                         </MenuItem>
                         <MenuItem className="dark:bg-[#16161a] bg-white hover:opacity-2 text-black dark:text-white border-none outline-none">
-                          QR KOD GÖSTER
+                          {t('DisplayQRCode')}
                         </MenuItem>
                       </MenuList>
                     </>
@@ -193,7 +210,9 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
         </div>
         <div className="content">
           {tab === 'portfolio' && <PageBody currentUser={currentUser} />}
-          {tab === 'history' && <TransactionHistory transactions={null} />}
+          {tab === 'history' && (
+            <TransactionHistory transactions={transactions} />
+          )}
         </div>
       </div>
     </>

@@ -32,6 +32,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       category,
       description,
     } = req.body;
+    if (senderAccountIBAN === recipientAccountIBAN) {
+      return res
+        .status(401)
+        .send({ message: 'Sender and target accounts cannot be the same.' });
+    }
     if (amount && amount <= 0) {
       return res
         .status(401)
@@ -67,6 +72,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const recipientUser = await UserModel.findOne({
       bankAccounts: recipientAccount?._id,
     });
+
     senderAccount.balance -= amount;
     recipientAccount.balance += amount;
 
@@ -75,6 +81,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       senderAccount: senderAccount?._id,
       recipientAccount: recipientAccount._id,
       amount: -1 * amount,
+      balanceAfterTransaction: senderAccount?.balance,
       category,
       description,
       date: undefined,
@@ -83,6 +90,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       senderAccount: senderAccount?._id,
       recipientAccount: recipientAccount._id,
       amount: amount,
+      balanceAfterTransaction: recipientAccount.balance,
       category,
       description,
       date: undefined,

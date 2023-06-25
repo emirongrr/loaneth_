@@ -42,7 +42,8 @@ export type Transaction = {
   recipientAccount: BankAccount;
   category: String;
   description: String;
-  amount: Number;
+  amount: number;
+  balanceAfterTransaction: number;
   date: Date;
 };
 
@@ -53,5 +54,6 @@ export const emptyTransaction: Transaction = {
   category: 'nan',
   description: 'nan',
   amount: 0,
+  balanceAfterTransaction: 0,
   date: new Date(),
 };
