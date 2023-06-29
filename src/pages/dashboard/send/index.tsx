@@ -122,12 +122,16 @@ const SendMoneyPage: React.FC = () => {
                     labelId="selectAccount"
                     value={selectedAccountIBAN}
                     onChange={handleAccountChange}
-                    variant='filled'
-                    className='bg-gray-100 outline-none flex-1 hover:bg-gray-300 focus:bg-gray-300'
+                    variant="filled"
+                    className="bg-gray-100 outline-none flex-1 hover:bg-gray-300 focus:bg-gray-300"
                   >
                     {bankAccounts?.map((account) => {
                       return (
-                        <MenuItem key={account.iban} value={account.iban} className='selected:bg-gray-300'>
+                        <MenuItem
+                          key={account.iban}
+                          value={account.iban}
+                          className="selected:bg-gray-300"
+                        >
                           <MenuItemBankAccount
                             accountNumber={account.accountNumber}
                             iban={account.iban}
@@ -166,7 +170,7 @@ const SendMoneyPage: React.FC = () => {
                   value={amount}
                   onChange={handleAmountChange}
                   required
-                  className='bg-gray-100 outline-none flex-1'
+                  className="bg-gray-100 outline-none flex-1"
                 />
               </Grid>
               <Grid item xs={12}>

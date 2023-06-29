@@ -22,6 +22,8 @@ import PageBody from '../PageContainer';
 import getAllTransactions, {
   GetTransactionsResponse,
 } from 'utils/apimiddleware/getAllTransactions';
+import { Modal } from '@material-ui/core';
+import { QRCodeSVG } from 'qrcode.react';
 
 type ProfileContainerProps = {
   currentUser: User;
@@ -40,9 +42,11 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
     },
   ];
 
+  const [QrCodeModalOpen, setQrCodeModalOpen] = useState(false);
   const [tab, setTab] = useState(tabConfig[0].value);
   const router = useRouter();
   const [transactions, setTransactions] = useState<Transaction[]>();
+
   useEffect(() => {
     getAllTransactions(localStorage.getItem('token'))
       .then()
@@ -77,6 +81,24 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
 
   return (
     <>
+      <Modal
+        open={QrCodeModalOpen}
+        onClose={() => setQrCodeModalOpen(false)}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <div className="flex m-auto left-1/2 top-1/2 bg-transparent h-auto w-auto">
+          <QRCodeSVG
+            value={mainBankAccount?.iban}
+            level="H"
+            includeMargin={false}
+            size={256}
+          ></QRCodeSVG>
+        </div>
+      </Modal>
       <div className="w-full max-w-[960px] shadow-lg shadow-3xl rounded-[12px] mx-auto px-3.5  box-border block mt-4">
         <div className="h-6 w-auto"></div>
         <div className="grid grid-flow-col grid-cols-new gap-0 items-start flex justify-between box-border">
@@ -115,7 +137,10 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
                         >
                           {t('copyIBAN')}
                         </MenuItem>
-                        <MenuItem className="dark:bg-[#16161a] bg-white hover:opacity-2 text-black dark:text-white border-none outline-none">
+                        <MenuItem
+                          className="dark:bg-[#16161a] bg-white hover:opacity-2 text-black dark:text-white border-none outline-none"
+                          onClick={() => setQrCodeModalOpen(true)}
+                        >
                           {t('DisplayQRCode')}
                         </MenuItem>
                       </MenuList>
