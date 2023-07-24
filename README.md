@@ -1,5 +1,6 @@
 # LOANETH
-
+Gerçek bir banka uygulaması değildir!
+This app is an imitation project and not real; it is intended for demonstration and design purposes only.
 ## Getting started
 
 ### Pre-requisites
