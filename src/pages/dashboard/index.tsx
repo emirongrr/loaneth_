@@ -8,6 +8,8 @@ import { useTranslation } from 'next-i18next';
 import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 import { Loader } from 'components/Loader';
+import Sidebar from 'components/Dashboard/Sidebar';
+
 
 function Dashboard() {
   const { t } = useTranslation('dashboard');
@@ -24,10 +26,12 @@ function Dashboard() {
         <meta name="description" content={t('siteDescription')} />
         <title>{t('siteTitle')}</title>
       </Head>
-      <Navbar />
 
-      <div className="relative flex flex-1 flex-shrink-0 mt-24">
-        <div className="pl-20 pr-20 w-full pb-20 flex flex-col flex-1">
+
+      <Sidebar/>
+
+      <div className="relative flex flex-1 flex-shrink-0 mt-2">
+        <div className="pl-[15rem] w-full pb-20 flex flex-col flex-1">
           <div className="grid gap-0 grid-cols-auto p-0 m-0 box-border">
             <ProfileContainer currentUser={currentUser} />
           </div>

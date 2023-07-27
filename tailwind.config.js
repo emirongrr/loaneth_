@@ -8,9 +8,10 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['Ilisarniq'],
+      sans: ['sans-serif'],
       serif: ['Ilisarniq'],
       mono: ['JetBrains Mono', 'monospace'],
+      graphik: 'Graphik'
     },
     extend: {
       boxShadow: {

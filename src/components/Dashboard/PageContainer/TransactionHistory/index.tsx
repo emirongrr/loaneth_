@@ -23,6 +23,10 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
     setCurrentPage(page);
   };
   return (
+    <>
+    <div className="h-6 w-auto"></div>
+    <div className="block font-graphik text-[24px] text-black dark:text-white leading-28 font-medium tracking-normal ">
+    {t('History')}</div>        
     <div className="dark:bg-slate-900 shadow-3xl rounded-[12px] text-white dark:text-white">
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
@@ -112,6 +116,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
         </nav>
       </div>
     </div>
+    </>
   );
 };
 

@@ -119,25 +119,25 @@ export default function Chart() {
     <div className="relative">
       {_24HourChange >= 0 ? (
         <>
-          <div className="b-[4px] text-2xl text-lime-700 font-medium leading-normal ">
+          <div className="b-[4px] text-2xl text-[#4fbf67]  font-medium leading-normal ">
             {t('24HourDifference')}
           </div>
-          <div className="mb-[4px] text-xl text-lime-700 leading-normal">
+          <div className="mb-[4px] text-xl text-[#4fbf67]  leading-normal">
             {FormatCurrency(String(_24HourChange), 'TRY')} +
           </div>
-          <div className="mb-[4px] text-xl text-lime-700 leading-normal">
+          <div className="mb-[4px] text-xl text-[#4fbf67] leading-normal">
             %{String(_24HourChangeRatio.toFixed(2))}+
           </div>
         </>
       ) : (
         <>
-          <div className="b-[4px] text-2xl text-red-800 font-medium leading-normal ">
+          <div className="b-[4px] text-2xl text-[#e85555] font-medium leading-normal ">
             {t('24HourDifference')}
           </div>
-          <div className="mb-[4px] text-xl text-red-800 leading-normal">
+          <div className="mb-[4px] text-xl text-[#e85555] leading-normal">
             {FormatCurrency(String(_24HourChange), 'TRY').replace('-', '')}-
           </div>
-          <div className="mb-[4px] text-xl text-red-800 leading-normal">
+          <div className="mb-[4px] text-xl text-[#e85555] leading-normal">
             %{String(_24HourChangeRatio.toFixed(2))}-
           </div>
         </>

@@ -1,17 +1,10 @@
-import {
-  Button,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  Switch,
-} from '@chakra-ui/react';
-import ConstructReference from 'libs/refconstructor';
+
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { BankAccount, Transaction, User } from 'libs/types/user';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { LogOut } from 'react-feather';
+import NearMeRoundedIcon from '@mui/icons-material/NearMeRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'react-feather';
 import FormatCurrency from 'utils/formatters/currencyFormatters';
@@ -24,12 +17,17 @@ import getAllTransactions, {
 } from 'utils/apimiddleware/getAllTransactions';
 import { Modal } from '@material-ui/core';
 import { QRCodeSVG } from 'qrcode.react';
+import { Button, Divider, Icon, IconButton, Menu, MenuItem, MenuList } from '@mui/material';
+import { color } from 'framer-motion';
+import React from 'react';
 
 type ProfileContainerProps = {
   currentUser: User;
 };
 
 const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
   const { t } = useTranslation('dashboard');
   const tabConfig = [
     {
@@ -79,6 +77,16 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
     router.reload();
   };
 
+ 
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
+
   return (
     <>
       <Modal
@@ -111,46 +119,47 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
             </div>
             <div className="grid gap-1 grid-cols-new">
               <div className="grid grid-flow-col auto-cols-new gap-1 items-center justify-start h-6 flex gap-2">
-                <span className="block font-semibold text-xl leading-6 font-medium text-black dark:text-white tracking-tighter text-current whitespace-nowrap">
+                <span className="block font-graphik font-semibold text-xl leading-6 font-medium text-black dark:text-[#ffffff] tracking-tighter text-current whitespace-nowrap">
                   {' '}
                   {`${currentUser?.firstName} ${currentUser?.lastName}`}
                 </span>
-                <Menu>
-                  {({ isOpen }) => (
+                <Button
+        onClick={handleClick}
+        startIcon={<KeyboardArrowDownIcon />}
+      ></Button>
+                <Menu
+                 anchorEl={anchorEl}
+                 open={open}
+                 onClose={handleClose}
+                 sx={{
+                  animationDelay:""
+                 }}
+                >
                     <>
-                      <MenuButton
-                        isActive={isOpen}
-                        as={Button}
-                        rightIcon={
-                          <ChevronDown
-                            className="dark:text-white text-black"
-                            size={14}
-                          />
-                        }
-                      >
-                        {isOpen ? ' ' : ' '}
-                      </MenuButton>
                       <MenuList className="w-[250px]">
+                        
                         <MenuItem
                           className="dark:bg-[#16161a] bg-white text-black dark:text-white border-none outline-none"
                           onClick={copyIBAN}
                         >
                           {t('copyIBAN')}
                         </MenuItem>
+                        <Divider />
+
                         <MenuItem
                           className="dark:bg-[#16161a] bg-white hover:opacity-2 text-black dark:text-white border-none outline-none"
                           onClick={() => setQrCodeModalOpen(true)}
                         >
                           {t('DisplayQRCode')}
                         </MenuItem>
+                        
                       </MenuList>
                     </>
-                  )}
                 </Menu>
               </div>
               <div>
                 <div className="grid grid-cols-minmax-auto">
-                  <span className="grid grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-3xl leading-12 ">
+                  <span className="grid font-sans grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-3xl leading-12 ">
                     {mainBankAccount &&
                       FormatCurrency(
                         mainBankAccount.balance,
@@ -162,34 +171,15 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
             </div>
           </div>
           <div className="grid grid-flow-col auto-cols-new grid-cols-1fr items-center justify-start">
-            <a
-              href={ConstructReference('/dashboard/send/')}
-              className="text-black dark:text-white p-[7px] min-w-0 rounded-[50%] h-10 w-10"
-            >
-              <div className="grid grid-flow-col auto-cols-new gap-0 items-center justify-center">
-                <svg
-                  className="w-6 h-6"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M17.675 6.056c.784-.261 1.543.442 1.267 1.176l-4.558 12.15c-.31.824-1.559.824-1.87 0l-2.03-5.397-5.814-1.853a.905.905 0 01-.012-1.745l13.017-4.331z"
-                    fill="currentColor"
-                  ></path>
-                </svg>
-              </div>
-            </a>
-            <button
+            <IconButton
               onClick={Logout}
-              className="text-black dark:text-white p-[7px]  rounded-[50%] h-10 w-10"
+              sx={{ 
+                color: "black", 
+                borderRadius: "50%" 
+              }}
             >
-              <LogOut className="text-black dark:text-white" size={15} />
-            </button>
+              <LogoutRoundedIcon/>
+            </IconButton>
           </div>
         </div>
         <div className="h-2 w-auto"></div>

@@ -13,7 +13,7 @@ type CurrencyTableProps = {
 const CurrencyTable: React.FC<CurrencyTableProps> = ({ currencies }) => {
   const { t } = useTranslation('dashboard');
   return (
-    <div className="flex justify-center">
+    <div className="flex font-sans justify-center">
       <div className="w-[300px] h-[340px] overflow-auto">
         <table className="w-full">
           <thead>

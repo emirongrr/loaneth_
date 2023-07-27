@@ -32,7 +32,7 @@ const CampaignSlider = ({ campaigns }) => {
         {campaigns.map((campaign) => (
           <div key={campaign.id} className=" relative">
             <div
-              className="rounded-lg p-4 h-[300px] bg-cover bg-center flex flex-col justify-center items-center"
+              className="rounded-lg p-4 h-[170px] bg-cover bg-center flex flex-col justify-center items-center"
               style={{ backgroundImage: `url(${campaign.image})` }}
             >
               <div className="absolute top-0 left-0 w-full h-full bg-black opacity-10"></div>
