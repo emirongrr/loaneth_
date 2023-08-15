@@ -5,8 +5,7 @@ export default function FormatCurrency(value, currency) {
   let currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,
-    currencyDisplay:'narrowSymbol',
-
+    currencyDisplay: 'narrowSymbol',
   });
 
   return currencyFormatter.format(value);
@@ -19,8 +18,7 @@ export function GetFormatter(currency) {
   const formatter: Intl.NumberFormat = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,
-    currencyDisplay:'narrowSymbol',
-
+    currencyDisplay: 'narrowSymbol',
   });
 
   return formatter;

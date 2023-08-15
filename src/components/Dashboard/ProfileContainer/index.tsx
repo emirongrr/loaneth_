@@ -1,4 +1,3 @@
-
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { BankAccount, Transaction, User } from 'libs/types/user';
 import { useRouter } from 'next/router';
@@ -17,10 +16,20 @@ import getAllTransactions, {
 } from 'utils/apimiddleware/getAllTransactions';
 import { Modal } from '@material-ui/core';
 import { QRCodeSVG } from 'qrcode.react';
-import { Button, Divider, Icon, IconButton, Menu, MenuItem, MenuList } from '@mui/material';
+import {
+  Button,
+  Divider,
+  Icon,
+  IconButton,
+  Menu,
+  MenuItem,
+  MenuList,
+} from '@mui/material';
 import { color } from 'framer-motion';
 import React from 'react';
-
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { border } from '@chakra-ui/react';
 type ProfileContainerProps = {
   currentUser: User;
 };
@@ -28,6 +37,7 @@ type ProfileContainerProps = {
 const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const isLoading = true;
   const { t } = useTranslation('dashboard');
   const tabConfig = [
     {
@@ -77,15 +87,12 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
     router.reload();
   };
 
- 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-
 
   return (
     <>
@@ -107,9 +114,9 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
           ></QRCodeSVG>
         </div>
       </Modal>
-      <div className="w-full max-w-[960px] shadow-lg shadow-3xl rounded-[12px] mx-auto px-3.5  box-border block mt-4">
+      <div className="w-full max-w-[960px] shadow-lg    dark:bg-[#1d1d21] rounded-[12px] mx-auto px-3.5  box-border block mt-4">
         <div className="h-6 w-auto"></div>
-        <div className="grid grid-flow-col grid-cols-new gap-0 items-start flex justify-between box-border">
+        <div className="grid grid-flow-col grid-cols-new gap-0 items-start  justify-between box-border">
           <div className="grid grid-flow-col grid-cols-new gap-5 items-start justify-start">
             <div className="rounded-2xl w-[104px] h-[104px] relative">
               <img
@@ -118,47 +125,41 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
               />
             </div>
             <div className="grid gap-1 grid-cols-new">
-              <div className="grid grid-flow-col auto-cols-new gap-1 items-center justify-start h-6 flex gap-2">
-                <span className="block font-graphik font-semibold text-xl leading-6 font-medium text-black dark:text-[#ffffff] tracking-tighter text-current whitespace-nowrap">
+              <div className=" grid-flow-col auto-cols-new gap-1 items-center justify-start h-6 flex ">
+                <span className="block font-graphik text-xl leading-6 font-medium  text-black dark:text-[#ffffff] tracking-tighter text-current whitespace-nowrap">
                   {' '}
                   {`${currentUser?.firstName} ${currentUser?.lastName}`}
                 </span>
-                <Button
-        onClick={handleClick}
-        startIcon={<KeyboardArrowDownIcon />}
-      ></Button>
+                <div className="flex flex-start">
+                  <Button color="inherit" onClick={handleClick}>
+                    <IconButton color="inherit">
+                      <KeyboardArrowDownIcon />
+                    </IconButton>
+                  </Button>
+                </div>
                 <Menu
-                 anchorEl={anchorEl}
-                 open={open}
-                 onClose={handleClose}
-                 sx={{
-                  animationDelay:""
-                 }}
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  sx={{
+                    animationDelay: '',
+                  }}
                 >
-                    <>
-                      <MenuList className="w-[250px]">
-                        
-                        <MenuItem
-                          className="dark:bg-[#16161a] bg-white text-black dark:text-white border-none outline-none"
-                          onClick={copyIBAN}
-                        >
-                          {t('copyIBAN')}
-                        </MenuItem>
-                        <Divider />
+                  <>
+                    <MenuList className="w-[250px]">
+                      <MenuItem onClick={copyIBAN}>{t('copyIBAN')}</MenuItem>
+                      <Divider />
 
-                        <MenuItem
-                          className="dark:bg-[#16161a] bg-white hover:opacity-2 text-black dark:text-white border-none outline-none"
-                          onClick={() => setQrCodeModalOpen(true)}
-                        >
-                          {t('DisplayQRCode')}
-                        </MenuItem>
-                        
-                      </MenuList>
-                    </>
+                      <MenuItem onClick={() => setQrCodeModalOpen(true)}>
+                        {t('DisplayQRCode')}
+                      </MenuItem>
+                    </MenuList>
+                  </>
                 </Menu>
               </div>
+
               <div>
-                <div className="grid grid-cols-minmax-auto">
+                <div className="grid mt-1 grid-cols-minmax-auto">
                   <span className="grid font-sans grid-flow-col auto-cols-new gap-4 items-center break-words text-black dark:text-white justify-start text-3xl leading-12 ">
                     {mainBankAccount &&
                       FormatCurrency(
@@ -170,15 +171,16 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
               </div>
             </div>
           </div>
+
           <div className="grid grid-flow-col auto-cols-new grid-cols-1fr items-center justify-start">
             <IconButton
               onClick={Logout}
-              sx={{ 
-                color: "black", 
-                borderRadius: "50%" 
+              sx={{
+                color: 'black',
+                borderRadius: '50%',
               }}
             >
-              <LogoutRoundedIcon/>
+              <LogoutRoundedIcon />
             </IconButton>
           </div>
         </div>
@@ -186,7 +188,7 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
       </div>
 
       <div className="mx-auto px-[15p] w-full max-w-[960px] flex-grow">
-        <div className=" text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 mt-6 xl:mb-0 sticky top-0 ">
+        <div className=" text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 mt-6 xl:mb-0 top-0 ">
           <ul className="flex flex-wrap -mb-px">
             {/* {pendingTransaction.map((item) => (
     <li key={item.value} onClick={() => setTab(item.value)}>

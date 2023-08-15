@@ -1,11 +1,10 @@
-import Navbar from 'components/Navbar'
+import Navbar from 'components/Navbar';
 import { useRouter } from 'next/router';
-import React from 'react'
+import React from 'react';
 
 import { useState, useCallback, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import cx from 'classnames';
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -18,7 +17,7 @@ import Moon from 'assets/home/Moon';
 import Sun from 'assets/home/Sun';
 import { UserContext } from 'contexts';
 import { Divide } from 'tabler-icons-react';
-import { Divider } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 import { IconArrowsDiff, IconEye, IconSend } from '@tabler/icons-react';
 
 const Sidebar = () => {
@@ -59,24 +58,22 @@ const Sidebar = () => {
   const navigationConfig = [
     {
       id: 'dashboard',
-      path: '/',
+      path: '/dashboard',
       title: 'Dashboard',
-      icon:IconEye
+      icon: IconEye,
     },
     {
       id: 'send',
       path: '/send',
       title: 'Send',
       icon: IconSend,
-
     },
     {
       id: 'swap',
       path: '/swap',
       title: 'Swap',
       icon: IconArrowsDiff,
-    }
-
+    },
   ];
 
   const router = useRouter();
@@ -85,63 +82,54 @@ const Sidebar = () => {
       return 'text-[#00a3f5]';
     } else {
       return 'text-[#cecfd1]';
-    }  };
+    }
+  };
   return (
-    <div className='shadow-2xl m-5 rounded-lg bg dark:bg-[#1d1d21] fixed z-10 left-0 top-0 bottom-0 mt-0 bg-neutral-100 flex flex-col w-[15rem] overflow-y-auto'>
-              <div className='m-2 rounded-lg p-2 pl-3 flex gap-2 items-center'>
-          <div className='m-2 rounded-lg p-2 pl-3 flex flex-col gap-8 items-center text-center py-8'>
-            <div className='flex flex-col gap-3'>
-              <span className='text-black dark:text-white font-bold text-[20px]'>
-                BANK OF PEOPLE
-              </span>
-              <span className='text-black dark:text-white  text-sm'>
-                Connect an Ethereum wallet to manage your DeFi portfolio
-              </span>
-            </div>
+    <div className="shadow-2xl m-5  mt-2 rounded-lg bg dark:bg-[#1d1d21] fixed z-10 left-0 top-0 bottom-0  bg-neutral-100 flex flex-col w-[15rem] overflow-y-auto">
+      <div className="m-2 rounded-lg p-2 pl-3 flex gap-2 items-center">
+        <div className="m-2 rounded-lg p-2 pl-3 flex flex-col gap-8 items-center text-center py-8">
+          <div className="flex flex-col gap-3">
+            <span className="text-black dark:text-white font-bold text-[20px]">
+              BANK OF PEOPLE
+            </span>
+            <span className="text-black dark:text-white  text-sm">
+              Connect an Ethereum wallet to manage your DeFi portfolio
+            </span>
+          </div>
 
-            <Button
-              className='text-xs text-white bg-[#2d2f30] hover:bg-[#2d2d32] font-semibold bg-blue-500 px-4 py-3 flex items-center justify-center rounded-lg'
-
-            
+          <Button className="bg-blue-500  text-xs text-white hover:bg-[#2d2d32] font-semibold px-4 py-3 flex items-center justify-center rounded-lg">
+            Connect Wallet
+          </Button>
+        </div>
+      </div>
+      <div className="flex flex-col w-full my-2">
+        {navigationConfig.map((item) => (
+          <Link href={item.path} key={item.id}>
+            <div
+              className={`mx-2 rounded-lg text-black dark:text-white hover:text-white flex gap-3 h-12 items-center pl-4 pr-3 cursor-pointer hover:bg-[#2d2d32] ${isActive(
+                item.path
+              )}`}
             >
-              Connect Wallet
-            </Button>
-          </div>
-        </div>
-        <div className='flex flex-col w-full my-2'>
-      {navigationConfig.map((item) => (
-        <>
-        <a
-          className={`mx-2 rounded-lg text-black dark:text-white hover:text-white flex gap-3 h-12 items-center pl-4 pr-3 cursor-pointer hover:bg-[#2d2d32] ${isActive(
-            item.path
-          )}`}
-          key={item.id}
-        >
-            <div >
-            <item.icon
-              size={24}
-              stroke={1.5}
-              color={localStorage.theme === "dark"? '#ffffff' : '#000000'}
-            />
-          </div>
+              <div>
+                <item.icon size={24} stroke={1.5} />
+              </div>
 
-          <span className='text-sm font-semibold'>{item.title}</span>
-        </a>
-        </>
-      ))}
-      
-    </div>
-    
-    <div className="mt-auto flex justify-center self-center items-center">  
-          {theme === 'dark' ? (
-            <Moon onClick={handleLight} className="cursor-pointer mr-3" />
-          ) : (
-            <Sun onClick={handleDark} className="cursor-pointer mr-3" />
-          )}
-          <LangMenu />
-        </div>
-    </div>
-  )
-}
+              <span className="text-sm font-semibold">{item.title}</span>
+            </div>
+          </Link>
+        ))}
+      </div>
 
-export default Sidebar
+      <div className="mt-auto flex justify-center self-center items-center p-[10px]">
+        {theme === 'dark' ? (
+          <Moon onClick={handleLight} className="cursor-pointer mr-3" />
+        ) : (
+          <Sun onClick={handleDark} className="cursor-pointer mr-3" />
+        )}
+        <LangMenu />
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;

@@ -18,21 +18,18 @@ const CurrencyTable: React.FC<CurrencyTableProps> = ({ currencies }) => {
         <table className="w-full">
           <thead>
             <tr>
-              <th className="py-2 px-4 bg-gray-100 text-left">
-                {t('Currency')}
-              </th>
-              <th className="py-2 px-4 bg-gray-100 text-right">
-                {t('CurrencyValue')}
-              </th>
+              <th className="py-2 px-4 text-left">{t('Currency')}</th>
+              <th className="py-2 px-4 text-left">{t('CurrencyValue')}</th>
             </tr>
           </thead>
           <tbody>
             {currencies.map((currency, index) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b ">{`${currency.unit}/₺`}</td>
-                <td className="py-2 px-4 text-right border-b">
-                  {currency.value}
-                </td>
+              <tr
+                className=" border dark:even:bg-[#000000] even:bg-white odd:bg-neutral-100 dark:odd:bg-inherit"
+                key={index}
+              >
+                <td className="py-2 px-4 text-left ">{`${currency.unit}/₺`}</td>
+                <td className="py-2 px-4 text-left ">{currency.value}</td>
               </tr>
             ))}
           </tbody>

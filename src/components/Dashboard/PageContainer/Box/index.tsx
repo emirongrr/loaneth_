@@ -90,17 +90,17 @@ const InfoBox: React.FC<InfoBoxProps> = ({ currentUser }) => {
       <div className="flex justify-between items-center"></div>
       <div className="h-4 w-auto"></div>
       <div className="p-[24px 24px 0px] shadow-elevation-100 rounded-[12px]  dark:border-[#2d2d32]">
-            <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-inner shadow-2xl backdrop-blur-md h-[200px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid  dark:border-[#2d2d32] w-full mb-4">
-              <CampaignSlider campaigns={campaigns} />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-[30px]">
-            <div className="flex flex items-center  bg-transparent backdrop-filter shadow-inner shadow-2xl backdrop-blur-md h-[340px]  p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid  dark:border-[#2d2d32] w-[465px] ">
-              <CreditCardComponent />
-            </div>
-            <div className="flex flex-col bg-opacity-50 backdrop-filter shadow-inner shadow-2xl backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid  dark:border-[#2d2d32] w-[465px] mb-4">
-              <CurrencyTable currencies={filteredCurrencies} />
-            </div>
-            </div>
+        <div className=" bg-neutral-100 dark:bg-[#1d1d21] flex flex-col backdrop-filter shadow-inner backdrop-blur-md h-[200px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid  dark:border-[#2d2d32] w-full mb-4">
+          <CampaignSlider campaigns={campaigns} />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-[30px]">
+          <div className=" bg-neutral-100 dark:bg-[#1d1d21] flex  items-center  backdrop-filter shadow-inner  backdrop-blur-md h-[340px]  p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid  dark:border-[#2d2d32] w-[465px] ">
+            <CreditCardComponent />
+          </div>
+          <div className=" bg-neutral-100 dark:bg-[#1d1d21] flex flex-col backdrop-filter shadow-inner  backdrop-blur-md h-[340px] justify-between p-[16px] gap-[30px] shadow-elevation-100 rounded-[12px] border border-solid  dark:border-[#2d2d32] w-[465px] mb-4">
+            <CurrencyTable currencies={filteredCurrencies} />
+          </div>
+        </div>
         <div className="h-4 w-auto"></div>
         <div className="asset"></div>
       </div>

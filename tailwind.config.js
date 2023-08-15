@@ -11,7 +11,7 @@ module.exports = {
       sans: ['sans-serif'],
       serif: ['Ilisarniq'],
       mono: ['JetBrains Mono', 'monospace'],
-      graphik: 'Graphik'
+      graphik: 'Graphik',
     },
     extend: {
       boxShadow: {
