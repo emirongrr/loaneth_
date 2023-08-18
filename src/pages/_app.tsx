@@ -7,6 +7,71 @@ import theme from '../style/muiTheme';
 import '../style/index.css';
 import { UserContextProvider } from 'contexts';
 
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  RainbowKitProvider,
+  getDefaultWallets,
+  connectorsForWallets,
+} from '@rainbow-me/rainbowkit';
+import {
+  argentWallet,
+  trustWallet,
+  ledgerWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+import {
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  goerli,
+} from 'wagmi/chains';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import { publicProvider } from 'wagmi/providers/public';
+
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [
+    mainnet,
+    polygon,
+    optimism,
+    arbitrum,
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
+  ],
+  [publicProvider()]
+);
+
+const projectId = 'BIFROST';
+
+const { wallets } = getDefaultWallets({
+  appName: 'BIFROST',
+  projectId,
+  chains,
+});
+
+const AppInfo = {
+  appName: 'BIFROST',
+};
+
+const connectors = connectorsForWallets([
+  ...wallets,
+  {
+    groupName: 'Other',
+    wallets: [
+      argentWallet({ projectId, chains }),
+      trustWallet({ projectId, chains }),
+      ledgerWallet({ projectId, chains }),
+    ],
+  },
+]);
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient,
+  webSocketPublicClient,
+});
+
+
+
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -51,7 +116,11 @@ function App({ Component, pageProps }: AppProps) {
       <StylesProvider injectFirst>
         <UserContextProvider>
           <ThemeProvider theme={theme}>
-            <Component {...pageProps} />
+            <WagmiConfig config={wagmiConfig}>
+              <RainbowKitProvider appInfo={AppInfo} chains={chains}>
+                <Component {...pageProps} />
+              </RainbowKitProvider>
+            </WagmiConfig>
           </ThemeProvider>
         </UserContextProvider>
       </StylesProvider>

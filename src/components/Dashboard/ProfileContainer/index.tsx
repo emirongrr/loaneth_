@@ -30,6 +30,7 @@ import React from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { border } from '@chakra-ui/react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 type ProfileContainerProps = {
   currentUser: User;
 };
@@ -173,6 +174,8 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
           </div>
 
           <div className="grid grid-flow-col auto-cols-new grid-cols-1fr items-center justify-start">
+          <ConnectButton />
+
             <IconButton
               onClick={Logout}
               sx={{
@@ -183,6 +186,7 @@ const ProfileContainer: React.FC<ProfileContainerProps> = ({ currentUser }) => {
               <LogoutRoundedIcon />
             </IconButton>
           </div>
+
         </div>
         <div className="h-2 w-auto"></div>
       </div>

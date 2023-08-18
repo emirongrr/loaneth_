@@ -1,6 +1,7 @@
 import Navbar from 'components/Navbar';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 import { useState, useCallback, useEffect, useContext } from 'react';
 import Link from 'next/link';
@@ -96,10 +97,6 @@ const Sidebar = () => {
               Connect an Ethereum wallet to manage your DeFi portfolio
             </span>
           </div>
-
-          <Button className="bg-blue-500  text-xs text-white hover:bg-[#2d2d32] font-semibold px-4 py-3 flex items-center justify-center rounded-lg">
-            Connect Wallet
-          </Button>
         </div>
       </div>
       <div className="flex flex-col w-full my-2">
