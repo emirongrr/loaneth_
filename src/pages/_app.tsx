@@ -31,6 +31,7 @@ import { publicProvider } from 'wagmi/providers/public';
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     mainnet,
+    goerli,
     polygon,
     optimism,
     arbitrum,
@@ -39,7 +40,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()]
 );
 
-const projectId = 'BIFROST';
+const projectId=process.env.WALLET_CONNECT_PROJECT_ID || "fe0cfc9ecda60398e5abfd83ef7bf18a"
 
 const { wallets } = getDefaultWallets({
   appName: 'BIFROST',
